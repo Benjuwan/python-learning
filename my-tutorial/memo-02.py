@@ -228,3 +228,92 @@ print(theList[2], theTuple[2])
 print(f"theTuple（{theTuple}）\n更新前 {id(theTuple)}")
 theTuple = ("Alice", 32, "osaka", 24)
 print(f"theTuple（{theTuple}）\n更新後 {id(theTuple)}")
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+# alphabet = tuple("ABCDEFG")
+alphabet = list("ABCDEFG")
+# 分割代入（アンパッキング）
+first, second, third, *rest, final = alphabet
+print(first, second, third, final, rest)
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+# --- TypeScript で以下のリスト・タプルを表現
+# const restaurant_menu: (string | number)[][] = [["sushi", 780, 180.5], ["tempura", 640, 320.5]];
+
+# type MenuItem = [string, number, number];
+# const restaurant_menu: MenuItem[] = [["sushi", 780, 180.5], ["tempura", 640, 320.5]];
+# --- TypeScript で以下のリスト・タプルを表現
+
+# リスト
+# restaurant_menu = [["sushi", 780, 180.5], ["templa", 640, 320.5]]
+# restaurant_menu.append(["takoyaki", 120, 200.5])
+
+# タプル
+restaurant_menu = [("sushi", 780, 180.5), ("templa", 640, 320.0)]
+restaurant_menu.append(("takoyaki", 120, 200.5))
+
+templa_tuple = restaurant_menu[1]
+print(templa_tuple)
+cousine, price, calories = templa_tuple
+print(cousine, price, calories)
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+numbers_set: set[int] = set([1, 2, 2, 3, 3, 4])
+numbers: set[int] = {1, 2, 2}
+number = {1}
+print(numbers_set, numbers, number)
+
+trafic_signal: set[str] = {"green", "red", "blue"}
+print(trafic_signal)
+
+str_set_lower = set("abcdefg")
+str_set_upper = set(list("ABCDEFG"))
+print(str_set_upper, sorted(str_set_upper), type(str_set_upper))
+print(str_set_lower, sorted(str_set_lower), type(str_set_lower))
+
+str_set_anaconda = set("str_set_anaconda")
+print(str_set_anaconda)
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+print(f"{'green' in trafic_signal} # True")
+print(f"{'pink' in trafic_signal} # False")
+print(f"{'purple' not in trafic_signal} # True")
+print(f"{'red' not in trafic_signal} # False")
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+
+def isExist_targetUserInfo(
+    targetUserTuple: tuple[str, str], targetUserGroup: set[tuple[str, str]]
+):
+    # 検索対象（要素・文字）は完全一致の記述でないと正しく機能しない
+    # 今回の場合だと tuple[str, str] という型（形）
+    return targetUserTuple in targetUserGroup
+
+
+def isNotExist_targetUserInfo(
+    targetUserTuple: tuple[str, str], targetUserGroup: set[tuple[str, str]]
+):
+    return targetUserTuple not in targetUserGroup
+
+
+users_info: set[tuple[str, str]] = {("admin", "abc123"), ("guest", "def567")}
+isExist_admin = isExist_targetUserInfo(("admin", "abc123"), users_info)  # True
+isExist_master = isExist_targetUserInfo(("guest", "abc123"), users_info)  # False
+print(isExist_admin, isExist_master)
+
+isNotExist_admin = isNotExist_targetUserInfo(("guest", "abc123"), users_info)  # True
+isNotExist_master = isNotExist_targetUserInfo(("admin", "abc123"), users_info)  # False
+print(isNotExist_admin, isNotExist_master)
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
