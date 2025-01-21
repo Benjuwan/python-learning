@@ -9,7 +9,20 @@
 `Python`では、変数は明示的に管理・把握しやすくするためにあるもので、実際は**値ごとに付与される参照値（メモリアドレス）に紐づく**形で管理される言語仕様になっている。参照値（メモリアドレス ／ オブジェクトID）の確認は`id(変数)`で行える。
 
 - 厳密等価演算子<br>
-`Python`には、厳密等価演算子（`===`,`!==`）がないが、数値を`==`（または`is`）や`!=`（または`is not`）で比較する際に`Python`処理系が自動的に両者の型を合わせて（暗黙的型変換）から値を比較してくれる。
+`Python`には、厳密等価演算子（`===`,`!==`）がないが、数値を`==`（または`is`）や`!=`（または`is not`）で比較する際に`Python`処理系が自動的に両者の型を合わせて（暗黙的型変換）から値を比較してくれる。<br>より厳密に判定したい場合は`type(変数-a) == type(変数-b)`, `type(変数-a) != type(変数-b)`のように記述する。
+```py
+# example-1
+print(1 == 1.0)  # True: int と float でも値が等しいため
+print(1 is 1.0)  # False: 'is' はオブジェクトの同一性を比較するため
+
+# example-2
+a = 100         # int
+b = 100.0       # float
+if type(a) == type(b) and a == b:
+    print("型も値も一致しています")
+else:
+    print("型または値が一致しません")
+```
 
 - 計算式について<br>
 `Python`の計算式は、原則「左結合（左側にある式を優先的に計算）」するが`**`（べき乗）のみ「右結合」で処理（計算）される。明示的に`()`を使って計算式を書くのが無難。
@@ -122,16 +135,38 @@ theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 �
     theTuple = ("Alice", 24, "tokyo", 23.5)
     theSingleTuple = ("Alice",)  # 要素が秘湯の場合、タプルと認識してもらうには末尾に , が必要
     ```
-  - 集合（`set`）： 検索を速くしたい場合
+  - 集合（`set`,`{}`）
     - 数学の集合論をベースにした、重複のない要素のコレクション
     ```py
     # リストから集合を作成（重複は自動的に削除）
-    numbers = set([1, 2, 2, 3, 3, 4]) 
+    numbers_set = set([1, 2, 2, 3, 3, 4])
+    numbers = {1, 2, 2}
+    number = {1}
+    print(numbers_set, numbers, number)
     ```
-  - 辞書： 検索を速くしたい場合
+      - 特徴
+        - 同じ値を重複して保存（格納）できない
+        - 値を取り出すときの順序が保証されない
+        - 指定した値が含まれているか瞬時に判定できる
+        ```py
+        trafic_signal = {"green", "red", "blue"}
+        print(trafic_signal) # {'green', 'blue', 'red'}
+        ```
+        - イミュータブルな値のみ格納可能
+  - 辞書
     - キーと値のペアを格納するコレクション（`JavaScript`でいうオブジェクトに近い）
 
   - リストの生成<br>`list(イテラブル：繰り返し可能なオブジェクト)`
+  - タプルの生成<br>`tuple(イテラブル：繰り返し可能なオブジェクト)`
+  - **所属検査演算（メンバーシップテスト演算）**<br>
+  指定した値が含まれているか瞬時に判定する演算
+  ```py
+  trafic_signal = {"green", "red", "blue"}
+  print(f"{'green' in trafic_signal} # True")
+  print(f"{'pink' in trafic_signal} # False")
+  print(f"{'purple' not in trafic_signal} # True")
+  print(f"{'red' not in trafic_signal} # False")
+  ```
 
 ## `JavaScript（TypeScript）`と`Python`の似ている記法まとめ
 - `f文字列`：`JavaScript`でいうテンプレートリテラル（バックティック）
