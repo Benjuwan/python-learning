@@ -1,4 +1,4 @@
-# チャプター 4～xx 章まで
+# チャプター 4 章まで
 
 # 区切り（兼改行）用の文字列
 duplicateCounter: int = 0
@@ -317,3 +317,250 @@ print(isNotExist_admin, isNotExist_master)
 
 duplicateCounter += 1
 duplicateCount(duplicateCounter)
+
+target_str = "python"
+print("t" or "s" in target_str)
+print("t" and "s" in target_str)
+print("t" and "p" in target_str)
+
+test_animals = {
+    "birds",  # duplicate
+    "rabits",  # duplicate
+    "wolfs",  # duplicate
+    "dogs",
+    "cats",
+    "birds",  # duplicate
+    "rabits",  # duplicate
+    "wolfs",  # duplicate
+    "zebras",
+    "humans",
+}
+
+test_animals.add("humans")  # むりやり重複させてみる
+test_animals |= {"wolfs", "humans", "snakes"}  # snakes 以外、むりやり重複させてみる
+print(test_animals)
+
+test_animals -= {"狼", "人間", "snakes"}
+# test_animals.clear()
+print(test_animals)
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+copied_trafic_signal_a = trafic_signal.copy() | {"bar", "piyo"}
+copied_trafic_signal_b = trafic_signal.copy() | {"hoge", "foo"}
+print(f"{copied_trafic_signal_a}\n{copied_trafic_signal_b}\n")
+# {'bar', 'red', 'blue', 'green', 'piyo'}
+# {'red', 'blue', 'foo', 'green', 'hoge'}
+
+print(f"| {copied_trafic_signal_a | copied_trafic_signal_b}")
+# | {'piyo', 'green', 'red', 'hoge', 'foo', 'blue', 'bar'}
+
+print(f"& {copied_trafic_signal_a & copied_trafic_signal_b}")
+# & {'red', 'green', 'blue'}
+
+print(f"a-b {copied_trafic_signal_a - copied_trafic_signal_b}")
+# a-b {'bar', 'piyo'}
+
+print(f"b-a {copied_trafic_signal_b - copied_trafic_signal_a}")
+# b-a {'hoge', 'foo'}
+
+print(f"b-b {copied_trafic_signal_b - copied_trafic_signal_b}")
+# b-b set()
+
+print(f"^ {copied_trafic_signal_a ^ copied_trafic_signal_b}")
+# ^ {'hoge', 'foo', 'piyo', 'bar'}
+
+theSet: set = set()
+theSet = {("bar", "red", "blue", "green", "piyo")}
+print(theSet)
+theSet = {"bar", "red", "blue", "green", "piyo"}
+print(theSet)
+
+# リストはミュータブル（ハッシュ法で計算できない性質）なので格納不可
+# theSet = {["bar", "red", "blue", "green", "piyo"]}
+# print(theSet)
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+print(f"{copied_trafic_signal_a}\n{copied_trafic_signal_b}\n")
+# {'bar', 'red', 'blue', 'green', 'piyo'}
+# {'red', 'blue', 'foo', 'green', 'hoge'}
+
+# copied_trafic_signal_a |= copied_trafic_signal_b
+# print(f"|= {copied_trafic_signal_a}")
+# {'foo', 'piyo', 'blue', 'red', 'green', 'hoge', 'bar'}
+
+# copied_trafic_signal_a &= copied_trafic_signal_b
+# print(f"&= {copied_trafic_signal_a}")
+# {'blue', 'green', 'red'}
+
+# copied_trafic_signal_a -= copied_trafic_signal_b
+# print(f"-= {copied_trafic_signal_a}")
+# {'bar', 'piyo'}
+
+# copied_trafic_signal_b -= copied_trafic_signal_a
+# print(f"-= {copied_trafic_signal_b}")
+# {'foo', 'hoge'}
+
+copied_trafic_signal_a ^= copied_trafic_signal_b
+print(f"^= {copied_trafic_signal_a}")
+# {'bar', 'foo', 'piyo', 'hoge'}
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+create_lists = list("create_list")
+# 各文字を個別の要素として持つリストを作成
+create_list = list(["create_list"])
+# すでに文字列を要素として持つリスト ["create_list"] から新しいリストを作成（単なるリストからリストの生成）
+print(create_lists, create_list)
+
+adjust_copied_trafic_signal_a: str = ",".join(create_lists)
+# adjust_copied_trafic_signal_a: str = ",".join(create_list)
+# adjust_copied_trafic_signal_a: str = ",".join(copied_trafic_signal_a)
+print(adjust_copied_trafic_signal_a)
+copied_trafic_signal_a_list = adjust_copied_trafic_signal_a.split(",")
+print(copied_trafic_signal_a_list)
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+for i in range(10):
+    theDict: dict[str, str] = {f"key-{i}": f"value-{i}"}
+    print(theDict)
+
+# 複数の要素を持つオブジェクトのような辞書
+data_dict = {
+    "user": {"key-0": "value-0", "property-0": "props-0"},
+    "config": {
+        "key-1": "value-1",
+        "property-1": "props-1",
+    },
+}
+print(data_dict["user"]["key-0"])
+print(data_dict["user"])
+
+data_dict_nested = {
+    "user": {"key-0": "value-0", "property-0": "props-0"},
+    "config": {
+        "key-1": "value-1",
+        "property-1": [
+            {"inner-1": "inner-props-1"},
+            {"inner-2": "inner-props-2"},
+            {"inner-3": "inner-props-3"},
+        ],
+    },
+}
+print(data_dict_nested["config"]["property-1"][0]["inner-1"])
+print(data_dict_nested["config"]["property-1"][2]["inner-3"])
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+# 辞書の生成
+lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+print(lang_dict)
+
+add_default_dict = dict(ja="japanese", en="English", fr="french")
+print(add_default_dict)
+
+# 他のデータ構造からの変換（dictで辞書生成）
+created_dict_target_Set = {("green", "hoge"), ("red", "foo")}
+created_dict_Set = dict(created_dict_target_Set)
+print(created_dict_Set)  # 集合から
+
+created_dict_target_List = [("green", "hoge"), ("red", "foo")]
+created_dict_List = dict(created_dict_target_List)
+print(created_dict_List)  # リストから
+
+created_dict_target_Tuple = (["green", "hoge"], ["red", "foo"])
+created_dict_Tuple = dict(created_dict_target_Tuple)
+print(created_dict_Tuple)  # タプルから
+
+getKey_lang_dict = lang_dict.get("de")
+print(getKey_lang_dict)
+
+getKey_lang_dict = lang_dict.get("de", "German")
+print(getKey_lang_dict)
+
+lang_dict["kr"] = "korea"
+lang_dict["de"] = "Deutsch"
+print(lang_dict)
+
+del lang_dict["ja"]
+print(lang_dict)
+
+print(lang_dict.pop("en"))
+
+# print(lang_dict.pop("un"))
+print(lang_dict.pop("un", "unknown"))
+
+# lang_dict.clear()
+# print(lang_dict)
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+print("kr" in lang_dict)
+print("jap" not in lang_dict)
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+# lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+print(list(lang_dict)) # ['fr', 'kr', 'de']
+
+# const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+# console.log(Object.keys(lang_dict))
+lang_dict_keys = lang_dict.keys()
+print(lang_dict_keys)
+
+# const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+# console.log(Object.values(lang_dict))
+lang_dict_values = lang_dict.values()
+print(lang_dict_values)
+
+# const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+# console.log(Object.entries(lang_dict))
+lang_dict_items = lang_dict.items()
+print(lang_dict_items)
+
+# 上記はJavaScriptのオブジェクトとPythonの辞書の似ている部分を比較したコードになります。
+# どう思いますか？
+# 日本語で回答してください
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+# キーの繰り返し
+for key in lang_dict.keys():
+    print(key)
+
+# 値の繰り返し
+for value in lang_dict.values():
+    print(value)
+
+# キーと値のペアの繰り返し
+for key, value in lang_dict.items():
+    print(f"{key}: {value}")
+
+
+# const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+
+# console.log(Object.entries(lang_dict))
+# const filtered_lang_dict = Object.entries(lang_dict).filter(entry=>entry[0] === 'fr' || entry[1] === 'English');
+# console.log(filtered_lang_dict)
+
+# const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+# console.log(Object.keys(lang_dict))
+# const maped_lang_dict = Object.keys(lang_dict).map(key => `langcode: ${key.toUpperCase()}`);
+# console.log(maped_lang_dict)
+
+# console.log(Object.values(lang_dict))
+# Object.values(lang_dict).forEach(value => {
+#     if(value === 'English') {
+#         console.log(value.toLowerCase());
+#     }
+# })
