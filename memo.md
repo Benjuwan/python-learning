@@ -41,7 +41,7 @@ for i in range(len(array)):
     print(array[i])
 
 # インデックスと要素の両方を使う場合
-# enumerate：イテラブル（反復可能なオブジェクト）に対して各要素とそのインデックスをペアとして返す
+# enumerate：イテラブル（反復可能なオブジェクト・繰り返し可能要素）に対して各要素とそのインデックスをペアとして返す
 for i, element in enumerate(array):
     print(f"{i}: {element}")
 ```
@@ -128,6 +128,12 @@ theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 �
 - リスト（配列）について
 目的に応じた適切なデータ構造を用いるのが大切
   - リスト（`list(range(10)) # 9までの list[int] を生成`）： 最もベーシックで無難なミュータブルなデータ構造
+    - `list()`関数に`辞書{dict}`を渡すと、デフォルトで`辞書`の`key`のイテレータを返す
+    ```py
+    lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+    print(list(lang_dict))
+    # ['ja', 'en', 'fr']
+    ```
   - タプル（`tuple(range(10)) # 9までの tuple[int, ...] を生成`）： イミュータブル（不変）にした場合
     - リスト（配列）とは違って **「配列数が固定で、中身・要素（の型）は自由」** というイミュータブルなデータ構造（＝インデックスやスライスなどで要素を変更できない）。
     ```py
@@ -166,7 +172,15 @@ theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 �
         trafic_signal = {"green", "red", "blue"}
         print(trafic_signal) # {'green', 'blue', 'red'}
         ```
-        - イミュータブルな値のみ格納可能
+        - **イミュータブルな値のみ格納可能**
+> [!NOTE]  
+> - `list`はミュータブルなので{集合}には格納不可能
+> ```py
+> # リストはミュータブル（ハッシュ法で計算できない性質）なので格納不可
+> theSet = {["bar", "red", "blue", "green", "piyo"]}
+> print(theSet)
+> # TypeError: unhashable type: 'list'
+> ```
         - 要素追加のメソッドは`append`ではなく`add`を使用
       - **複数要素**をまとめて編集（追加・削除）する集合に特有の演算
         - 複数の集合から**新しい集合**を作成
@@ -285,6 +299,32 @@ theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 �
     # {'green': 'hoge', 'red': 'foo'}
     ```
 
+    - 辞書（`key`+`value`）または辞書の`key`や`value`の取り回し
+    ```py
+    lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+
+    # キーの繰り返し
+    for key in lang_dict.keys():
+        print(key)
+    # ja
+    # en
+    # fr
+
+    # 値の繰り返し
+    for value in lang_dict.values():
+        print(value)
+    # japanese
+    # English
+    # french
+
+    # キーと値のペアの繰り返し
+    for key, value in lang_dict.items():
+        print(f"{key}: {value}")
+    # ja: japanese
+    # en: English
+    # fr: french
+    ```
+
   - **所属検査演算（メンバーシップテスト演算）**<br>
   指定した値が含まれているか瞬時に判定する演算
   ```py
@@ -311,7 +351,7 @@ theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 �
   print(f"My name is {name} and I am {age} years old.")
   ```
 
-- `JavaScript`でいう`三項演算子`
+- `三項演算子（条件式）`
   - `TypeScript（JavaScript）`
   ```js
   const score: number = 85;
@@ -378,6 +418,33 @@ theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 �
   ```py
   def greet(name="Guest"):
     return f"Hello, {name}!"
+  ```
+
+- 辞書（`Python`）とオブジェクト（`JavaScript`）の取り回し
+  - `TypeScript（JavaScript）`
+  ```js
+  const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+  console.log(Object.keys(lang_dict)) // {dict}.keys()
+  
+  const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+  console.log(Object.values(lang_dict)) // {dict}.values()
+
+  const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+  console.log(Object.entries(lang_dict)) // {dict}.items()
+  ```
+
+  - `Python`
+  ```py
+  lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+
+  lang_dict_keys = lang_dict.keys()
+  print(lang_dict_keys) # Object.keys(object)
+
+  lang_dict_values = lang_dict.values()
+  print(lang_dict_values) # Object.values(object)
+
+  lang_dict_items = lang_dict.items()
+  print(lang_dict_items) # Object.entries(object)
   ```
 
 - クラス
