@@ -1,4 +1,4 @@
-# チャプター 4 章まで
+# チャプター 4
 
 # 区切り（兼改行）用の文字列
 duplicateCounter: int = 0
@@ -510,7 +510,8 @@ duplicateCounter += 1
 duplicateCount(duplicateCounter)
 
 # lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
-print(list(lang_dict)) # ['fr', 'kr', 'de']
+print(list(lang_dict))  # ['ja', 'en', 'fr']
+# list()関数に辞書を渡すと、デフォルトで辞書のキーのイテレータを返す
 
 # const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
 # console.log(Object.keys(lang_dict))
@@ -527,12 +528,28 @@ print(lang_dict_values)
 lang_dict_items = lang_dict.items()
 print(lang_dict_items)
 
-# 上記はJavaScriptのオブジェクトとPythonの辞書の似ている部分を比較したコードになります。
-# どう思いますか？
-# 日本語で回答してください
+# ----------------------- 上記を JavaScript で実行する例 -----------------------
+# const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+
+# console.log(Object.entries(lang_dict))
+# const filtered_lang_dict = Object.entries(lang_dict).filter(entry=>entry[0] === 'fr' || entry[1] === 'English');
+# console.log(filtered_lang_dict)
+
+# console.log(Object.keys(lang_dict))
+# const maped_lang_dict = Object.keys(lang_dict).map(key => `langcode: ${key.toUpperCase()}`);
+# console.log(maped_lang_dict)
+
+# console.log(Object.values(lang_dict))
+# Object.values(lang_dict).forEach(value => {
+#     if(value === 'English') {
+#         console.log(value.toLowerCase());
+#     }
+# })
 
 duplicateCounter += 1
 duplicateCount(duplicateCounter)
+
+# lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
 
 # キーの繰り返し
 for key in lang_dict.keys():
@@ -545,22 +562,3 @@ for value in lang_dict.values():
 # キーと値のペアの繰り返し
 for key, value in lang_dict.items():
     print(f"{key}: {value}")
-
-
-# const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
-
-# console.log(Object.entries(lang_dict))
-# const filtered_lang_dict = Object.entries(lang_dict).filter(entry=>entry[0] === 'fr' || entry[1] === 'English');
-# console.log(filtered_lang_dict)
-
-# const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
-# console.log(Object.keys(lang_dict))
-# const maped_lang_dict = Object.keys(lang_dict).map(key => `langcode: ${key.toUpperCase()}`);
-# console.log(maped_lang_dict)
-
-# console.log(Object.values(lang_dict))
-# Object.values(lang_dict).forEach(value => {
-#     if(value === 'English') {
-#         console.log(value.toLowerCase());
-#     }
-# })
