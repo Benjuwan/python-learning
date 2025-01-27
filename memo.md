@@ -27,9 +27,6 @@ else:
 - 計算式について<br>
 `Python`の計算式は、原則「左結合（左側にある式を優先的に計算）」するが`**`（べき乗）のみ「右結合」で処理（計算）される。明示的に`()`を使って計算式を書くのが無難。
 
-- AND演算子とOR演算子
-`Python`における`AND演算子`は`&&`ではなく`and`、`OR演算子`は`||`ではなく`or`と記述する。
-
 - 繰り返し処理
 ```py
 # リストの要素を直接繰り返し
@@ -335,6 +332,71 @@ theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 �
   print(f"{'red' not in trafic_signal} # False")
   ```
 
+- 条件文
+  - `if`
+    - Python
+    ```py
+    isBool: bool = True
+    if not (isBool):
+      # False 判定の処理
+
+    if isBool:
+      # True 判定の処理
+
+    # 複数条件
+    if(A and B and C) # A かつ B かつ C
+    if(A or B or C) # A または B または C
+
+    elif 別の条件:
+      # 別の条件が True 判定の処理
+
+    else:
+      # どの条件にも合致しなかった場合の処理
+    ```
+
+    - JavaScript
+    ```js
+    const isBool: boolean = true;
+    if(!isBool) {
+      // False 判定の処理
+    }
+
+    if(isBool) {
+      // True 判定の処理
+    }
+
+    // 複数条件
+    if(A && B && C) // A かつ B かつ C
+    if(A || B || C) // A または B または C
+
+    else if(別の条件) {
+      // 別の条件が True 判定の処理
+    }
+
+    else {
+      // どの条件にも合致しなかった場合の処理
+    }
+    ```
+
+  - 三項演算子
+  ```py
+  # trueの値 if 条件 else falseの値
+  result = "passed" if score >= 60 else "failed"
+  ```
+
+  - `AND演算子`と`OR演算子`
+  `Python`における`AND演算子`は`&&`ではなく`and`、`OR演算子`は`||`ではなく`or`と記述する。
+  ```py
+  # AND演算子（左辺が True の場合に右辺を返す ※False の場合は左辺の結果（False）を返す）
+  result_entries_1 = (
+    entries_1.count("tion") > 0 and f"entries_1: {entries_1.count('tion')}"
+  )
+
+  # OR演算子（左辺が False の場合に右辺を返す ※True の場合は左辺の結果（True）を返す）
+  result_entries_1 = len(entries_1) <= 0 or f"entries_1: {len(entries_1)}"
+  print(entries_1, result_entries_1)
+  ```
+
 ## `JavaScript（TypeScript）`と`Python`の似ている記法まとめ
 - `f文字列`：`JavaScript`でいうテンプレートリテラル（バックティック）
   - `TypeScript（JavaScript）`
@@ -355,7 +417,7 @@ theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 �
   - `TypeScript（JavaScript）`
   ```js
   const score: number = 85;
-  const result: boolean = score >= 60 ? "passed" : "failed";
+  const result: string = score >= 60 ? "passed" : "failed";
   console.log(`"You ${result} the test.`);
   ```
  
@@ -385,7 +447,6 @@ theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 �
   # [2, 4]
   evens = list(filter(lambda n: n % 2 == 0, numbers))
   ```
-
     - または`内包表記`を使用
     ```py
     doubled = [n * 2 for n in numbers]
