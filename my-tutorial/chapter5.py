@@ -98,11 +98,110 @@ def check_lot_numbers(entried: None | str | int | float = None) -> None:
         is_check_get_prize(convert_number)
 
 
-check_lot_numbers(123456)
-check_lot_numbers(159753)
-check_lot_numbers("159753")
-check_lot_numbers(3.14)
-check_lot_numbers()
+# check_lot_numbers(123456)
+# check_lot_numbers(159753)
+# check_lot_numbers("159753")
+# check_lot_numbers(3.14)
+# check_lot_numbers()
 
 duplicateCounter += 1
 duplicateCount(duplicateCounter)
+
+greeting = ["Morning", "Afternoon", "Evening", "Night"]
+for greet in greeting:
+    print(f"Goog {greet}.")
+
+for c in "PYTHON\n".lower():
+    print(c, end="")
+
+meals = ["beaf", "pork", "chicken"]
+# 対象配列（イテラブル）をコピーしないとイテラブルとインデックスに齟齬が生じて意図した繰り返し処理がなされない
+for meal in meals.copy():
+    if meal == "pork":
+        meals.remove(meal)
+    else:
+        print(f"list | {meal}")
+
+# タプルはイミュータブル
+meals_tuple = ("beaf", "pork", "chicken")
+for meal in meals_tuple:
+    print(f"tuple | {meal}")
+
+# 集合は順不同
+meals_set = {"beaf", "pork", "chicken"}
+for meal in meals_set:
+    print(f"set | {meal}")
+
+# 辞書
+meals_dict = {"beaf": 199, "pork": 99, "chicken": 49}
+# type aryType = {
+#   beaf: number;
+#   pork: number;
+#   chicken: number;
+# };
+# const theAry: aryType = { beaf: 199, pork: 99, chicken: 49 };
+
+for meal in meals_dict:
+    print(
+        f"dict では key が出力される | {meal} → ブラケット記法で値を出力：{meals_dict[meal]}"
+    )
+
+# ブラケット記法以外で value を取得する方法
+# dict.items() で key と value を分割代入
+for key, value in meals_dict.items():
+    print(f"{key} is {value} yen.")
+
+# 複数のタプルを分割代入
+practice = [("beaf", 199), ("pork", 99), ("chicken", 49)]
+# practice = (("beaf", 199), ("pork", 99), ("chicken", 49))
+# practice = {("beaf", 199), ("pork", 99), ("chicken", 49)}
+for key, value in practice:
+    print(f"{key}: {value}")
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+print(list(range(10)))
+print(list(range(20, 31)))
+print(f"{list(range(20, 31, 2))}\n\n")
+
+# 九九の表
+for x in range(1, 10):
+    for y in range(1, 10):
+        # 2桁（decimal）で統一
+        print(f"{x * y:2d}", end="")
+        # （縦軸の）最後の数字（9）以外は区切り文字を入れる
+        if y != 9:
+            print(" |", end="")
+    # 各行の最後（xの繰り返し処理の最後）で改行
+    print()
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+order_drink_list = ["beer", "wine", "whisky", "water", "soda"]
+for i, drink in enumerate(order_drink_list, 1):
+    print(f"DrinkOrder-No.{i:03d}: {drink}")
+    # print(i)
+
+# for i in range(len(order_drink_list)):
+#     print(f"DrinkOrder-No.{i + 1:03d}: {order_drink_list[i]}")
+
+order_drink_set = {"beer", "wine", "whisky", "water", "soda"}
+order_drink_set_copied = order_drink_set.copy()
+for i in range(len(order_drink_set_copied)):
+    print(f"DrinkOrder-No.{i + 1:02d}: {order_drink_set_copied.pop()}")
+print(order_drink_set, order_drink_set_copied)
+
+# reversed を用いたカウントダウン
+for i in reversed(range(11)):
+    print(i, end=" ")
+print()  # 処理後に改行
+
+# reversed の引数に直接 enumerate は指定できない（※ enumerate が返すイテラブルは、タプルなのでイミュータブルであり、逆順の取り出しに対応していない）
+order_drink_list_copied = order_drink_list.copy()
+# for i, drink in reversed(enumerate(order_drink_list_copied)):
+for i, drink in reversed(list(enumerate(order_drink_list_copied))):
+    print(f"DrinkOrder-No.{i + 1:03d}: {order_drink_list_copied[i]}")
+
+# python3 chapter5.py
