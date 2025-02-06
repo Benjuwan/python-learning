@@ -198,10 +198,98 @@ for i in reversed(range(11)):
     print(i, end=" ")
 print()  # 処理後に改行
 
-# reversed の引数に直接 enumerate は指定できない（※ enumerate が返すイテラブルは、タプルなのでイミュータブルであり、逆順の取り出しに対応していない）
+# reversed の引数に直接 enumerate は指定できない
+# ※ シーケンス（インデックスで要素の位置を指定できるオブジェクト）でなかったり、処理に必要なメソッド（__reversed__()）などを持っていなかったりするため
 order_drink_list_copied = order_drink_list.copy()
 # for i, drink in reversed(enumerate(order_drink_list_copied)):
 for i, drink in reversed(list(enumerate(order_drink_list_copied))):
     print(f"DrinkOrder-No.{i + 1:03d}: {order_drink_list_copied[i]}")
 
-# python3 chapter5.py
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+index_key_while = 0
+while index_key_while < 10:
+    index_key_while += 1
+    print(index_key_while)
+print(f"index_key_while：{index_key_while}")
+
+
+def create_catalogs():
+    catalogs = []
+    while len(catalogs) < 5:
+        item = input(
+            f"{f'現在の{catalogs}の中身：' if len(catalogs) > 0 else 'catalogs'}に追加する商品名："
+        )
+        if item in catalogs:
+            print(f"{item}は既に catalogs：{catalogs}に登録されています")
+            continue
+        elif item == "its over":
+            break
+        catalogs.append(item)
+    print(catalogs)
+
+
+# create_catalogs()
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+exam_score: list[int] = [32, 78, 64, 84, 71, 45, 56, 99]
+for score in exam_score:
+    if score < 70:
+        continue
+    else:
+        print(f"{score}.your passed.")
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+duplicate_lists: list[str] = [
+    "beer",
+    "www",
+    "apple",
+    "banana",
+    "soda",
+    "benjuwan jijao",
+]
+
+
+def check_duplicate_words_and_count(
+    target_duplicate_lists: list[str], optional_arg=None
+):
+    results: set = set()
+    for chars in target_duplicate_lists:
+        for c in chars:
+            count = chars.count(c)
+            if count >= 2:
+                # set（集合）にはイミュータブルしか格納できない
+                results.add((chars, c, count))
+            else:
+                continue
+
+    results_list: list = sorted(results)
+    print(
+        f"{len(results_list)}\n {results_list} {f'\n{optional_arg}' if optional_arg is not None and optional_arg else ''}"
+    )
+
+
+check_duplicate_words_and_count(duplicate_lists)
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
+
+
+def check_entry_wordstype():
+    entry_word = input("文字入力：")
+    if len(entry_word) == 0:
+        return
+    print(
+        f"入力文字{entry_word}は「{set(entry_word)}」から成る「{len(set(entry_word))}文字」で形成されています"
+    )
+
+
+check_entry_wordstype()
+
+duplicateCounter += 1
+duplicateCount(duplicateCounter)
