@@ -2,6 +2,15 @@
 - オフサイドルール<br>
 `Python`では、インデントやスペースがコード整形ではなく**コードの意図や構造を表現する**オフサイドルールが適用されている。
 
+- 処理（`Pythonインタプリンタ`）の終了方法
+バックエンド言語なのでターミナル・コマンドプロンプトでの処理実行が多い。もし処理を終了したい場合は以下の操作を行う。
+  - Windows<br>
+  `ctrl + z`+`enter`キー押下
+  - Mac/Linux<br>
+  `com/ctrl + d`
+  - Windows/Mac/Linux 共通<br>
+  `quit()`または`com/ctrl + c`（`KeyboardInterrupt`：キーボードによる中断）
+
 - 変数について<br>
 `Python`では、`JavaScript`でいう変数宣言（`let`や`const`）を用いずに変数を作成するため`var`のように再宣言も再代入もお構いなく可能な仕様になっている。<br>例えば、定数を作成する方法は無く普通の変数を使用するため、変更（再代入）仕様と思えばできてしまう。
   - 定数について<br>
@@ -56,6 +65,16 @@ print(f"{5:02d}")  # "05"
 print(f"{5:4d}")   # "   5"
 ```
 
+- `pass`文
+処理をパスする（何もしない）ための構文。
+```py
+for i in range(10000):
+  # 構文ルール上、ここに何らかの処理を記述しなければならない
+  # しかし特に記述することが無いような場合に pass 文を使う
+  pass
+```
+関数やクラス作成時に「何もしない処理や挙動が発生」したものの、構文ルール的に何かしらを記述しなければならない場合に`pass`文を使用する。<br>または、後で処理を書くことを意図して、とりあえず`pass`を置いておくようなプレースホルダー的な使い方もあるそう。
+
 ## 関数・メソッド（クラス）
 - `range()`<br>
 引数に指定した数と内容（範囲）で処理内容が変わってくる
@@ -89,6 +108,59 @@ for i, elm in enumerate(イテラブル, 開始値):
 ```
 第二引数の`開始値`はカウントの開始値を指す。
 
+### 関数定義
+他の言語同様`関数名(引数, ...)`という形で記述していくし、関数の呼び出し方も同じだが、`def`という宣言子を前置したり、`関数名(引数, ...):`パラメータ後に`:`を置いたり`Python`独自の記法もある。関数名もまた変数同様に区切り部分はアンダースコア`_`で繋いでいくのが一般的。<br>使用頻度の低い引数にはデフォルト値を設けて省略することもできる。<br><br>
+
+- 渡された引数`arg`が数値型に変換可能かをチェックする関数<br>
+```py
+def convert_to_number(arg: str | int | float) -> int | float | None:
+    try:
+        # 整数（型）変換に試みる
+        return int(arg)
+    except ValueError:
+        try:
+            # 整数変換に失敗した場合は浮動小数点（型）への変換を試みる
+            return float(arg)
+        except ValueError:
+            # ここまで全て失敗した場合は None を返す
+            return None
+```
+
+- `check_duplicate_words_and_count`関数<br>
+対象文字列配列内`list[str]`の各文字列内にある重複文字と重複回数をチェックする関数
+```py
+duplicate_lists: list[str] = [
+    "beer",
+    "www",
+    "apple",
+    "banana",
+    "soda",
+    "benjuwan jijao",
+]
+
+
+def check_duplicate_words_and_count(
+    target_duplicate_lists: list[str], optional_arg=None
+):
+    results: set = set()
+    for chars in target_duplicate_lists:
+        for c in chars:
+            count = chars.count(c)
+            if count >= 2:
+                # set（集合）にはイミュータブルしか格納できない
+                results.add((chars, c, count))
+            else:
+                continue
+
+    results_list: list = sorted(results)
+    print(
+        f"{len(results_list)}\n {results_list} {f'\n{optional_arg}' if optional_arg is not None and optional_arg else ''}"
+    )
+
+
+check_duplicate_words_and_count(duplicate_lists)
+```
+
 ## 繰り返し処理
 ```py
 # リストの要素を直接繰り返し
@@ -106,6 +178,23 @@ for i in range(len(array)):
 for i, element in enumerate(array):
     print(f"{i}: {element}")
 ```
+
+### `while`
+他の言語と同様の（繰り返し処理）機能。指定した条件を達するまで繰り返し処理を行う。
+```py
+index_key_while = 0
+# index_key_while が 10になるまで 1ずつインクリメント
+while index_key_while < 10:
+    index_key_while += 1
+    print(index_key_while)
+```
+
+### `continue`と`break`
+- `continue`<br>
+他の言語と同様、`for`や`while`の繰り返し処理におけるスキップ機能。ループ内部に残っている処理を実行せずに次の処理に移行する。
+
+- `break`<br>
+他の言語と同様、`for`や`while`の繰り返し処理における強制終了機能。ループ内部に残っている処理を実行せずに当該繰り返し処理を終了する。
 
 ## `Python`での配列操作について（シャローコピーの必要性有無）
 `Python`では破壊的メソッド（`append`, `extend`, `sort`など）と非破壊的メソッド（`sorted`など）が明確に区別されているそうで、一般的にリストのコピーを作成してから操作を行うという習慣はない。
