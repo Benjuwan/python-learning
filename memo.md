@@ -101,7 +101,7 @@ for i in range(10000):
   ```
 
 - `enumerate`<br>
-イニュームレイト：列挙型（`enum`）のことで、イテラブルから要素を取り出す時に何番目に取り出した要素なのかを把握できる。戻り値は`カウント`と`要素の値`のタプル。
+イニュームレイト：列挙型（`enum`）のことで、イテラブルから要素を取り出す時に何番目に取り出した要素なのかを把握できる。戻り値は **`カウント`と`要素の値`のタプル`tuple()`** となる。
 ```py
 for i, elm in enumerate(イテラブル, 開始値):
   # 処理
@@ -160,6 +160,60 @@ def check_duplicate_words_and_count(
 
 check_duplicate_words_and_count(duplicate_lists)
 ```
+
+#### 引数の指定
+- イテラブルアンパッキング（`*イテラブル`）<br>
+引数に指定したイテラブルを展開して関数の引数に渡すことができる位置引数で、`JavaScript`でいうスプレッド演算子（配列中身の展開）に近いような働きをする。
+```py
+def f(arg1, arg2, arg3, arg4):
+    print(f"Good {arg1}.")
+    print(f"Good {arg2}.")
+    print(f"Good {arg3}.")
+    print(f"Good {arg4}.")
+
+
+greeting = ["Morning", "Afternoon", "Evening", "Night"]
+f(*greeting)
+```
+
+- 辞書アンパッキング（`**dict`）<br>
+ `dict`から`key`と`value`を取り出し**「`key`=`"value"`」というキーワード引数**として関数に渡すことができる。
+```py
+dessert = {"main": "puding", "side": "cookie", "drink": "tea"}
+# 各キーワード引数： main="puding", side="cookie", drink="tea"
+order_meals(**dessert)
+```
+
+> [!NOTE] 
+> 構文エラー回避のためにも「位置引数またはイテラブルアンパッキングは左側に、キーワード引数または辞書アンパッキングは右側に配置」と覚えておく
+
+- 可変長引数（`print`関数のように任意個の引数を受け取る関数）<br>
+関数定義の際、パラメータに`(*引数)`または`(**引数)`と記述する。
+  - `(*引数)`と記述<br>
+  任意個の**位置引数をタプル**として受け取る
+  ```py
+  def mutable_args_tuple_f(*args):
+      for i, t in enumerate(args):
+          print(f"{i + 1}番目のイテラブル要素「Good {t}」")
+          if i == (len(args) - 1):
+              print()
+
+
+  # タプル（形式）の位置引数として渡す
+  mutable_args_tuple_f("Morning", "Afternoon", "Evening", "Night")
+  ```
+  - `(**引数)`と記述<br>
+  任意個の**キーワード引数を辞書**として受け取る
+  ```py
+  def mutable_args_dict_f(**args):
+      for k, v in args.items():
+          print(f"{k}： Good {v}")
+
+
+  # キーワード引数として渡す
+  mutable_args_dict_f(Gozen="Morning", Gogo="Afternoon", Yugata="Evening", Yoru="Night")
+  ```
+
 
 ## 繰り返し処理
 ```py
