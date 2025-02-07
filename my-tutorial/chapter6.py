@@ -56,9 +56,20 @@ def odd_even():
 duplicate_counter += 1
 duplicate_count(duplicate_counter)
 
-# dessert = {"main": "puding", "side": "cookie", "drink": "tea"}
-# **dict（辞書アンパッキング）： dict の 各 key が引数名と一致する場合、その値を引数として渡せる
-# order_meals(**dessert)
+
+def f(arg1, arg2, arg3, arg4):
+    print(f"Good {arg1}.")
+    print(f"Good {arg2}.")
+    print(f"Good {arg3}.")
+    print(f"Good {arg4}.")
+
+
+greeting = ["Morning", "Afternoon", "Evening", "Night"]
+f(*greeting)
+
+dessert = {"main": "puding", "side": "cookie", "drink": "tea"}
+order_meals(**dessert)
+print()
 
 theDessert = [
     {"main": "puding", "side": "cookie", "drink": "tea"},
@@ -66,5 +77,36 @@ theDessert = [
     {"main": "cheese_cake", "side": "mint", "drink": "coffee"},
 ]
 for dessert in theDessert:
+    print(dessert)
     order_meals(dessert["main"], dessert["side"], dessert["drink"])
     print()
+
+
+def mutable_args_tuple_f(*args):
+    for i, t in enumerate(args):
+        print(f"{i + 1}番目のイテラブル要素「Good {t}」")
+        if i == (len(args) - 1):
+            print()
+
+
+# タプル（形式）の位置引数として渡す
+mutable_args_tuple_f("Morning", "Afternoon", "Evening", "Night")
+
+
+def mutable_args_dict_f(**args):
+    for k, v in args.items():
+        print(f"{k}： Good {v}")
+
+
+# キーワード引数として渡す
+mutable_args_dict_f(Gozen="Morning", Gogo="Afternoon", Yugata="Evening", Yoru="Night")
+
+
+def view_ordered_menus(*meal_tuple, **meal_dict):
+    for i, elm in enumerate(meal_tuple):
+        print(f"[ {i + 1} ] {elm}")
+    for i, (k, v) in enumerate(meal_dict.items(), len(meal_tuple)):
+        print(f"[ {i + 1} ] {k} : {v}")
+
+
+view_ordered_menus("hotcake", "pizza", snack="parfait", dinner="steak")
