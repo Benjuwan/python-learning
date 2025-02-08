@@ -105,8 +105,37 @@ mutable_args_dict_f(Gozen="Morning", Gogo="Afternoon", Yugata="Evening", Yoru="N
 def view_ordered_menus(*meal_tuple, **meal_dict):
     for i, elm in enumerate(meal_tuple):
         print(f"[ {i + 1} ] {elm}")
+    # enumerate の第二引数に開始値（今回は meal_tuple の配列数）を指定
+    # for 文の変数について、対象辞書の key と value をグループにしないとランタイムエラー（ValueError: not enough values to unpack）が発生する
     for i, (k, v) in enumerate(meal_dict.items(), len(meal_tuple)):
         print(f"[ {i + 1} ] {k} : {v}")
 
 
 view_ordered_menus("hotcake", "pizza", snack="parfait", dinner="steak")
+print()
+
+
+# **引数（辞書アンパッキング）のあとにはいかなる引数も指定できないので、デフォルト値を持ったキーワード引数（optional_start）は、*引数（位置引数）と**引数（キーワード引数）の間に指定
+def view_ordered_menus_xai(*meal_tuple, optional_start: int | None = None, **meal_dict):
+    start = optional_start - 1 if type(optional_start) is int else 0
+    for i, elm in enumerate(meal_tuple, start):
+        print(f"[ {i + 1} ] {elm}")
+    for i, (k, v) in enumerate(meal_dict.items(), (len(meal_tuple) + start)):
+        print(f"[ {i + 1} ] {k} : {v}")
+
+
+# オプショナルな引数を指定
+view_ordered_menus_xai(
+    "hotcake",
+    "pizza",
+    optional_start=55,
+    snack="parfait",
+    lunch="curry",
+    dinner="steak",
+)
+print()
+
+# オプショナルな引数を省略（指定せず）
+view_ordered_menus_xai(
+    "hotcake", "pizza", snack="parfait", lunch="curry", dinner="steak"
+)
