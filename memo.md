@@ -111,6 +111,20 @@ for i, elm in enumerate(イテラブル, 開始値):
 ### 関数定義
 他の言語同様`関数名(引数, ...)`という形で記述していくし、関数の呼び出し方も同じだが、`def`という宣言子を前置したり、`関数名(引数, ...):`パラメータ後に`:`を置いたり`Python`独自の記法もある。関数名もまた変数同様に区切り部分はアンダースコア`_`で繋いでいくのが一般的。<br>使用頻度の低い引数にはデフォルト値を設けて省略することもできる。<br><br>
 
+> [!NOTE]
+> - 引数のデフォルト値について<br>
+> 引数にデフォルト値を設定する場合`args=default_value`という形、つまり**キーワード引数**のような形式になる。<br>
+> しかしデフォルト値を指定した引数はキーワード引数として扱われるわけではなく、あくまで**実際に使用時に指定する引数の在り方**でキーワード引数を判定している。
+> ```py
+> def f(start: int | None = None, ...):
+>  
+> f(100, ...)
+> # 100 を設定値に指定 = start 引数はデフォルト値を持った引数として扱われる
+> 
+> f(start=100, other_keyword='', ...)
+> # 100 を設定値に指定 = start 引数はキーワード引数として扱われる
+> ```
+
 - 渡された引数`arg`が数値型に変換可能かをチェックする関数<br>
 ```py
 def convert_to_number(arg: str | int | float) -> int | float | None:
@@ -189,7 +203,7 @@ order_meals(**dessert)
 
 - 可変長引数（`print`関数のように任意個の引数を受け取る関数）<br>
 関数定義の際、パラメータに`(*引数)`または`(**引数)`と記述する。
-  - `(*引数)`と記述<br>
+  - `(*引数)`と記述（位置引数として振る舞う）<br>
   任意個の**位置引数をタプル**として受け取る
   ```py
   def mutable_args_tuple_f(*args):
@@ -202,7 +216,8 @@ order_meals(**dessert)
   # タプル（形式）の位置引数として渡す
   mutable_args_tuple_f("Morning", "Afternoon", "Evening", "Night")
   ```
-  - `(**引数)`と記述<br>
+
+  - `(**引数)`と記述（キーワード引数として振る舞う）<br>
   任意個の**キーワード引数を辞書**として受け取る
   ```py
   def mutable_args_dict_f(**args):
@@ -213,7 +228,49 @@ order_meals(**dessert)
   # キーワード引数として渡す
   mutable_args_dict_f(Gozen="Morning", Gogo="Afternoon", Yugata="Evening", Yoru="Night")
   ```
+  
+  - `(*引数)`と`(**引数)`の組み合わせ
+  ```py
+  def view_ordered_menus(*meal_tuple, **meal_dict):
+      for i, elm in enumerate(meal_tuple):
+          print(f"[ {i + 1} ] {elm}")
+      # enumerate の第二引数に開始値（今回は meal_tuple の配列数）を指定
+      # for 文の変数について、対象辞書の key と value をグループにしないとランタイムエラー（ValueError: not enough values to unpack）が発生する
+      for i, (k, v) in enumerate(meal_dict.items(), len(meal_tuple)):
+          print(f"[ {i + 1} ] {k} : {v}")
 
+
+  view_ordered_menus("hotcake", "pizza", snack="parfait", dinner="steak")
+  ```
+
+  - `(*引数)`と`デフォルト値を持ったキーワード引数`、`(**引数)`の組み合わせ<br>
+  ```py
+  # **引数（辞書アンパッキング）のあとにはいかなる引数も指定できないので、デフォルト値を持ったキーワード引数（optional_start）は、*引数（位置引数）と**引数（キーワード引数）の間に指定
+  def view_ordered_menus_xai(*meal_tuple, optional_start: int | None = None, **meal_dict):
+      start = optional_start - 1 if type(optional_start) is int else 0
+      for i, elm in enumerate(meal_tuple, start):
+          print(f"[ {i + 1} ] {elm}")
+      for i, (k, v) in enumerate(meal_dict.items(), (len(meal_tuple) + start)):
+          print(f"[ {i + 1} ] {k} : {v}")
+
+
+  # オプショナルな引数を指定
+  view_ordered_menus_xai(
+      "hotcake",
+      "pizza",
+      optional_start=55,
+      snack="parfait",
+      lunch="curry",
+      dinner="steak",
+  )
+  print()
+
+  # オプショナルな引数を省略（指定せず）
+  view_ordered_menus_xai(
+      "hotcake", "pizza", snack="parfait", lunch="curry", dinner="steak"
+  )
+  ```
+  コード内のコメント通り、`**引数`（辞書アンパッキング）のあとにはいかなる引数も指定できないので、`デフォルト値を持ったキーワード引数`（`optional_start`）は、`*引数`（位置引数）と`**引数`（キーワード引数）の間に指定している。
 
 ## 繰り返し処理
 ```py
