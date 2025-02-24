@@ -139,3 +139,28 @@ print()
 view_ordered_menus_xai(
     "hotcake", "pizza", snack="parfait", lunch="curry", dinner="steak"
 )
+
+
+def good_morning():
+    global txt
+    txt = "good morning"
+    print(f"good_morning: {txt}")
+
+
+txt = "good afternoon"
+good_morning()
+print(txt)
+
+
+def good_morning_afternoon():
+    def good_afternoon():
+        nonlocal good_afternoon_txt
+        good_afternoon_txt = "good afternoon"
+        print(f"good_afternoon: {good_afternoon_txt}")
+
+    good_afternoon_txt = "hello world."
+    good_afternoon()
+    print(f"good_morning_afternoon: {good_afternoon_txt}")
+
+
+good_morning_afternoon()

@@ -15,7 +15,55 @@
 `Python`では、`JavaScript`でいう変数宣言（`let`や`const`）を用いずに変数を作成するため`var`のように再宣言も再代入もお構いなく可能な仕様になっている。<br>例えば、定数を作成する方法は無く普通の変数を使用するため、変更（再代入）仕様と思えばできてしまう。
   - 定数について<br>
   慣習的に**定数には大文字を用いてプログラマーに明示的に定数である意図表示**を行う（結局、仕様としては書き換え可能ではあるが）。<br>また、**単語の区切りは基本的にスネークケース**で行う。<br><br>
-`Python`では、変数は明示的に管理・把握しやすくするためにあるもので、実際は**値ごとに付与される参照値（メモリアドレス）に紐づく**形で管理される言語仕様になっている。参照値（メモリアドレス ／ オブジェクトID）の確認は`id(変数)`で行える。
+
+> [!NOTE]
+> `Python`では、変数は明示的に管理・把握しやすくするためにあるもので、実際は**値ごとに付与される参照値（メモリアドレス）に紐づく**形で管理される言語仕様になっている。<br>
+> 参照値（メモリアドレス ／ オブジェクトID）の確認は`id(変数)`で行える。
+
+- `Python`では**スコープ内に同名の変数がある場合はスコープ内のものが優先（適用）される**が`global`宣言子を用いることで**グローバル変数に代入**できる。
+```py
+def good_morning():
+    global txt
+    txt = "good morning"
+    print(f"good_morning: {txt}")
+
+
+txt = "good afternoon"
+good_morning()
+print(txt)
+
+# global 無効時の出力結果
+# good_morning: good morning
+# good afternoon  # 関数実行時前の代入が有効になっている
+
+# global 有効時の出力結果
+# good_morning: good morning
+# good morning
+```
+
+- **関数内の関数で同名の変数を扱う**かつ上記`global`のような振る舞いを行いたい場合は`nonlocal`を用いる。
+```py
+def good_morning_afternoon():
+    def good_afternoon():
+        nonlocal good_afternoon_txt
+        good_afternoon_txt = "good afternoon"
+        print(f"good_afternoon: {good_afternoon_txt}")
+
+    good_afternoon_txt = "hello world."
+    good_afternoon()
+    print(f"good_morning_afternoon: {good_afternoon_txt}")
+
+
+good_morning_afternoon()
+
+# nonlocal 無効時の出力結果
+# good_afternoon: good afternoon
+# good_morning_afternoon: hello world.  # 関数実行時前の代入が有効になっている
+
+# nonlocal 有効時の出力結果
+# good_afternoon: good afternoon
+# good_morning_afternoon: good afternoon
+```
 
 - 厳密等価演算子<br>
 `Python`には、厳密等価演算子（`===`,`!==`）がないが、数値を`==`（または`is`）や`!=`（または`is not`）で比較する際に`Python`処理系が自動的に両者の型を合わせて（暗黙的型変換）から値を比較してくれる。<br>より厳密に判定したい場合は`type(変数-a) == type(変数-b)`, `type(変数-a) != type(変数-b)`のように記述する。
@@ -660,6 +708,18 @@ theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 �
   result_entries_1 = len(entries_1) <= 0 or f"entries_1: {len(entries_1)}"
   print(entries_1, result_entries_1)
   ```
+
+## オブジェクト
+`Python`でいうオブジェクトとは、**特定の機能や挙動を実現するためのデータや処理（操作）をひとまとめにしたデータ構造体**を指す。それら**オブジェクトを組み合わせてプログラムを構築・開発していくのをオブジェクト指向プログラミング**としている。<br>
+各オブジェクトがどのようなデータ構造を持っているのかは**クラスを通じて定義**し、先の「特定の機能や挙動を実現する」ための**データをデータ属性**、**処理（に該当する属性）をメソッド**と呼ぶ。<br>
+クラスは「設計図」で、「その設計図から生成される実体・実物」をインスタンスといい、一般的にオブジェクトとはこのインスタンスオブジェクトを指す。
+
+> [!NOTE]
+> ※インスタンス生成時において`JavaScript`のように`new`を接頭辞として前置する必要ない。クラスの作成は似たような記述となっている。
+
+- `Python`でのクラスの命名規則<br>
+クラス名の1文字目は大文字で2文字目以降は小文字、複数の単語から構成される場合はパスカルケース（`HelloWorld`）で命名するのが一般的。つまり、変数名や関数名のようにアンダースコア（`_`）を用いた命名規則とは異なる。<br>
+※ただし、クラス内のデータ属性名については変数名や関数名の命名規則に準ずるので注意。
 
 ## `JavaScript（TypeScript）`と`Python`の似ている記法まとめ
 - `f文字列`：`JavaScript`でいうテンプレートリテラル（バックティック）
