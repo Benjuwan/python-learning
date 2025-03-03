@@ -24,15 +24,39 @@ class Pass:
 pass_class = Pass()
 
 
-class Food:
-    # __init__ は、コンストラクタ関数（インスタンスのプロパティ初期化処理）のようなもの
+class Item:
     def __init__(self, name, price):
-        # self は this のようなもの
         self.name = name
         self.price = price
-        print(name, price)
+
+    def show(self):
+        print(f"{self.name}: {self.price}")
 
 
-x = Food("milk", 150)
-x.name = "egg"
-print(x.name)
+class Food(Item):
+    # 基底クラスの __init__ 引数も指定する（今回は name, price）
+    def __init__(self, name, price, used_limit):
+        # JavaScript と同様に super() 関数で基底クラスの該当内容を継承（今回は コンストラクタ部分）
+        super().__init__(name, price)
+        self.used_limit = used_limit
+
+    def show(self):
+        # JavaScript と同様に super() 関数で基底クラスの該当内容を継承（showメソッド）
+        super().show()
+        print(f"{self.name}: {self.price}: {self.used_limit}")
+
+
+class Toy(Item):
+    def __init__(self, name, price, target_age):
+        super().__init__(name, price)
+        self.target_age = target_age
+
+    def show(self):
+        # super().show()
+        print(f"{self.name}: {self.price}: {self.target_age}")
+
+
+Food_instance = Food("chocolate", 100, 180)
+Food_instance.show()
+Toy_instance = Toy("figure", 350, 3)
+Toy_instance.show()
