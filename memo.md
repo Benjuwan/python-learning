@@ -420,9 +420,3 @@ print(check_APPLE)
   person = {"name": "John", "age": 30}
   name, age = person.values()
   ```
-
----
-
-## 参照
-- [【令和6年最新版】初心者でも、チーム開発でも美しく！Python開発環境構築のすすめ](https://qiita.com/musutafakemaru/items/332bd0193828aa66461d)
-- [Pythonでのデバッグ、print()からic()に置き換えよう！](https://qiita.com/ryosuke_ohori/items/11b2ad43f1ae50f25cf5)
