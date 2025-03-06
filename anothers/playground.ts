@@ -114,3 +114,29 @@ const sort_theCheckDuplicateWordAndCounts = [...theCheckDuplicateWordAndCounts].
     }
 });
 console.log(sort_theCheckDuplicateWordAndCounts);
+
+// 九九（掛け算）
+const multipleNumbersStrAry: string[] = [];
+for (let x: number = 1; x <= 9; x++) {
+    for (let y: number = 1; y <= 9; y++) {
+        const column: number = x * y; // x: 1, 2, ...、 y: 1, 2, ...
+        if (column % 9 === 0 && y === 9) {
+            // 掛け算結果が9で割り切れる かつ y数値（掛け合わせの右側 ※九九表でいう一番右側の9列目）が9の場合
+            const breakPointNumber_9: string = `${column.toString().padStart(2, '0')}/`;
+            multipleNumbersStrAry.push(breakPointNumber_9);
+        } else {
+            // 9に関係ない掛け算結果は|（パイプライン）を付けてセット
+            const adjustNumber: string = `${column.toString().padStart(2, '0')}|`;
+            multipleNumbersStrAry.push(adjustNumber);
+        }
+    }
+}
+const adjust_multipleNumbersStrAry: string[] = multipleNumbersStrAry.join('').split('/');
+for (const eachAry of adjust_multipleNumbersStrAry) {
+    // split('/')の結果生まれる最終数値（81）直後の空文字（""）配列は処理スキップ
+    if (eachAry.length === 0) {
+        continue;
+    }
+
+    console.log(eachAry);
+}
