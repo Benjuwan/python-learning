@@ -142,7 +142,7 @@ theAry_int: list[int] = [10, 100]
 theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 として扱われる（bool は int としても扱えるため）が、明示的に 1 に置き換えた方がわかりやすい
 ```
 
-## 内包表記（comprehension）について
+## 内包表記（`comprehension`）について
 データ構造（リストなどのイテラブル）を作成するときに役立つ構文で、簡潔な記述（プログラム）でリスト（`list`）や集合（`set`）、辞書（`dict`）に**格納する値を生成**できる。
 
 ### リストの内包表記
@@ -202,7 +202,9 @@ print(f"集合：{the_set_comprehension}")
 # 辞書
 the_dict = {}
 for i in range(10):
-    # dict[キー] = 値
+    # `dict[キー] = 値` で辞書に要素を追加
+    # 指定したキーが当該辞書に含まれていない場合は「キーと値の組を新たに追加」
+    # 含まれている場合は「そのキーに対応する値を書き換える」
     the_dict[f"No.{i + 1}"] = (i + 1) ** 2
 print(f"辞書：{the_dict}")
 
@@ -211,9 +213,103 @@ the_dict_comprehension = {f"No.{i + 1}": (i + 1) ** 2 for i in range(10)}
 print(f"辞書：{the_dict_comprehension}")
 ```
 
-### 多重ループ
+### 多重ループの内包表記
+以下の多重ループ（で実装された「九九（掛け算表）」）をベースに進める。
+```py
+# 九九（掛け算表）
+for y in range(9):
+    for x in range(9):
+        # ()は必須
+        column = (y + 1) * (x + 1)
+        # x軸数値が9の倍数 （x軸の数値が9で割り切れる場合） の処理
+        if (x + 1) % 9 == 0:
+            print(f"{column:2d}")
+        else:
+            print(f"{column:2d}", end="|")
+
+# 九九（掛け算表）配列形式
+multiple_lists = []
+for x in range(1, 10):
+    for y in range(1, 10):
+        multiple_lists.append(x * y)
+for i in range(9):
+    print(multiple_lists[i::9])
+```
+
+多重ループの内包表記では、**左に書いたものは外側のループ、右に書いたものは内側のループ**となる。<br>
+更に右側に足していくとネストしたループ（三重ループ、四重ループ...）を実現できる。<br>
+集合や辞書でも（[]が異なるだけで）以下と同じ記法。
+```py
+[式 for 変数A in イテラブルA for 変数B in イテラブルB]
+```
+
+- 具体例（多重ループの内包表記）
+```py
+print([x * y for x in range(1, 10) for y in range(1, 10)])
+
+# リスト内リストを生成
+# 以下のように階層的なループ処理も簡潔に実現できる
+print([[x * y for x in range(1, 10)] for y in range(1, 10)])
+```
+
 ### 内包表記と if文の組み合わせ
+`式B`の値 が`True`の場合は`式A`を評価した値をリストに追加し、`式B`の値が`False`の場合は`式A`を評価せず値をリストにも追加しない。<br>
+集合や辞書でも（[]が異なるだけで）以下と同じ記法。
+```py
+[式A for 変数 in イテラブル if 式B]
+```
+- 具体例（内包表記と if文の組み合わせ）
+```py
+# 0～19までの数値で、2でも、3でも割り切れない数値を出力
+print([i for i in range(20) if i % 3 != 0 and i % 2 != 0])
+# [1, 5, 7, 11, 13, 17, 19]
+
+# 上記「内包表記と if文の組み合わせ」を使用しないver
+target_numbers = []
+for i in range(20):
+    if i % 3 != 0 and i % 2 != 0:
+        # print(i, end=",")
+        target_numbers.append(i)
+
+print(target_numbers)
+```
+
 #### 内包表記と三項演算子の組み合わせ
+```py
+[三項演算子 for 変数 in イテラブル]
+
+# 三項演算子
+# <trueの値> if <条件> else <falseの値>
+```
+
+- 具体例（内包表記と三項演算子の組み合わせ）<br>
+※`FizzBuzz`に関する処理について、簡潔ではあるものの非常に可読性が悪いので使い方に注意。
+```py
+def FizzBuzz():
+    FizzBuzz_result = [
+        "FizzBuzz"
+        if i % 5 == 0 and i % 3 == 0
+        else "Buzz"
+        if i % 5 == 0
+        else "Fizz"
+        if i % 3 == 0
+        else i
+        for i in range(1, 16)
+    ]
+    print(FizzBuzz_result)
+
+
+FizzBuzz()
+```
+
+以下の`check_APPLE`みたいな単純なものだと開発効率が良いかも。
+```py
+# 単純なものなら [三項演算子 for 変数 in イテラブル] は開発効率が良いかも
+fruits = ["banana", "apple", "melon", "water-melon"]
+check_APPLE = [fruit.upper() if fruit == "apple" else "" for fruit in fruits]
+print(check_APPLE)
+# ['', 'APPLE', '', '']
+```
 
 ---
 
