@@ -211,6 +211,10 @@ the_dict_comprehension = {f"No.{i + 1}": (i + 1) ** 2 for i in range(10)}
 print(f"辞書：{the_dict_comprehension}")
 ```
 
+### 多重ループ
+### 内包表記と if文の組み合わせ
+#### 内包表記と三項演算子の組み合わせ
+
 ---
 
 ## `JavaScript（TypeScript）`と`Python`の似ている記法まとめ
