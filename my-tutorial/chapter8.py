@@ -53,6 +53,7 @@ def payment_divisiton():
 duplicate_counter += 1
 duplicate_count(duplicate_counter)
 
+
 # 以下の記述を
 # numbers = []
 # for i in range(10):
@@ -64,13 +65,22 @@ numbers = [(i + 1) ** 2 for i in range(10)]
 print(numbers)  # [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 
 # 集合
-print({(i + 1) ** 2 for i in range(10)})
+the_set = set()
+for i in range(10):
+    the_set.add((i + 1) ** 2)
+print(f"集合：{the_set}")
+
+# 上記処理の内包表記ver
+the_set_comprehension = {(i + 1) ** 2 for i in range(10)}
+print(f"集合：{the_set_comprehension}")
 
 # 辞書
-print({(i + 1) ** 2: i for i in range(10)})
-
-numbers_dict = {}
+the_dict = {}
 for i in range(10):
     # dict[キー] = 値
-    numbers_dict[f"No.{i + 1}"] = i**2
-print(numbers_dict)
+    the_dict[f"No.{i + 1}"] = (i + 1) ** 2
+print(f"辞書：{the_dict}")
+
+# the_dict_comprehension = {(i + 1) ** 2: i for i in range(10)}
+the_dict_comprehension = {f"No.{i + 1}": (i + 1) ** 2 for i in range(10)}
+print(f"辞書：{the_dict_comprehension}")

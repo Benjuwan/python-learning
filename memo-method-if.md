@@ -52,7 +52,6 @@ print(anaconda.replace("a", "A", 2))
 文字列.startswith(接頭辞の文字列)
 
 # 末尾が指定した接尾辞で終わる場合は True を返す
-# 
 文字列.endswith(接尾辞の文字列)
 ```
 
