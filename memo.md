@@ -12,12 +12,12 @@
   `quit()`または`com/ctrl + c`（`KeyboardInterrupt`：キーボードによる中断）
 
 ### 変数について
-`Python`では、`JavaScript`でいう変数宣言（`let`や`const`）を用いずに変数を作成するため`var`のように再宣言も再代入もお構いなく可能な仕様になっている。<br>
-例えば、定数を作成する方法は無く普通の変数を使用するため、変更（再代入）仕様と思えばできてしまう。
+`Python`では、`JavaScript`でいう変数宣言（`let`や`const`）を用いずに変数を作成するため`var`のように再宣言も再代入（再定義）も可能な仕様になっている。<br>
+例えば、定数を作成する方法は無く普通の変数を使用するため、変更（再代入）しようと思えばできてしまう。<br>
+また、命名規則について**単語の区切りは基本的にスネークケース**で行う。
 
 - 定数について<br>
-慣習的に**定数には大文字を用いてプログラマーに明示的に定数である意図表示**を行う（結局、仕様としては書き換え可能ではあるが）。<br>
-また、**単語の区切りは基本的にスネークケース**で行う。
+慣習的に**定数には大文字を用いてプログラマーに明示的に定数である意図表示**を行う（結局、仕様としては書き換え可能ではあるが）。
 
 > [!NOTE]
 > `Python`では、変数は明示的に管理・把握しやすくするためにあるもので、実際は**値ごとに付与される参照値（メモリアドレス）に紐づく**形で管理される言語仕様になっている。<br>
@@ -130,7 +130,7 @@ theNum: int = 0
 theStrOrNum: str | int = 100
 
 # TypeScript `const theBool: boolean`
-theBool: bool = True
+theBool: bool = True または False
 
 # TypeScript `const theAry_str: string[]`
 theAry_str: list[str] = ['hoge', 'foo', 'bar']
@@ -229,12 +229,12 @@ print(numbers_dict)
   - `Python`
   ```py
   score = 85
-  # trueの値 if 条件 else falseの値
+  # <trueの値> if <条件> else <falseの値>
   result = "passed" if score >= 60 else "failed"
   print(f"You {result} the test.")
   ```
 
-### 配列/リストの操作
+### 配列/リストの操作（`map`, `filter`）
   - `TypeScript（JavaScript）`
   ```js
   const numbers: number[] = [1, 2, 3, 4, 5];
@@ -252,11 +252,12 @@ print(numbers_dict)
   # [2, 4]
   evens = list(filter(lambda n: n % 2 == 0, numbers))
   ```
-    - または`内包表記`を使用
-    ```py
-    doubled = [n * 2 for n in numbers]
-    evens = [n for n in numbers if n % 2 == 0]
-    ```
+
+  - または`内包表記`を使用
+  ```py
+  doubled = [n * 2 for n in numbers]
+  evens = [n for n in numbers if n % 2 == 0]
+  ```
 
 ### 引数のデフォルト値を設定
   - `TypeScript（JavaScript）`

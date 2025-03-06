@@ -161,7 +161,7 @@ list1 = [1, 2, 3, 4, 5]
 list1[1] = 100  # 置換
 print(list1)
 list1.insert(3, 400)  # 挿入
-print(list1)
+print(f"insertしたもの：{list1}")
 del list1[2]  # 削除
 print(list1)
 
@@ -453,8 +453,6 @@ data_dict_nested = {
         ],
     },
 }
-print(data_dict_nested["config"]["property-1"][0]["inner-1"])
-print(data_dict_nested["config"]["property-1"][2]["inner-3"])
 
 duplicateCounter += 1
 duplicateCount(duplicateCounter)
