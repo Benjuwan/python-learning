@@ -66,8 +66,6 @@ print(numbers)  # [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 # 集合
 print({(i + 1) ** 2 for i in range(10)})
 
-# {(i + 1) ** 2 for i in range(10)}.pop()
-
 # 辞書
 print({(i + 1) ** 2: i for i in range(10)})
 

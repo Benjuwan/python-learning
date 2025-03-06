@@ -4,11 +4,22 @@
 ```py
 text = "apple banana cherry"
 words = text.split()
-print(words)  # ['apple', 'banana', 'cherry']
+print(words)  # ["apple", "banana", "cherry"]
 
 url = "sports/football/fw"
-urlPaths = url.split('/')
-print(urlPaths)  # ['sports', 'football', 'fw']
+# 指定したデリミタ（区切り文字）で分割も可能
+url_paths = url.split('/')
+print(url_paths)  # ["sports", "football", "fw"]
+```
+
+### `join()`
+指定したデリミタ（区切り文字）で配列を結合する
+```py
+url_paths = ["sports", "football", "fw"]
+
+# デリミタ.join(イテラブル)
+url = "/".join(url_paths)
+print(url)
 ```
 
 ### `replace()`
@@ -16,8 +27,33 @@ print(urlPaths)  # ['sports', 'football', 'fw']
 ```py
 # 第一引数には置換対象の文字列（target）を、
 # 第二引数には変更文字列（src）を、
+# 第三引数には置換個数の上限（count）を、
 # それぞれダブルクォーテーションで囲って指定
-str.replace(target, src)
+str.replace(target, src, count)
+
+# 具体例
+anaconda = "anaconda"
+# すべて置換
+print(anaconda.replace("a", "A"))
+# AnAcondA
+
+# 初めの一つだけ置換
+print(anaconda.replace("a", "A", 1))
+# Anaconda
+
+# 2つ目まで置換
+print(anaconda.replace("a", "A", 2))
+# AnAconda
+```
+
+### `startswith`, `endswith`
+```py
+# 先頭が指定した接頭辞から始まる場合は True を返す
+文字列.startswith(接頭辞の文字列)
+
+# 末尾が指定した接尾辞で終わる場合は True を返す
+# 
+文字列.endswith(接尾辞の文字列)
 ```
 
 ### `isnumeric()`
@@ -112,7 +148,7 @@ print(max(some_numbers))  # 100
 
 ## 関数定義
 他の言語同様`関数名(引数, ...)`という形で記述していくし、関数の呼び出し方も同じだが、`def`という宣言子を前置したり、`関数名(引数, ...):`パラメータ後に`:`を置いたり`Python`独自の記法もある。<br>
-関数名もまた変数同様に区切り部分はアンダースコア`_`で繋いでいくのが一般的。<br>
+**関数の命名規則もまた変数同様に区切り部分はアンダースコア`_`で繋いでいく**のが一般的。<br>
 使用頻度の低い引数にはデフォルト値を設けて省略することもできる。<br><br>
 
 > [!NOTE]
@@ -297,7 +333,7 @@ def payment_divisiton():
     # 例外を単体指定
     except ValueError:
         print("ValueError： is not INT.")
-    # 例外を単体指定（ZeroDivisionError：割る方が 0の場合に発生するエラー）
+    # 例外を単体指定（ZeroDivisionError：割る方（今回の場合は people ）が 0の場合に発生するエラー）
     except ZeroDivisionError:
         print("ZeroDivisionError： must be != 0.")
 
@@ -309,7 +345,7 @@ def payment_divisiton():
 payment_divisiton()
 ```
 
-- エラーや例外を意図的に無視<br>
+- エラーや例外を意図的に無視（**※良くない実装なので注意**）<br>
 `JavaScript`には無いが、以下のように記述すると`Python`ではエラーや例外を黙認できる
 ```py
 except 例外:
@@ -326,7 +362,8 @@ except 例外A:
 except 例外B:
   # 例外B
 else:
-  # 例外が発生しなかった場合のみ実行される処理（※ try の内側に記述しても良いが else を使うことで明示的な記述となる）
+  # 例外が発生しなかった場合のみ実行される処理
+  # ※ try の内側に記述しても良いが else を使うことで明示的な記述となる
 finally:
   # 共通終了処理
 ```
@@ -419,7 +456,7 @@ else {
 
 ### 三項演算子
 ```py
-# {trueの値} if {条件} else {falseの値}
+# <trueの値> if <条件> else <falseの値>
 result = "passed" if score >= 60 else "failed"
 ```
 
@@ -462,7 +499,7 @@ print(f"{'purple' not in trafic_signal} # True")
 print(f"{'red' not in trafic_signal} # False")
 ```
 
-- `in`演算子, `not in`演算子は**各種データ構造（リスト、タプル、集合、辞書）のほか、文字列にも使用**できる
+#### `in`演算子, `not in`演算子は**各種データ構造（リスト、タプル、集合、辞書）のほか、文字列にも使用**できる
 ```py
 # 値が含まれていることを判定（in演算子）
 値 in イテラブルまたは文字列
