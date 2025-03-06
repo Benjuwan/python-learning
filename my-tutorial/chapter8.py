@@ -152,9 +152,7 @@ def FizzBuzz():
 FizzBuzz()
 
 
-# 内包表記と三項演算子の組み合わせ（※簡潔ではあるものの非常に可読性が悪い）
 def FizzBuzz_xai():
-    # [三項演算子 for 変数 in イテラブル]
     FizzBuzz_result = [
         "FizzBuzz"
         if i % 5 == 0 and i % 3 == 0
@@ -167,10 +165,13 @@ def FizzBuzz_xai():
     ]
     print(FizzBuzz_result)
 
-    # 単純なものなら [三項演算子 for 変数 in イテラブル] は開発効率が良いかも
-    fruits = ["banana", "apple", "melon", "water-melon"]
-    isApple = [fruit.upper() if fruit == "apple" else "" for fruit in fruits]
-    print(isApple)
-
 
 FizzBuzz_xai()
+
+# 単純なものなら [三項演算子 for 変数 in イテラブル] は開発効率が良いかも
+fruits = ["banana", "apple", "melon", "water-melon"]
+check_APPLE = [fruit.upper() if fruit == "apple" else "" for fruit in fruits]
+print(check_APPLE)
+
+duplicate_counter += 1
+duplicate_count(duplicate_counter)

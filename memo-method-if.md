@@ -453,7 +453,7 @@ else {
 }
 ```
 
-### 三項演算子
+### 三項演算子（条件式）
 ```py
 # <trueの値> if <条件> else <falseの値>
 result = "passed" if score >= 60 else "failed"
