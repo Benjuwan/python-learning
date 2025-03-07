@@ -120,8 +120,8 @@ const multipleNumbersStrAry: string[] = [];
 for (let x: number = 1; x <= 9; x++) {
     for (let y: number = 1; y <= 9; y++) {
         const column: number = x * y; // x: 1, 2, ...、 y: 1, 2, ...
-        if (column % 9 === 0 && y === 9) {
-            // 掛け算結果が9で割り切れる かつ y数値（掛け合わせの右側 ※九九表でいう一番右側の9列目）が9の場合
+        if (y === 9) {
+            // y数値（掛け合わせの右側 ※九九表でいう一番右側の9列目）が9の場合
             const breakPointNumber_9: string = `${column.toString().padStart(2, '0')}/`;
             multipleNumbersStrAry.push(breakPointNumber_9);
         } else {
