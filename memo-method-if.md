@@ -546,22 +546,4 @@ numbers.sort()  # 破壊的メソッドだと明確に分かる
   numbers_deep_copy = deepcopy(numbers)
   ```
 
-  - `JavaScript`でいう `shift`, `unshift` や `pop`, `push` のような配列操作について
-  ```py
-  my_list = [1, 2, 3]
-
-  # JavaScript の pop() と同じ - 末尾から要素を削除して返す
-  last_element = my_list.pop()  # 3を返し、リストは[1, 2]になる
-
-  # JavaScript の push() と同じ - 末尾に要素を追加
-  my_list.append(4)  # [1, 2, 4]になる
-
-  # JavaScript の shift() と同じ - 先頭から要素を削除して返す
-  first_element = my_list.pop(0)  # 1を返し、リストは[2, 4]になる
-
-  # JavaScript の unshift() と同じ - 先頭に要素を追加
-  my_list.insert(0, 5)  # [5, 2, 4]になる
-  ```
-  これらはすべて**破壊的メソッド**であることに注意
-
 ---

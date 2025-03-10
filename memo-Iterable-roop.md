@@ -60,7 +60,7 @@ copied_lists = リスト変数.copy()
   # JavaScript でいうpushメソッドによる結合と近いニュアンス
   # リスト.push(...イテラブル)
 
-  # extend メソッド
+  # extend メソッド（破壊的処理）
   リスト.extend(イテラブル)
 
   # スライス（破壊的処理）
