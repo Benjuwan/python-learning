@@ -213,6 +213,10 @@ the_dict_comprehension = {f"No.{i + 1}": (i + 1) ** 2 for i in range(10)}
 print(f"辞書：{the_dict_comprehension}")
 ```
 
+> [!NOTE]
+> - タプルの内包表記はない<br>
+> タプルチックな書き方をしたものは全く別物の「[ジェネレーター式](#ジェネレーター式--ジェネレーター関数)」として扱われる
+
 ### 多重ループの内包表記
 以下の多重ループ（で実装された「九九（掛け算表）」）をベースに進める。
 ```py
@@ -309,6 +313,144 @@ fruits = ["banana", "apple", "melon", "water-melon"]
 check_APPLE = [fruit.upper() if fruit == "apple" else "" for fruit in fruits]
 print(check_APPLE)
 # ['', 'APPLE', '', '']
+```
+
+## ジェネレーター式 / ジェネレーター関数
+ジェネレーターはリスト同様にイテラブルなオブジェクト（`generator object`）だが、リストのように既存要素を格納しているのではなく、**処理要求される度に一つずつ生成**する特徴を持つ。<br>
+処理要求される度に一つずつ生成するため、メモリの消費を抑えたり、無制限の値を生成できたりする利点がある。<br>
+`React`でいう`React Server Component`のようにサーバー側で処理を実行し、クライアント側の（レンダリングなど処理）負担を軽減する仕組みに少し似ている。
+
+### ジェネレーター式
+
+```py
+(式 for 変数 in イテラブル)
+
+# 変数が複数ある場合
+(式 for 変数, ... in イテラブル)
+```
+
+- 具体例
+```py
+# (式 for 変数 in イテラブル)
+genObj = (i * i for i in range(10))
+print(genObj)
+# 0 1 4 9 16 25 36 49 64 81 
+```
+
+[内包表記](#内包表記comprehensionについて)と同じく、多重ループや条件分岐の実装も可能。
+
+### ジェネレーター関数
+ジェネレーター式で表現するには複雑なものを扱う際に使用する。通常の関数定義に似た記法だが、`return`の代わりに`yield`を用いるのが特徴。<br>
+※`yield`は`return`と違って即座に処理終了しない特徴的な性質を持つ。
+
+```py
+def g():
+    for x in range(10):
+        yield x * x
+
+
+for y in g():
+    print(y, end=" ")
+# 0 1 4 9 16 25 36 49 64 81
+```
+
+- `yield from`<br>
+既存のジェネレーター（ジェネレーター関数やジェネレーター式）を利用して別のジェネレーター（ジェネレーター関数）を定義する
+```py
+def my_range(start, finish):
+    x = start
+    while x < finish:
+        yield x # `return`と違って即座に処理終了しない
+        x += 1
+
+
+def my_range2(start, finish, count):
+    for _ in range(count):
+        yield from my_range(start, finish)
+
+
+for y in my_range2(1, 10, 3):
+    print(y, end=" ")
+# 1〜10までの数値ジェネレーター（my_range）が 3回出力される（my_range2）
+# 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 
+```
+
+## ラムダ（lambda）式（※Pythonにおいては端的な関数定義を実現）
+関数型言語の機能の一つがラムダ式。関数型言語の基盤となっているラムダ計算という理論に由来している。<br>`
+Python`においてはラムダ式を用いることで、簡単な関数定義において通常の関数定義よりも短く記述できるようになる。
+
+```py
+lambda 引数: 式
+
+# 上記（ラムダ式）は以下の関数定義と同義
+def 関数名(引数):
+  return 式
+
+---
+
+# 引数が複数ある場合
+lambda 引数, ...: 式
+```
+
+当該関数を、コールバック関数（別の関数の引数として渡される関数）として利用する場合、通常の関数定義よりもプログラムが簡潔になる場合がある。
+
+- 具体例
+```py
+# 通常の関数定義
+def loop(f):
+    for i in range(10):
+        print(f(i), end=" ")
+
+
+def square(x):
+    return x * x
+
+
+loop(square)
+
+---
+
+def loop(f):
+    for i in range(10):
+        print(f(i), end=" ")
+
+
+# ラムダ式で上記を表現
+# lambda 引数: 式
+loop(lambda x: x * x)
+```
+
+### `sort()`関数を用いた具体例
+```py
+# 食べ物, 値段, カロリー
+target_sort_tuple_list = [("burger", 110, 234), ("potato", 150, 226), ("shake", 120, 218)]
+
+# カロリーでソート
+# 大きい順にソートさせるために reverse=True を指定
+print(sorted(target_sort_tuple_list, reverse=True, key=lambda item: item[2]))
+
+
+# 上記を関数定義で実行
+def highcalory_sort(item):
+    return item[2]
+
+
+# sort() の key の関数には引数を明示的に指定しないので注意
+print(sorted(target_sort_tuple_list, reverse=True, key=highcalory_sort))
+```
+
+## `assert`文
+...であることを断言（assert）する、という文脈で使用される。<br>
+主に、デバッグやテストに用いる機能で、例えば「この式の値は`True`である」と断言する、といった使い方になる。<br>
+一度に複数の式を指定することも可能。<br>
+式の値が`True`の場合は何もないが、`False`の場合は`AssertionError`という例外が発生する。
+
+```py
+# である ことを断定
+assert 式
+
+# ではない ことを断定
+assert not 式
 ```
 
 ---
