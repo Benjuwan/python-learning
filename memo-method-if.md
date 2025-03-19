@@ -123,8 +123,18 @@ target_lists.index('bar') # 2
   console.log(lists.findIndex(hasTargetStr)); // 2
   ```
 
-### `sorted`
-ソート機能。第二引数として`reverse`というキーワード引数が用意されており`True`にすることで反転できる。
+### `sorted(イテラブル)`
+ソート機能
+- 引数
+  - `reverse`：<br>`True`にすることで反転
+  - `key`：<br>**ソート基準（値）**となる`関数`を指定できる。`Python`は（シーケンスの）各要素に対して指定された関数を適用し、その結果をソートの基準として使用する。デフォルトのソートは「シーケンス間で対応する要素同士を前から順次比較（小さい方を前に）する」という方法。
+    - シーケンス：<br>文字列やリストなどインデックスで要素の位置を指定（＝指定したインデックスで要素を取得）できるオブジェクトのこと
+
+> [!NOTE]
+> `key`引数に渡す関数は**引数を明示的に指定する必要がない**。<br>
+> 注意事項として**常に一つの要素だけを関数に渡すので直接的に複数引数を持つ関数は使えない**。<br>
+> 複数の引数を持つ関数を使用したい場合には、クロージャを使った関数定義にするなど工夫が必要となる。
+
 ```py
 some_numbers = [100, 10, 25, 8, 64]
 
@@ -133,9 +143,28 @@ print(sorted(some_numbers))
 
 # [100, 64, 25, 10, 8]
 print(sorted(some_numbers, reverse=True))
+
+# ----- key 引数を使った具体例
+target_sort_tuple_list = [("burger", 110, 234), ("potato", 150, 226), ("shake", 120, 218)]
+
+# price でソート
+print(sorted(target_sort_tuple_list, key=lambda item: item[1]))
+
+# 上記 lambda式 を関数定義で実行
+def price_sort(item):
+    return item[1]
+
+# key の関数には引数を明示的に指定しない
+print(sorted(target_sort_tuple_list, key=price_sort))
 ```
 
-- 参照：[`Python`での配列操作について（シャローコピーの必要性有無）](#pythonでの配列操作についてシャローコピーの必要性有無)
+---
+
+> [!NOTE]
+> - `.sort()`<br>
+> `リスト.sort()`も機能としては`sorted(イテラブル)`と全く同じで、<br>
+> 取れる引数である`reverse`と`key`も同じ働きをする。<br>
+> 違いとしては`リスト.sort()`の場合は**リスト専用**であり、**元リストを並び替える破壊的処理**である点。
 
 ### `min`, `max`
 イテラブルから最小（`min`）、最大（`max`）の要素・値を取得する。

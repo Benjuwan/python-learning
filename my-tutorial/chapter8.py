@@ -175,3 +175,119 @@ print(check_APPLE)
 
 duplicate_counter += 1
 duplicate_count(duplicate_counter)
+
+# genObj = (i * i for i in range(10))
+# print(genObj)
+
+# for g in genObj:
+#     print(g, end=" ")
+
+
+# def g():
+#     for x in range(10):
+#         yield x * x
+
+
+# for y in g():
+#     print(y, end=" ")
+
+
+def my_range(start, finish):
+    x = start
+    while x < finish:
+        yield x
+        x += 1
+
+
+def my_range2(start, finish, count):
+    for _ in range(count):
+        yield from my_range(start, finish)
+
+
+g_list = []
+for y in my_range2(1, 10, 3):
+    print(y, end=" ")
+    g_list.append(y)
+
+
+print(f"\n {g_list}")
+for _ in range(3):
+    print(g_list[0:9])
+
+
+duplicate_counter += 1
+duplicate_count(duplicate_counter)
+
+
+def loop(f):
+    for i in range(10):
+        print(f"{f(i)}...\n" if i == 9 else f(i), end=" ")
+
+
+# def square(x):
+#     return x * x
+
+
+# loop(square)
+
+
+# ラムダ式で上記を表現
+# lambda 引数: 式
+# loop(lambda x: x * x)
+loop(lambda x: x**3)
+
+duplicate_counter += 1
+duplicate_count(duplicate_counter)
+
+target_sort_tuple_list = [
+    ("burger", 110, 234),
+    ("potato", 150, 226),
+    ("shake", 120, 218),
+]
+print(target_sort_tuple_list)
+print(sorted(target_sort_tuple_list, reverse=True))
+
+
+print(sorted(target_sort_tuple_list, key=lambda item: item[1]))
+
+
+# 上記を関数定義で実行
+def price_sort(item):
+    return item[1]
+
+
+print(sorted(target_sort_tuple_list, key=price_sort))
+
+
+# 大きい順にソートさせるために reverse=True を指定
+print(sorted(target_sort_tuple_list, reverse=True, key=lambda item: item[2]))
+
+
+# 上記を関数定義で実行
+def highcalory_sort(item):
+    return item[2]
+
+
+print(sorted(target_sort_tuple_list, reverse=True, key=highcalory_sort))
+
+
+# 大きい順にソートさせるために reverse=True を指定
+print(sorted(target_sort_tuple_list, reverse=True, key=lambda item: item[2] / item[1]))
+
+
+# 上記を関数定義で実行
+def highcalory_per_price_sort(item):
+    return item[2] / item[1]
+
+
+print(
+    sorted(
+        target_sort_tuple_list,
+        reverse=True,
+        key=highcalory_per_price_sort,
+    )
+)
+
+duplicate_counter += 1
+duplicate_count(duplicate_counter)
+
