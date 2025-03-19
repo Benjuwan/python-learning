@@ -535,20 +535,22 @@ for i in range(len(array)):
     print(array[i])
 ```
 
-- インデックスと要素の両方を使う場合<br>
-```py
-# enumerate：イテラブル（反復可能なオブジェクト・繰り返し可能要素）に対して各要素とそのインデックスをペアとして返す
-for i, element in enumerate(array):
-    print(f"{i}: {element}")
-```
-
-### `enumerate`
+### インデックスと要素の両方を使う場合
+#### `enumerate`
 イニュームレイト：列挙型（`enum`）のことで、イテラブルから要素を取り出す時に何番目に取り出した要素なのかを把握できる。戻り値は **`カウント`と`要素の値`のタプル`tuple()`** となる。
 ```py
 for i, elm in enumerate('イテラブル', '開始値'):
   # 処理
 ```
 第二引数の`開始値`はカウントの開始値を指す。
+
+- 具体例
+```py
+# enumerate：イテラブル（反復可能なオブジェクト・繰り返し可能要素）に対して
+# 各要素とそのインデックスをペアとして返す
+for i, element in enumerate(array):
+    print(f"{i}: {element}")
+```
 
 ### `while`
 他の言語と同様の（繰り返し処理）機能。指定した条件を達するまで繰り返し処理を行う。
