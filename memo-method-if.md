@@ -491,6 +491,10 @@ result = "passed" if score >= 60 else "failed"
 
 ### `AND演算子`と`OR演算子`
 `Python`における`AND演算子`は`&&`ではなく`and`、`OR演算子`は`||`ではなく`or`と記述する。
+
+> [!NOTE]
+> `OR演算子`よりも`AND演算子`の方が演算子の優先順位が高いので、両方を一度の処理に含む場合は注意すること。
+
 ```py
 # AND演算子（左辺が True の場合に右辺を返す ※False の場合は左辺の結果（False）を返す）
 result_entries_1 = (

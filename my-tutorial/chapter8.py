@@ -291,3 +291,26 @@ print(
 duplicate_counter += 1
 duplicate_count(duplicate_counter)
 
+
+def return_div_rest(x, y):
+    assert y != 0
+    return x % y
+
+
+print(return_div_rest(10, 2))  # 0
+print(return_div_rest(53, 3))  # 2
+# print(return_div_rest(5, 0))  # AssertionError
+
+
+# 年が400で割り切れる場合はうるう年
+# 年が100で割り切れず、4で割り切れる場合もうるう年
+def leap_year(year: int):
+    return year % 400 == 0 or year % 100 > 0 and year % 4 == 0
+
+
+# 処理実行して何も表示されなければok
+assert not leap_year(1900)
+assert leap_year(2000)
+assert not leap_year(2019)
+assert leap_year(2020)
+assert not leap_year(2024)  # AssertionError
