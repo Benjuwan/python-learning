@@ -2,6 +2,9 @@
 ### オフサイドルール
 `Python`では、インデントやスペースがコード整形ではなく**コードの意図や構造を表現する**オフサイドルールが適用されている。
 
+### `JavaScript`でいう`undefined`または`null`は、`Python`でいう`None`
+`JavaScript`では未定義のデータや返り値に何も指定されていない場合は一般的に`undefined`または`null`が出力されるが、`Python`ではその役割が`None`になる。
+
 ### 処理（`Pythonインタプリンタ`）の終了方法
 バックエンド言語なのでターミナル・コマンドプロンプトでの処理実行が多い。もし処理を終了したい場合は以下の操作を行う。
   - Windows<br>
@@ -69,45 +72,6 @@ good_morning_afternoon()
 # good_morning_afternoon: good afternoon
 ```
 
-### 計算式について
-`Python`の計算式は、原則「左結合（左側にある式を優先的に計算）」するが`**`（べき乗）のみ「右結合」で処理（計算）される。明示的に`()`を使って計算式を書くのが無難。
-
-#### 除算（割り算）について
-`/`を用いて除算（割り算）を行うと浮動小数点（型）として、`//`を用いて除算を行うと整数（型）として扱われる。
-```py
-print(4 / 2)  # 2.0
-print(4 // 2) # 2
-```
-
-#### 桁数の調整
-```py
-# 基本的な使い方
-number = 5
-print(f"{number:2d}")  # " 5" （幅2文字で右寄せ）
-# x * y - フォーマットする値
-# : - フォーマット指定の開始
-# 2 - 表示する幅（文字数）
-# d - 整数（decimal）として表示
-
-# 実際の動作を確認
-numbers = [1, 5, 10, 42]
-for n in numbers:
-    print(f"{n:2d}")  # それぞれの数字が2文字分の幅で右寄せされる
-
-# その他
-# 左寄せ（<）
-print(f"{5:<2d}")  # "5 "
-
-# 中央寄せ（^）
-print(f"{5:^2d}")  # "5 "
-
-# ゼロ埋め
-print(f"{5:02d}")  # "05"
-
-# より大きな幅を指定
-print(f"{5:4d}")   # "   5"
-```
-
 ## 型定義について
 ```py
 # TypeScript `const theStr: string`
@@ -137,108 +101,109 @@ theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 �
 
 ## `JavaScript（TypeScript）`と`Python`の似ている記法まとめ
 ### `f文字列`：`JavaScript`でいうテンプレートリテラル（バックティック）
-  - `TypeScript（JavaScript）`
-  ```js
-  const name: string = "John";
-  const age: number = 30;
-  console.log(`My name is ${name} and I am ${age} years old.`);
-  ```
+`Python`の`f文字列`は、`JavaScript`でいうテンプレートリテラル（バックティック）の記法と似ていて、`{}`の中に変数や式、処理をそのまま記述して（その結果を反映した）文字列を表現できる。
+- `TypeScript（JavaScript）`
+```js
+const name: string = "John";
+const age: number = 30;
+console.log(`My name is ${name} and I am ${age} years old.`);
+```
  
-  - `Python`
-  ```py
-  name = "John"
-  age = 30
-  print(f"My name is {name} and I am {age} years old.")
-  ```
+- `Python`
+```py
+name = "John"
+age = 30
+print(f"My name is {name} and I am {age} years old.")
+```
 
 ### `三項演算子（条件式）`
-  - `TypeScript（JavaScript）`
-  ```js
-  const score: number = 85;
-  const result: string = score >= 60 ? "passed" : "failed";
-  console.log(`"You ${result} the test.`);
-  ```
+- `TypeScript（JavaScript）`
+```js
+const score: number = 85;
+const result: string = score >= 60 ? "passed" : "failed";
+console.log(`"You ${result} the test.`);
+```
  
-  - `Python`
-  ```py
-  score = 85
-  # <trueの値> if <条件> else <falseの値>
-  result = "passed" if score >= 60 else "failed"
-  print(f"You {result} the test.")
-  ```
+- `Python`
+```py
+score = 85
+# <trueの値> if <条件> else <falseの値>
+result = "passed" if score >= 60 else "failed"
+print(f"You {result} the test.")
+```
 
 ### 配列/リストの操作（`map`, `filter`）
-  - `TypeScript（JavaScript）`
-  ```js
-  const numbers: number[] = [1, 2, 3, 4, 5];
-  // [2, 4, 6, 8, 10]
-  const doubled = numbers.map(n => n * 2);
-  // 2で割り切れる要素：[2, 4]
-  const evens = numbers.filter(n => n % 2 === 0);
-  ```
-  
-  - `Python`
-  ```py
-  numbers = [1, 2, 3, 4, 5]
-  # [2, 4, 6, 8, 10]
-  doubled = list(map(lambda n: n * 2, numbers))
-  # [2, 4]
-  evens = list(filter(lambda n: n % 2 == 0, numbers))
-  ```
+- `TypeScript（JavaScript）`
+```js
+const numbers: number[] = [1, 2, 3, 4, 5];
+// [2, 4, 6, 8, 10]
+const doubled = numbers.map(n => n * 2);
+// 2で割り切れる要素：[2, 4]
+const evens = numbers.filter(n => n % 2 === 0);
+```
 
-  - または`内包表記`を使用
-  ```py
-  doubled = [n * 2 for n in numbers]
-  evens = [n for n in numbers if n % 2 == 0]
-  ```
+- `Python`
+```py
+numbers = [1, 2, 3, 4, 5]
+# [2, 4, 6, 8, 10]
+doubled = list(map(lambda n: n * 2, numbers))
+# [2, 4]
+evens = list(filter(lambda n: n % 2 == 0, numbers))
+```
+
+- または`内包表記`を使用
+```py
+doubled = [n * 2 for n in numbers]
+evens = [n for n in numbers if n % 2 == 0]
+```
 
 ### 引数のデフォルト値を設定
-  - `TypeScript（JavaScript）`
-  ```js
-  function greet(name: string = "Guest"): string {
-    return `Hello, ${name}!`;
-  }
-  ```
+- `TypeScript（JavaScript）`
+```js
+function greet(name: string = "Guest"): string {
+return `Hello, ${name}!`;
+}
+```
 
-  - `Python`
-  ```py
-  def greet(name="Guest"):
-    return f"Hello, {name}!"
-  ```
+- `Python`
+```py
+def greet(name="Guest"):
+return f"Hello, {name}!"
+```
 
 ### 辞書（`Python`）とオブジェクト（`JavaScript`）の取り回し
-  - `TypeScript（JavaScript）`
-  ```js
-  const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
-  console.log(Object.keys(lang_dict)) // {dict}.keys()
-  console.log(Object.values(lang_dict)) // {dict}.values()
-  console.log(Object.entries(lang_dict)) // {dict}.items()
-  ```
+- `TypeScript（JavaScript）`
+```js
+const lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+console.log(Object.keys(lang_dict)) // {dict}.keys()
+console.log(Object.values(lang_dict)) // {dict}.values()
+console.log(Object.entries(lang_dict)) // {dict}.items()
+```
 
-  - `Python`
-  ```py
-  lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
+- `Python`
+```py
+lang_dict = {"ja": "japanese", "en": "English", "fr": "french"}
 
-  lang_dict_keys = lang_dict.keys()
-  print(lang_dict_keys) # Object.keys(object)
+lang_dict_keys = lang_dict.keys()
+print(lang_dict_keys) # Object.keys(object)
 
-  lang_dict_values = lang_dict.values()
-  print(lang_dict_values) # Object.values(object)
+lang_dict_values = lang_dict.values()
+print(lang_dict_values) # Object.values(object)
 
-  lang_dict_items = lang_dict.items()
-  print(lang_dict_items) # Object.entries(object)
-  ```
+lang_dict_items = lang_dict.items()
+print(lang_dict_items) # Object.entries(object)
+```
 
 ### 分割代入
-  - `TypeScript（JavaScript）`
-  ```js
-  const [first, second] = [1, 2];
-  const {name, age} = {name: "John", age: 30};
-  ```
+- `TypeScript（JavaScript）`
+```js
+const [first, second] = [1, 2];
+const {name, age} = {name: "John", age: 30};
+```
 
-  - `Python`
-  ```py
-  first, second = [1, 2]
-  person = {"name": "John", "age": 30}
-  name, age = person.values()
-  ```
+- `Python`
+```py
+first, second = [1, 2]
+person = {"name": "John", "age": 30}
+name, age = person.values()
+```
