@@ -313,4 +313,48 @@ assert not leap_year(1900)
 assert leap_year(2000)
 assert not leap_year(2019)
 assert leap_year(2020)
-assert not leap_year(2024)  # AssertionError
+# assert not leap_year(2024)  # AssertionError
+
+duplicate_counter += 1
+duplicate_count(duplicate_counter)
+
+
+def walrus_example():
+    # 入力内容が q でない間は入力内容を出力し続ける
+    while x := input() != "q":
+        print(x)
+
+
+# walrus_example()
+
+
+def get_req_total():
+    total = 0
+    while True:
+        price = input("price（価格）：")
+        try:
+            if type(int(price)) is int:
+                total += int(price)
+                print(total)
+        except ValueError:
+            print(f"最終結果は{total}です")
+            return
+
+
+get_req_total()
+
+
+def get_req_doubled_total_from_ary(arg_ary: list[int | str]):
+    total = 0
+    for arg_elm in arg_ary:
+        try:
+            if type(int(arg_elm)) is int:
+                total += int(arg_elm) * 2
+                print(total)
+        except ValueError:
+            print(f"最終結果は{total}です")
+            return
+
+
+req_total_ary: list[int | str] = [100, 150, 250, 500, "hoge"]
+get_req_doubled_total_from_ary(req_total_ary)
