@@ -386,6 +386,18 @@ print(format(100000000000000000, "_"))
 # 100_000_000_000_000_000
 ```
 
+---
+
+> [!NOTE]
+> - `.小数点以下桁数f`の記法は`JavaScript`で言えば[`toFixed()`メソッド](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)にあたる
+> ```js
+> function financial(x) {
+>  return Number.parseFloat(x).toFixed(2);
+> }
+>
+> console.log(financial(123.456)); // "123.46"
+> ```
+
 ### `f`文字列
 `JavaScript`でいうテンプレートリテラル（バックティック）の記法と似ていて、`{}`の中に変数や式、処理をそのまま記述して（その結果を反映した）文字列を表現できる。
 
@@ -454,6 +466,39 @@ bytearray('python', encoding='utf-8')
 ```py
 print(4 / 2)  # 2.0
 print(4 // 2) # 2
+```
+
+##### `divmod()`
+除算（割り算）の商と剰余（余り）を求め、タプルにまとめて返す関数。引数の数値には整数と浮動小数点が指定できる。
+```py
+divmod(数値A, 数値B) # 数値Aを数値Bで除算した時の「商と剰余のタプル」を返す
+
+# 具体例
+print(divmod(30, 5)) # (6, 0)
+print(divmod(53, 3)) # (17, 2)
+```
+
+### `abs`（エービーエス）
+数値の絶対数を返す関数（`abs`は`absolute number`の略称）
+```py
+abs(数値) # 引数の数値には「整数、浮動小数点、複素数」が指定できる
+
+# 具体例
+print((123))        # 123
+print((-456))       # 456
+print((12.3))       # 12.3
+print(abs(-12.3))   # 12.3
+```
+
+### `pow`（パウ）
+べき乗計算（`**`）を行う関数。引数の数値には「整数、浮動小数点、複素数」が指定できる。
+```py
+pow(数値A, 数値B)           # 数値Aを数値B乗した数
+pow(数値A, 数値B, 数値C)    # 数値Aを数値B乗した数を数値Cで割った余り
+
+# 具体例
+print(pow(2, 3))  # 2の3乗 -> 8
+print(pow(2, 3, 5))  # 2の3乗を5で割った余り -> 3
 ```
 
 ### `min`, `max`
