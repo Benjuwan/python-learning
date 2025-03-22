@@ -26,3 +26,14 @@ print(format(100000000000000000, ","))
 
 # 千の位ごとに _を挿入
 print(format(100000000000000000, "_"))
+
+print(abs(123))
+print(abs(-456))
+print(abs(12.3))
+print(abs(-12.3))
+
+print(divmod(30, 5))
+print(divmod(53, 3))
+
+print(pow(2, 3))  # 2の3乗
+print(pow(2, 3, 5))  # 2の3乗を5で割った余り
