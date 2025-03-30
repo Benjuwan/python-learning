@@ -598,3 +598,34 @@ while index_key_while < 10:
 
 - `break`<br>
 他の言語と同様、`for`や`while`の繰り返し処理における強制終了機能。ループ内部に残っている処理を実行せずに当該繰り返し処理を終了する。
+
+## 複数のイテラブルを並行処理する`zip`関数
+複数のイテラブルに対して同時に繰り返し処理を行いたい場合に便利な`zip`関数。<br>引数に指定された複数のイテラブルから要素を集めてタプルにまとめて返す。
+
+```py
+food_name = ["burger", "potato", "snack"]
+food_price = [110, 150, 120]
+
+# zip(イテラブル, ...)
+for food in zip(food_name, food_price):
+    print(f"{food[0]} is {food[1]} yen.")
+    # burger is 110 yen.
+    # potato is 150 yen.
+    # snack is 120 yen.
+
+for n, p in zip(food_name, food_price):
+    print(f"{n} is {p} yen.")
+    # burger is 110 yen.
+    # potato is 150 yen.
+    # snack is 120 yen.
+```
+
+## 指定した処理（条件）で加工した（イテラブル内の）各要素を返す`map`関数
+map関数の引数で指定した関数は、map関数に渡したイテラブルと同じ数の引数を受け取る必要がある。例えば、イテラブルが1個なら関数の引数も1個、2個なら同じく2個。
+```py
+map(関数, イテラブル, ...)
+```
+
+## 指定した条件に合致する（イテラブル内の）要素を返す`filter`関数
+```py
+```

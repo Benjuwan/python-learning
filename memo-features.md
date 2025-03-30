@@ -387,6 +387,27 @@ print(format(100000000000000000, "_"))
 ```
 
 ---
+### `round`関数
+数値の小数部分を指定した桁数に丸めて返す。（第二引数の）桁数を省略した場合は数値に最も近い整数を返す。引数には整数と浮動小数点を指定できる。
+```py
+print(round(1 / 3))     # 0（※数値に最も近い整数）
+print(round(1 / 3, 2))  # 0.33（※少数部を2桁に丸めている）
+```
+
+数値に最も近い整数が奇数と偶数の2種類発生した場合は**偶数が優先**される。
+```py
+print(round(3 / 2))     # 2
+print(round(3 / 2, 2))  # 1.5
+```
+
+第二引数に**負の値**を指定した場合は、**その桁数に準じて整数を丸める**ことができる
+```py
+print(round(123, -1))  # 120 （下1桁を丸める）
+print(round(123, -2))  # 100 （下2桁を丸める）
+print(round(123, -3))  # 0   （下3桁を丸める）
+```
+
+---
 
 > [!NOTE]
 > - `.小数点以下桁数f`の記法は`JavaScript`で言えば[`toFixed()`メソッド](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)にあたる
@@ -502,9 +523,35 @@ print(pow(2, 3, 5))  # 2の3乗を5で割った余り -> 3
 ```
 
 ### `min`, `max`
-イテラブルから最小（`min`）、最大（`max`）の要素・値を取得する。
+複数の引数（文字列型含む）またはイテラブルから最小（`min`）、最大（`max`）の要素・値を取得する。
+
+- 複数の引数
+```py
+# 文字列型の場合は文字コード順
+print(min("blue", "red", "green"))  # blue
+print(max("blue", "red", "green"))  # red
+```
+
+- イテラブル
 ```py
 some_numbers = [100, 10, 25, 8, 64]
 print(min(some_numbers))  # 8
 print(max(some_numbers))  # 100
 ```
+
+### `sum`
+イテラブルに含まれる数値の合計値を算出する。
+```py
+want_sum_numbers = [90, 75, 80, 100, 85]
+print(sum(want_sum_numbers))       # 430
+print(sum(want_sum_numbers) / 5)   # 平均値：86.0
+print(sum(want_sum_numbers) // 5)  # 平均値：86（//を使うことで整数として表現）
+```
+
+> [!NOTE]
+> - `sum`は、`JavaScript`でいう`reduce`関数
+> ```js
+> const want_sum_numbers = [90, 75, 80, 100, 85];
+> const sum_result = want_sum_numbers.reduce((accu, curr) => accu + curr, 0);
+> console.log(sum_result); // 430
+> ```
