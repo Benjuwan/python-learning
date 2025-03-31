@@ -169,7 +169,7 @@ theSingleTuple = ("Alice", )
 - ミュータブルなので、要素の追加や削除が可能
 - 同じ値を重複して保存（格納）できない
 - **値を取り出す時の順序が保証されない**（例：出力する度に並び順が変わる）
-- **イミュータブルな値のみ格納可能**
+- **イミュータブルな値のみ格納可能**（※厳密にはハッシュが計算できる値のみ格納可能）
 - 指定した値が含まれているか瞬時に判定できる
 
 ---
@@ -599,8 +599,9 @@ while index_key_while < 10:
 - `break`<br>
 他の言語と同様、`for`や`while`の繰り返し処理における強制終了機能。ループ内部に残っている処理を実行せずに当該繰り返し処理を終了する。
 
-## 複数のイテラブルを並行処理する`zip`関数
-複数のイテラブルに対して同時に繰り返し処理を行いたい場合に便利な`zip`関数。<br>引数に指定された複数のイテラブルから要素を集めてタプルにまとめて返す。
+## イテラブルに関する関数
+### `zip`関数
+複数のイテラブルに対して同時に繰り返し処理を行いたい場合に便利な関数。<br>引数に指定された複数のイテラブルから要素を集めてタプルにまとめて返す。
 
 ```py
 food_name = ["burger", "potato", "snack"]
@@ -620,12 +621,97 @@ for n, p in zip(food_name, food_price):
     # snack is 120 yen.
 ```
 
-## 指定した処理（条件）で加工した（イテラブル内の）各要素を返す`map`関数
-map関数の引数で指定した関数は、map関数に渡したイテラブルと同じ数の引数を受け取る必要がある。例えば、イテラブルが1個なら関数の引数も1個、2個なら同じく2個。
+#### `zip`関数を用いた柔軟なイテラブル（リスト）生成
 ```py
-map(関数, イテラブル, ...)
+food_name = ["burger", "potato", "snack"]
+food_price = [110, 150, 120]
+
+print(list(zip(food_name, food_price)))
+# [('burger', 110), ('potato', 150), ('snack', 120)]
 ```
 
-## 指定した条件に合致する（イテラブル内の）要素を返す`filter`関数
+### `map`関数
+指定した処理（条件）で加工した（イテラブル内の）各要素を返す。
 ```py
+food_name = ["burger", "potato", "snack"]
+food_price = [90, 150, 120]
+
+# map(関数, イテラブル)
+print(list(map(len, food_name)))        # [6, 6, 5]
+
+# 数値型リストを文字列型リストへ変換し、上記と同じく各要素の文字列数を取得する
+convert_str_list = list(map(str, food_price))
+print(list(map(len, convert_str_list))) # [2, 3, 3]
+```
+
+### `filter`関数
+指定した条件に合致する（イテラブル内の）要素を返す。
+```py
+fruits = ["apple", "", "grape", "melon", "", "", "water-melon"]
+print(len(fruits)) # 7
+
+# filter(関数, イテラブル)
+print(list(filter(len, fruits)))
+# ['apple', 'grape', 'melon', 'water-melon']
+# len が 0以外（以上）のものが True 判定される
+
+print(len(list(filter(len, fruits)))) # 4
+```
+
+### all
+`JavaScript`でいう`every`にあたる。イテラブルの全ての要素が（指定した条件に）`True`の場合は`True`を返す。内包表記（`式 for 変数 in イテラブル`）と併用すると便利。
+```py
+person_a_socre = [90, 75, 88, 100, 82]
+person_b_socre = [90, 85, 98, 100, 96]
+
+# 全てが80以上
+print(all([score > 80 for score in person_a_socre])) # False
+print(all([score > 80 for score in person_b_socre])) # True
+```
+
+- `JavaScript`でいう`every`
+```js
+const person_a_socre = [90, 75, 88, 100, 82];
+const person_b_socre = [90, 85, 98, 100, 96];
+
+const all_method = (targetAry)=>{
+    const result = targetAry.every(elm=>elm > 80);
+    console.log(`${result}：全てが80以上`);
+}
+all_method(person_a_socre);
+all_method(person_b_socre);
+```
+
+### any
+`JavaScript`でいう`some`にあたる。どれか一つでも（指定した条件に）`True`の場合は`True`を返す。内包表記（`式 for 変数 in イテラブル`）と併用すると便利。
+```py
+person_a_socre = [90, 75, 88, 100, 82]
+person_b_socre = [90, 85, 98, 100, 96]
+
+# どれか一つでも80未満
+print(any([score < 80 for score in person_a_socre]))  # True
+print(any([score < 80 for score in person_b_socre]))  # False
+```
+
+- `JavaScript`でいう`some`
+```js
+const person_a_socre = [90, 75, 88, 100, 82];
+const person_b_socre = [90, 85, 98, 100, 96];
+
+const any_method = (targetAry)=>{
+    const result = targetAry.some(elm=>elm < 80);
+    console.log(`${result}：どれか一つでも80未満`);
+}
+any_method(person_a_socre);
+any_method(person_b_socre);
+```
+
+### 簡潔にイテレータ（イテラブル内の各要素）を操作できる`iter`関数と`next`関数
+```py
+some_numbers = [1, 2, 3]
+iterator = iter(some_numbers) # iter： 指定されたイテラブルに対するイテレータを返す
+print(next(iterator))         # next： 指定されたイテレータから要素を一つ取り出す
+print(next(iterator))
+print(next(iterator))
+print(next(iterator))         # next が無いので StopIteration（例外）発生
 ```
