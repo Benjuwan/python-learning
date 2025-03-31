@@ -2,6 +2,12 @@
 ### オフサイドルール
 `Python`では、インデントやスペースがコード整形ではなく**コードの意図や構造を表現する**オフサイドルールが適用されている。
 
+### ガベージコレクション
+ガベージコレクションとは、使用していない（変数や）データの参照を削除してメモリを解放することでメモリリークを防止する機能を指す。<br>`Java`などと同様に`Python`もガベージコレクションを備えている。
+
+### イテレータ
+イテラブル（反復可能なオブジェクト・繰り返し可能要素）から、要素を一つずつ取得するためのオブジェクトをイテレータという。
+
 ### `JavaScript`でいう`undefined`または`null`は、`Python`でいう`None`
 `JavaScript`では未定義のデータや返り値に何も指定されていない場合は一般的に`undefined`または`null`が出力されるが、`Python`ではその役割が`None`になる。
 
@@ -132,29 +138,35 @@ result = "passed" if score >= 60 else "failed"
 print(f"You {result} the test.")
 ```
 
-### 配列/リストの操作（`map`, `filter`）
+### 配列/リストの操作
 - `TypeScript（JavaScript）`
 ```js
 const numbers: number[] = [1, 2, 3, 4, 5];
 // [2, 4, 6, 8, 10]
-const doubled = numbers.map(n => n * 2);
+const map_map = numbers.map(n => n * 2);
 // 2で割り切れる要素：[2, 4]
-const evens = numbers.filter(n => n % 2 === 0);
+const filter_filter = numbers.filter(n => n % 2 === 0);
+// すべて 3以上か判定： false
+const all_every = numbers.every(n => n > 3);
+// どれか一つでも 3以上か判定： true
+const any_some = numbers.some(n => n > 3);
+// 15
+const sum_reduce = numbers.reduce((accu, curr) => accu + curr, 0);
 ```
 
 - `Python`
 ```py
 numbers = [1, 2, 3, 4, 5]
 # [2, 4, 6, 8, 10]
-doubled = list(map(lambda n: n * 2, numbers))
+map_map = print(list(map(lambda n: n * 2, numbers)))
 # [2, 4]
-evens = list(filter(lambda n: n % 2 == 0, numbers))
-```
-
-- または`内包表記`を使用
-```py
-doubled = [n * 2 for n in numbers]
-evens = [n for n in numbers if n % 2 == 0]
+filter_filter = print(list(filter(lambda n: n % 2 == 0, numbers)))
+# False
+all_every = print(all([n > 3 for n in numbers]))
+# True
+any_some = print(any([lambda n: n > 3, numbers]))
+# 15
+sum_reduce = print(sum(numbers))
 ```
 
 ### 引数のデフォルト値を設定

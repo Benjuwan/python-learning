@@ -325,6 +325,58 @@ walrus_example()
 ```
 
 ## ビルトイン関数（組み込み関数）
+### type
+`JavaScript`でいう[`typeof`](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/typeof)にあたる。引数に指定したオブジェクトの型を表示する。
+```py
+type(オブジェクト)
+```
+
+#### `isinstance`
+`JavaScript`でいう[`instanceof`](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/instanceof)（左辺が右辺`クラス`のインスタンスであるかどうか）にあたる。<br>引数に指定したオブジェクトが**特定のクラスかどうかをチェック**する。
+```py
+# isinstance(オブジェクト, クラス)
+print(isinstance(123, int))     # True
+print(isinstance("123", int))   # False
+print(isinstance("123", str))   # True
+print(isinstance(3.14, float))  # True
+```
+
+> [!NOTE]
+> - あるクラスの派生クラス（サブクラス）かどうかをチェックする`issubclass`関数というのもある
+> ```py
+> issubclass(クラスA, クラスB)
+> # クラスA が クラスB のサブクラスであるかどうかをチェックし、
+> # True の場合は True、False の場合は False となる。
+> ```
+
+### 文字列をPython式に評価する`eval`（イーヴァル）関数
+`JavaScript`の[`eval`](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/eval)と同じ。<br>指定された文字列をPython式として評価し、その式の値を返す。<br>例えば、ユーザーが入力したPython式を評価して結果の値を求める、などできる。
+```py
+# eval(文字列)
+while True:
+    result = eval(input("=")) # list('python') と入力すると...
+    if result == "q":
+        break
+    print(result)
+```
+
+### プログラムを実行する`exec`（エグゼック）関数
+指定された文字列をPythonプログラムとして実行する。戻り値はなし（`None`）。
+```py
+exec(文字列)
+```
+
+`compile`関数を使って**Pythonプログラムをコンパイルして生成される「コードオブジェクト」**も扱える。
+```py
+exec(コードオブジェクト)
+```
+
+#### プログラムをコンパイルする`compile`関数
+指定された文字列やファイルの内容をPythonプログラムとしてコンパイルしてコードオブジェクトを返す。返ってきたコードオブジェクトは`exec`関数で実行できる。
+```py
+compile(文字列, '<string>', 'exec')
+```
+
 ### `assert`文
 ...であることを断言（assert）する、という文脈で使用される。<br>
 主に、デバッグやテストに用いる`Python`処理系のビルトイン機能で、例えば「この式の値は`True`である」と断言する、といった使い方になる。<br>
@@ -479,6 +531,30 @@ bytearray('python', encoding='utf-8')
 
 - `memoryview(オブジェクト)`<br>指定したオブジェクト内部にあるメモリを操作するための関数。コピーは作らず、元メモリを操作する。
 
+#### `bin`
+整数を2進数の文字列に変換する。<br>`binary（バイナリ、2進数）`
+```py
+print(bin(123))     # 0b1111011
+print(f"{123:b}")   # 1111011
+print(f"{123:#b}")  # 0b1111011 ← 0b が付く
+```
+
+#### `oct`
+整数を8進数の文字列に変換する。<br>`octal（オクタル、8進数）`
+```py
+print(oct(123))     # 0o173
+print(f"{123:o}")   # 173
+print(f"{123:#o}")  # 0o173 ← 0o が付く
+```
+
+#### `hex`
+整数を16進数の文字列に変換する。<br>`hexadecimal（ヘクサデシマル、16進数）`
+```py
+print(hex(123))     # 0x7b
+print(f"{123:x}")   # 7b
+print(f"{123:#x}")  # 0x7b ← 0x が付く
+```
+
 ### 計算式について
 `Python`の計算式は、原則「左結合（左側にある式を優先的に計算）」するが`**`（べき乗）のみ「右結合」で処理（計算）される。明示的に`()`を使って計算式を書くのが無難。
 
@@ -555,3 +631,25 @@ print(sum(want_sum_numbers) // 5)  # 平均値：86（//を使うことで整数
 > const sum_result = want_sum_numbers.reduce((accu, curr) => accu + curr, 0);
 > console.log(sum_result); // 430
 > ```
+
+### `repr`（レプル）
+オブジェクトの内容を表す文字列を返す関数。
+```py
+representation = repr("Python") # 'Python'
+print(representation)
+representation = repr("パイソン") # 'パイソン'
+print(representation)
+```
+
+> [!NOTE]
+> #### `repr`関数の使い道
+> `repr`関数の結果に`eval`関数を適用すると`Python`のプログラムとして実行できるようになる。
+
+### `ascii`
+`repr`同様、オブジェクトの内容を表す文字列を返す関数だが、**ASCII文字（アスキー文字）以外をエスケープ処理**する。
+```py
+ascii_no_esc = ascii("Python") # 'Python'
+print(ascii_no_esc)
+ascii_esc = ascii("パイソン")   # '\u30d1\u30a4\u30bd\u30f3'
+print(ascii_esc)
+```
