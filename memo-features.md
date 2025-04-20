@@ -633,17 +633,13 @@ print(sum(want_sum_numbers) // 5)  # 平均値：86（//を使うことで整数
 > ```
 
 ### `repr`（レプル）
-オブジェクトの内容を表す文字列を返す関数。
+オブジェクトの内容を表す文字列を返す関数。`repr`関数の結果に[`eval`関数](#文字列をpython式に評価するevalイーヴァル関数)を適用すると`Python`のプログラムとして実行できるようになる。
 ```py
 representation = repr("Python") # 'Python'
 print(representation)
 representation = repr("パイソン") # 'パイソン'
 print(representation)
 ```
-
-> [!NOTE]
-> #### `repr`関数の使い道
-> `repr`関数の結果に`eval`関数を適用すると`Python`のプログラムとして実行できるようになる。
 
 ### `ascii`
 `repr`同様、オブジェクトの内容を表す文字列を返す関数だが、**ASCII文字（アスキー文字）以外をエスケープ処理**する。
