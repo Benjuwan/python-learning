@@ -119,3 +119,13 @@ print(isinstance(123, int))  # True
 print(isinstance("123", int))  # False
 print(isinstance("123", str))  # True
 print(isinstance(3.14, float))  # True
+
+duplicate_counter += 1
+duplicate_count(duplicate_counter)
+
+first = 123
+breakpoint()
+second = 456
+third = 789
+breakpoint()
+print(first, second, third)
