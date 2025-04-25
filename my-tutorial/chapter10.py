@@ -1,4 +1,4 @@
-# チャプター 10 （応用編）
+# チャプター 10 （応用編：ライブラリ）
 
 import random
 from urllib.parse import urlparse
@@ -40,6 +40,7 @@ print(time.time())
 print(time.gmtime())
 local_time = time.localtime()
 print(local_time)
+time.sleep(3)  # 3秒後に以下に続く処理を実行
 print(
     f"{local_time.tm_year}年{local_time.tm_mon}月{local_time.tm_mday}日 {local_time.tm_hour}時{local_time.tm_min}分{local_time.tm_sec}秒"
 )
