@@ -166,33 +166,51 @@ time.sleep(3)
 ```
 
 ### いくつかの非標準ライブラリ
-`npm`と同じ要領でライブラリをインストールして使用するが、`Python`では`pip`（※`uv`の場合は`uv`コマンドで諸々を実行する）がその役割を果たす。<br>
-後述する[仮想環境](#仮想環境の構築)を用いた管理を行うのがベター。
 
-#### コマンド操作
-`python -m pip`（macの場合は`python3 -m pip`）で実行
-```bash
-# 例1. インストール済みのパッケージを表示
-python -m pip list
+> [!NOTE]
+> `npm`と同じ要領でライブラリをインストールして使用するが、`Python`では`pip`/`pip3`（WindowsOs / MacOS | Linux）がその役割を果たす。<br>
+> 後述する[仮想環境](#仮想環境の構築)を用いた管理を行うのがベター。
 
-# 例2. 依存関係を`requirements.txt`に保存
-python -m pip freeze > requirements.txt
+- `NumPy`（ナムパイ）<br>
+数値計算でよく使われるライブラリ。
 
-# 例3. 新しい仮想環境を作成してアクティベート
-python -m venv env        # env{は仮想環境名}
-source env/bin/activate   # Windowsの場合: 仮想環境名\Scripts\activate
-
-# `requirements.txt`に定義されたパッケージをインストールする
-python -m pip install -r requirements.txt
-
-# 仮想環境から抜ける
-deactivate
-```
-
-- 参考記事：[よく使うpipコマンド](https://qiita.com/Masaaki_Inaba/items/fe4a246a7e6fcd9c4726)
+- `Pandas`（パンダス）<br>
+データ処理でよく使われるライブラリ。データの読込、指定したデータの取得、統計量の計算などを簡単なプログラムで実現できる。
 
 #### 仮想環境の構築
 仮想環境を用いることで、いろいろなバージョンの`Python`（プロジェクト）を同じPCの中で混在させて、プロジェクトによって使い分けられる。<br>つまり、各プロジェクトごとの設定やバージョンを個別に固定管理できるようになる。
+
+##### コマンド操作
+`python -m pip`または`pip`（macOS/Linuxの場合は`python3 -m pip`または`pip3`）で実行
+
+- 仮想環境（`venv`）の構築例<br>
+※`GitHub`でプロジェクト管理していて不要なファイルなどは省かれている状態を前提とする
+```bash
+mkdir my-venv-env # my-venv-env ディレクトリ（仮想環境フォルダ）を作成
+cd my-venv-env    # 作成した仮想環境フォルダへ移動
+
+# 新しい仮想環境を作成してアクティベート
+python -m venv env        # env{は仮想環境名}
+source env/bin/activate   # WindowsOS の場合: 仮想環境名\Scripts\activate
+
+# アクティベートした状態で希望するライブラリをインストール
+python -m pip install ライブラリ
+
+# 依存関係を`requirements.txt`に保存
+python -m pip freeze > requirements.txt
+
+# 仮想環境から抜ける
+deactivate
+
+# 別の環境に反映する時
+# 1. 当該仮想環境フォルダに移動（`cd my-venv-env`）
+# 2. 新しい仮想環境を作成
+python -m venv env
+# 3. 仮想環境をアクティベート
+source env/bin/activate   # WindowsOS の場合: env\Scripts\activate
+# 4. requirements.txtに定義されたパッケージをインストール
+python -m pip install -r requirements.txt
+```
 
 ##### `venv`
 仮想環境を作成する`Python`のデファクトスタンダードな標準ライブラリ。
