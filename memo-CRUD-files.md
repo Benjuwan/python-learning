@@ -25,7 +25,7 @@ with open("../anothers/message.txt", "w", encoding="utf-8") as message_txt_file:
 - 第三引数：<br>ファイル読み書きの際の文字エンコーディング（例：`utf-8`, `shift-jis`, and so on...）
 
 ### `with`文
-内側の文を実行し終えると開いたファイルを自動的に閉じてくれる。`with`文を使わずに`open`関数を実行すると、開いたファイルオブジェクトの`close`メソッドを使って手動で閉じなければならなくなる。
+内側の文を実行し終えると**開いたファイルを自動的に閉じて**くれる。`with`文を使わずに`open`関数を実行すると、開いたファイルオブジェクトの`close`メソッドを使って手動で閉じなければならなくなる。
 
 ### ファイルオブジェクトのメソッド
 - `write`
@@ -168,3 +168,46 @@ glob.glob(パス, recursive=True)
 # 例えば、以下の記述だと`.txt`拡張子のファイルだけを列挙する
 glob.glob(*.txt)
 ```
+
+## ファイルのコピーや名称変更、削除
+- `shutil`（エスエイチユーティル）<br>
+```py
+import shutil
+
+# ファイルのコピー
+shutil.copy(コピー元, コピー先)
+
+# ファイルの移動
+shutil.move(移動元, 移動先)
+```
+
+- `os`<br>
+```py
+import os
+
+# ファイル名の変更
+os.rename(古い名前, 新しい名前)
+
+# ファイルの削除
+os.remove(パス)
+
+# モードの設定
+os.chmod(パス, モード)
+
+# ディレクトリの作成
+os.mkdir(パス)
+
+# ディレクトリの削除
+os.rmdir(パス)
+
+# 再帰的にディレクトリを作成
+os.makedirs(パス)
+
+# 再帰的にディレクトリを削除
+os.removedirs(パス)
+```
+
+> [!NOTE]
+> - 再帰的にディレクトリを作成する`makedirs`関数<br>
+> ディレクトリ作成時に途中の必要なディレクトリも一緒に作成する。例えば、`project/programming/python`というパスを引数に指定すると`project`,`programming`,`python`といった各パスごとのディレクトリを作成する。<br>
+> 再帰的にディレクトリを削除する`removedirs`も同様の振る舞いで各ディレクトリを削除する。

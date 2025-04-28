@@ -10,7 +10,14 @@ duplicate_str: str = "-+-"
 
 
 # 区切り（兼改行）用の文字列を表示する関数
-def duplicate_count(duplicate_counter: int):
+def duplicate_count(duplicate_counter: int) -> None:
+    """[duplicate_count 関数の概要]
+    Args:
+        duplicate_counter: int # 区切り見出し番号
+
+    Returns:
+        None # JavaScript でいう void
+    """
     if duplicate_counter == 1:
         print(f"\n{str(duplicate_counter)} {duplicate_str * 20} \n")
     else:
