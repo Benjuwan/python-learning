@@ -189,6 +189,18 @@ print(sorted(target_sort_tuple_list, key=price_sort))
 - 渡された引数`arg`が数値型に変換可能かをチェックする関数<br>
 ```py
 def convert_to_number(arg: str | int | float) -> int | float | None:
+    """
+    JSDoc のような関数へのコメントや説明の記述箇所及び記法（三重クオートで囲う）
+    関数宣言（名）の直後に記述する
+    ---
+    渡された引数`arg`が数値型に変換可能かをチェックする関数
+    [convert_to_number 関数の概要]
+    Args:
+        arg: str | int | float  # 文字列 | 整数 | 浮動小数点数 を引数として受け取る
+
+    Returns:
+        int | float | None      # 整数 | 浮動小数点数 | 何もなし を返す
+    """
     try:
         # 整数（型）変換に試みる
         return int(arg)

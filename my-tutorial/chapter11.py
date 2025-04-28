@@ -2,7 +2,13 @@
 
 import csv
 import json
+
 import glob
+
+import shutil
+import os
+
+import sys
 
 # 区切り（兼改行）用の文字列
 duplicate_counter: int = 0
@@ -10,7 +16,14 @@ duplicate_str: str = "-+-"
 
 
 # 区切り（兼改行）用の文字列を表示する関数
-def duplicate_count(duplicate_counter: int):
+def duplicate_count(duplicate_counter: int) -> None:
+    """[duplicate_count 関数の概要]
+    Args:
+        duplicate_counter: int # 区切り見出し番号
+
+    Returns:
+        None # JavaScript でいう void
+    """
     if duplicate_counter == 1:
         print(f"\n{str(duplicate_counter)} {duplicate_str * 20} \n")
     else:
@@ -83,3 +96,50 @@ for target in glob.glob("../anothers/random-color.*"):
     print(target)
     # ../anothers\random-color.jpg
     # ../anothers\random-color.png
+
+
+def total_file_strs(filename: str) -> None:
+    total = 0
+    for file in glob.glob(filename):
+        print(file)
+        with open(file, encoding="UTF-8") as file_obj:
+            file_obj_content = (
+                file_obj.read()
+            )  # ファイルオブジェクトを用いて以降の処理を進めていく
+            counts = file_obj_content.count("\n")
+            if len(file_obj_content) > 0:
+                counts += 1
+            print(f"{file:15}{counts:5}")  # 表示デザインの調整で 15桁と 5桁指定で表示
+        total += counts
+    print(f"{'-' * 20}\n{total}")
+
+
+total_file_strs("../anothers/items.*")
+
+duplicate_counter += 1
+duplicate_count(duplicate_counter)
+
+shutil.copy("../anothers/message.txt", "../anothers/copied-message.txt")
+os.rename("../anothers/copied-message.txt", "../anothers/message-copied.txt")
+os.remove("../anothers/message-copied.txt")
+
+duplicate_counter += 1
+duplicate_count(duplicate_counter)
+
+# python chapter11.py 1 2 3
+print(sys.argv)
+# 結果：['chapter11.py', '1', '2', '3']
+
+print(len(sys.argv))  # 4
+print(sys.argv[0])  # chapter11.py
+print(sys.argv[-1])  # 3
+
+# print(sum(int(arg) if isinstance(arg, int) else 0 for arg in enumerate(sys.argv, 1)))
+
+total = 0
+for i, arg in enumerate(sys.argv):
+    if i == 0:
+        continue
+    else:
+        total += int(arg)
+print(f"\n{total}")
