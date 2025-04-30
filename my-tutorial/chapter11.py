@@ -143,3 +143,8 @@ for i, arg in enumerate(sys.argv):
     else:
         total += int(arg)
 print(f"\n{total}")
+
+duplicate_counter += 1
+duplicate_count(duplicate_counter)
+
+print(list(map(int, sys.argv[1:])))  # [1, 2, 3]

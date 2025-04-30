@@ -126,6 +126,7 @@ duplicate_count(duplicate_counter)
 first = 123
 breakpoint()
 second = 456
+duplicate_count(duplicate_counter)
 third = 789
 breakpoint()
 print(first, second, third)
