@@ -47,6 +47,10 @@ copied_lists = リスト変数.copy()
 > 
 > # 先頭から末尾まで
 > 文字列またはイテラブル[:]
+>
+> # （開始インデックスが負の値なので）末尾から先頭まで
+> # （例：最後の5つを取得）
+> 文字列またはイテラブル[-5:] # 末尾-5から先頭まで
 > ```
 > 
 > - ストライドについて<br>
@@ -603,7 +607,8 @@ while index_key_while < 10:
 
 ## イテラブルに関する関数
 ### `zip`関数
-複数のイテラブルに対して同時に繰り返し処理を行いたい場合に便利な関数。<br>引数に指定された複数のイテラブルから要素を集めてタプルにまとめて返す。
+複数のイテラブルに対して同時に繰り返し処理を行いたい場合に便利な関数。<br>
+引数に指定された複数のイテラブルから要素を集めて**タプルにまとめて返す**。
 
 ```py
 food_name = ["burger", "potato", "snack"]
@@ -635,10 +640,14 @@ print(list(zip(food_name, food_price)))
 ### `map`関数
 指定した処理（条件）で加工した（イテラブル内の）各要素を返す。
 ```py
+map(関数, イテラブル)
+```
+
+- 具体例
+```py
 food_name = ["burger", "potato", "snack"]
 food_price = [90, 150, 120]
 
-# map(関数, イテラブル)
 print(list(map(len, food_name)))        # [6, 6, 5]
 
 # 数値型リストを文字列型リストへ変換し、上記と同じく各要素の文字列数を取得する
@@ -649,10 +658,14 @@ print(list(map(len, convert_str_list))) # [2, 3, 3]
 ### `filter`関数
 指定した条件に合致する（イテラブル内の）要素を返す。
 ```py
+filter(関数, イテラブル)
+```
+
+- 具体例
+```py
 fruits = ["apple", "", "grape", "melon", "", "", "water-melon"]
 print(len(fruits)) # 7
 
-# filter(関数, イテラブル)
 print(list(filter(len, fruits)))
 # ['apple', 'grape', 'melon', 'water-melon']
 # len が 0以外（以上）のものが True 判定される
@@ -661,7 +674,8 @@ print(len(list(filter(len, fruits)))) # 4
 ```
 
 ### all
-`JavaScript`でいう`every`にあたる。イテラブルの全ての要素が（指定した条件に）`True`の場合は`True`を返す。内包表記（`式 for 変数 in イテラブル`）と併用すると便利。
+`JavaScript`でいう`every`にあたる。<br>
+イテラブルの全ての要素が（指定した条件に）`True`の場合は`True`を返す。内包表記（`式 for 変数 in イテラブル`）と併用すると便利。
 ```py
 person_a_socre = [90, 75, 88, 100, 82]
 person_b_socre = [90, 85, 98, 100, 96]
@@ -685,7 +699,8 @@ all_method(person_b_socre);
 ```
 
 ### any
-`JavaScript`でいう`some`にあたる。どれか一つでも（指定した条件に）`True`の場合は`True`を返す。内包表記（`式 for 変数 in イテラブル`）と併用すると便利。
+`JavaScript`でいう`some`にあたる。<br>
+どれか一つでも（指定した条件に）`True`の場合は`True`を返す。内包表記（`式 for 変数 in イテラブル`）と併用すると便利。
 ```py
 person_a_socre = [90, 75, 88, 100, 82]
 person_b_socre = [90, 85, 98, 100, 96]
