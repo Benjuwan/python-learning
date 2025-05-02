@@ -46,14 +46,14 @@ sendto_lists = (
     "honjo.ied@gmail.com,honjo@kokusaig.co.jp"  # 送信先（,区切り※スペース無しで指定）
 )
 
-SERVER = "smtp.gmail.com"  # Gmailの場合のサーバ指定
+SERVER = "smtp.gmail.com"  # サーバ指定（※今回は Gmail 使用）
 FROM = "honjo.ied@gmail.com"  # 送信元
 TO = "honjo.ied@gmail.com"  # 送信先
-PASS = "foktazfbenjuwanqhxnbkmkm"  # スペース無しで入力
+PASS = "foktazbenjuwanfqhxnbkmkm"  # スペース無しで入力（※本ファイルでの実行時に指定文字列の調整が必要）
 
 the_mail = theMailer.MIMEText(dammy_txt)  # 本文
 the_mail["Subject"] = "件名：Lorem ipsum dolor"  # 件名
-the_mail["From"] = "honjo.ied@gmail.com"  # 送信元
+the_mail["From"] = f"{FROM} | benjuwan jijao より"  # 送信元
 the_mail["To"] = sendto_lists
 
 # with文を用いることでSMTP通信を自動的に接続解除する（手動で接続解除を行う必要がなくなる）
