@@ -261,6 +261,7 @@ python -m pip install -r requirements.txt
 - 参照記事：[uv （pythonパッケージマネージャー）の使い方 簡易版](https://zenn.dev/tabayashi/articles/197205349d6935)
 - 参照記事：[uv （pythonパッケージマネージャー）の使い方 詳細版](https://zenn.dev/tabayashi/articles/52389e0d6c353a)
 - 参考記事：[Python Coding Best Practices for Researchers](https://cyberagentailab.github.io/BestPracticesForPythonCoding/#management-tools)
+- 参考記事：[AIエージェントにも正しく使ってほしいPython環境管理ツール「uv」最新情報ガイド](https://qiita.com/ootakazuhiko/items/4fa2406534777d86f333)
 
 #### ライブラリの扱いに関するコマンドたち
 - インストール<br>
