@@ -1,33 +1,16 @@
 import numpy as np
 
-
-def test_numpy():
-    # Create a 1D array
-    arr_1d = np.array([1, 2, 3])
-    assert arr_1d.shape == (3,)
-    assert arr_1d[0] == 1
-
-    # Create a 2D array
-    arr_2d = np.array([[1, 2], [3, 4]])
-    assert arr_2d.shape == (2, 2)
-    assert arr_2d[0, 0] == 1
-
-    # Perform element-wise addition
-    arr_sum = arr_1d + 10
-    assert np.array_equal(arr_sum, np.array([11, 12, 13]))
-
-    # Perform matrix multiplication
-    arr_mult = np.dot(arr_2d, arr_2d)
-    assert np.array_equal(arr_mult, np.array([[7, 10], [15, 22]]))
-
-
 # Numpy での CSVファイルの読み込み
-# loadtxt() は CSVファイルを読み込み、NumPy の多次元配列（`numpy.ndarray`オブジェクト）を返す
-# `delimiter`には","を指定（※値が空白で区切られている場合は省略可能）
-# `encroding`には"utf-8"など文字コードを指定する（※ ASCII（アスキー）の場合は省略可能）
-# ```
-# 配列 = numpy.loadtxt(ファイル名, delimiter=区切り文字, encroding=文字コード)
-# ```
+"""
+- loadtxt()
+CSVファイルを読み込み、NumPy の多次元配列（`numpy.ndarray`オブジェクト）を返す
+```
+配列 = numpy.loadtxt(ファイル名, delimiter=区切り文字, encoding=文字コード)
+```
+
+- `delimiter`には","を指定（※値が空白で区切られている場合は省略可能）
+- `encoding`には"utf-8"など文字コードを指定する（※ ASCII（アスキー）の場合は省略可能）
+"""
 
 numpy_csv_ary = np.loadtxt("../PythonSample/chapter13/score.csv", delimiter=",")
 print(numpy_csv_ary[:5])  # 最初の5行
@@ -99,3 +82,32 @@ numpy.any(配列, 軸番号)
 最も外側の角括弧が0次元目、次の角括弧が1次元目、...と数えていく。
 例えば、二次元配列の場合は軸番号に0を指定すると「全ての行」について、1を指定すると「全ての列」について、要素の真偽値を合成する
 """
+
+# 全ての列でいずれかが100点以上のものを抽出
+print(numpy_csv_ary[np.any(numpy_csv_ary == "100", 1)])
+
+# 平均値を求める
+print(f"平均値：{np.mean(numpy_csv_ary)}")
+
+# 最大値を求める（Math.max）
+print(f"最大値：{np.max(numpy_csv_ary)}")
+
+# 最小値を求める（Math.min）
+print(f"最小値：{np.min(numpy_csv_ary)}")
+
+# 軸番号を指定しないとエラーが発生する
+print(map(int, np.mean(numpy_csv_ary, axis=0)))
+print(list(map(int, np.mean(numpy_csv_ary, axis=0))))
+
+# 軸番号の指定も可能（全ての行＝全教科）
+print(
+    f"平均値-int：{[int(x) for x in np.mean(numpy_csv_ary, axis=0)]}"
+)  # 軸番号を指定しないとエラーが発生する
+print(f"平均値：{np.mean(numpy_csv_ary, axis=0)}")
+
+print(
+    f"最大値-int：{list(map(int, np.max(numpy_csv_ary, axis=0)))}"
+)  # 軸番号を指定しないとエラーが発生する
+print(f"最大値：{np.max(numpy_csv_ary, axis=0)}")
+
+print(f"最小値：{np.min(numpy_csv_ary, axis=0)}")
