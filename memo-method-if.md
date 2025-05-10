@@ -12,7 +12,7 @@ url_paths = url.split('/')
 print(url_paths)  # ["sports", "football", "fw"]
 ```
 
-### `join()`
+### `join(イテラブル)`
 指定したデリミタ（区切り文字）で配列を結合する
 ```py
 url_paths = ["sports", "football", "fw"]
