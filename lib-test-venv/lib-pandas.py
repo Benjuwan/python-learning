@@ -1,4 +1,5 @@
 import pandas
+from matplotlib import pyplot
 
 """
 `Pandas`では`DataFrame`（データフレーム）と呼ばれるオブジェクトが主要な機能で、このオブジェクトを通じてCSVファイルのデータ（値や特定要素）の取得及び演算などを行える。
@@ -193,3 +194,21 @@ to_csv()メソッドは、デフォルトでは各行先頭に行番号を付与
 """
 
 csv_detaframe.to_csv("../anothers/lib-pandas.csv", index=False)
+
+print("-" * 90)
+
+"""
+matplotlib セクション
+"""
+
+score = pandas.read_csv("../PythonSample/chapter13/score2.csv", encoding="utf-8")
+
+pyplot.figure()
+
+print("-" * 90)
+
+"""
+scikit-learn セクション
+"""
+
+print("-" * 90)

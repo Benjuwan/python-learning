@@ -179,6 +179,11 @@ time.sleep(3)
 **データ処理**でよく使われるライブラリ。データの読込、指定したデータの取得、統計量の計算などを簡単なプログラムで実現できる。<br>`Pandas`にはデータフレームという独自のオブジェクトがあるので、分かりやすくデータを表示したり、扱ったりしたい場合は`NumPy`より`Pandas`のほうが良い。
 - 実装例や解説などは[検証ファイル](lib-test-venv/lib-pandas.py)を参照してください 
 
+- `Matplotlib`（マットプロットリブ）<br>
+**インフォグラフィック（可視化）**ライブラリ。`NumPy`の配列や`Pandas`のデータフレームなどから色々な種類の図を作成できる。データの分析やクラスタリング（入力データをいくつかのクラスターに分類すること）などのAIの手法を適用する際に相乗効果を発揮する可視化処理を行ってくれる。人間はインフォグラフィックを用いることで、より適切な仮説出しができたり、施策の効果検証を行ったりできる。  
+  - `scikit-learn`（サイキットラーン）<br>
+  機械学習ライブラリ。データに対して、分類、回帰、クラスタリング（入力データをいくつかのクラスターに分類すること）、次元削減といった機械学習に関する色々な手法を適用することができる。
+
 - `Pillow`（ピロー）<br>
 画像ファイルの入出力や編集でよく使われるライブラリ。例えば、矩形（くけい）や円といった図形をはじめ、画像の色数やサイズの変更も行える。<br>
 ※ライブラリ名は`Pillow`だがインストール後のパッケージ名は`PIL`となる。
@@ -215,6 +220,7 @@ source env/bin/activate   # WindowsOS の場合: 仮想環境名\Scripts\activat
 python -m pip install ライブラリ
 
 # 依存関係を`requirements.txt`に保存
+# ※ 既存の仮想環境ディレクトリ（及び requirements.txt ）がある場合は、アクティベート状態でコマンド移動（cd dir）してから下記コマンドで requirements.txt に上書き保存する 
 python -m pip freeze > requirements.txt
 
 # 仮想環境から抜ける
@@ -226,7 +232,9 @@ deactivate
 python -m venv env
 # 3. 仮想環境をアクティベート
 source env/bin/activate   # WindowsOS の場合: env\Scripts\activate
-# 4. requirements.txtに定義されたパッケージをインストール
+
+# 4. アクティベートした状態で requirements.txt に定義されたパッケージをインストール
+# ※ 既存の仮想環境ディレクトリ（及び requirements.txt ）がある場合は、アクティベート状態でコマンド移動（cd dir）してから下記コマンドにて各種ライブラリをインストールする
 python -m pip install -r requirements.txt
 ```
 
