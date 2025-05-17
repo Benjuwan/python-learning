@@ -1,5 +1,6 @@
 import pandas
 from matplotlib import pyplot
+from sklearn.cluster import KMeans
 
 """
 `Pandas`では`DataFrame`（データフレーム）と呼ばれるオブジェクトが主要な機能で、このオブジェクトを通じてCSVファイルのデータ（値や特定要素）の取得及び演算などを行える。
@@ -193,7 +194,30 @@ to_csv()メソッドは、デフォルトでは各行先頭に行番号を付与
 ```
 """
 
-csv_detaframe.to_csv("../anothers/lib-pandas.csv", index=False)
+# csv_detaframe.to_csv("../anothers/lib-pandas.csv", index=False)
+
+print("-" * 45)
+
+"""
+散布図の作成
+```
+データフレーム.plot.scatter(横軸, 縦軸)
+```
+
+scatter メソッド（散布図の作成時）に指定できるキーワード引数（※いずれもオプショナルで省略可能）
+- s： 点のサイズ
+- c： 点の塗りつぶし色
+- edgecolor： 点の輪郭色
+- figsize： 図のサイズ（インチ指定）
+"""
+
+# 英語が横軸、国語が縦軸の散布図
+csv_detaframe.plot.scatter(
+    "English", "Japanese", s=100, c="white", edgecolor="black", figsize=(6, 6)
+)
+# savefig 関数：図をファイルに保存する matplotlib の機能
+# pyplot.savefig("../anothers/pandas-scatter.jpg")
+# pyplot.show()
 
 print("-" * 90)
 
@@ -203,12 +227,73 @@ matplotlib セクション
 
 score = pandas.read_csv("../PythonSample/chapter13/score2.csv", encoding="utf-8")
 
-pyplot.figure()
+# figure 関数：図を作成、キーワード引数の figsize では図のサイズをインチ単位で指定
+# pyplot.figure(タイトル, figsize=(w, h))
+pyplot.figure("Math")
+
+# xlabel 関数：横軸名を設定
+# pyplot.xlabel(横軸名)
+pyplot.xlabel("Score")
+
+# ylabel 関数：縦軸名を設定
+# pyplot.ylabel(縦軸名)
+pyplot.ylabel("Count")
+
+# hist 関数：ヒストグラムを描画
+# pyplot.hist(データフレーム)
+pyplot.hist(score["Math"])
+
+# savefig 関数：図をファイルに保存
+# pyplot.savefig(ファイル名)
+# pyplot.savefig("../anothers/hist1.png")
+
+# show 関数：図を画面に表示
+# pyplot.show()
+
+# Pandas でもヒストグラムを作成できる
+score.hist()
+# pyplot.savefig("../anothers/hist1-pandas-hist.png")
+# pyplot.show()
 
 print("-" * 90)
 
 """
 scikit-learn セクション
+
+- KMeans（ケーミーンズ, k平均法）
+クラスタリングの代表的なアルゴリズムの一つで、似た傾向を持つデータを同じクラスタに配置することで全データを指定した個数のクラスタに分類する
+```
+モデル = KMeans(n_clusters=クラスタ数).fit(データフレーム)
+```
+
+- fit メソッド
+データフレームに含まれる各行をクラスタリングする
+以下の実装例では「英語と国語の得点傾向に基づいた受験者のクラスタリング」となる
+
+```
+モデル.labels_
+```
+
+- labels_ 属性
+クラスタリングの結果を取得する。配列になっていて、クラスタリングの対象となったデータの個数分だけ、0から始まる整数が格納されている
 """
+
+test_model = KMeans(n_clusters=3).fit(csv_detaframe[["English", "Japanese"]])
+# print(test_model.labels_)
+csv_detaframe["Cluster"] = test_model.labels_
+csv_detaframe.to_csv("../anothers/lib-pandas-cluster.csv")
+print(csv_detaframe)
+
+# 上記処理後の散布図
+csv_detaframe.plot.scatter(
+    "English",
+    "Japanese",
+    s=100,
+    c=csv_detaframe["Cluster"],  # 各種クラスタ別に配色
+    edgecolor="black",
+    figsize=(6, 6),
+)
+pyplot.savefig("../anothers/lib-pandas-cluster.jpg")
+pyplot.show()
 
 print("-" * 90)
