@@ -165,6 +165,9 @@ print(f"{local_time.tm_year}年{local_time.tm_mon}月{local_time.tm_mday}日 {lo
 time.sleep(3)
 ```
 
+- [`urllib`](https://docs.python.org/ja/3.13/library/urllib.html)（ユーアールエル・リブ）<br>
+webページを取得できる標準ライブラリ。
+
 ### いくつかの非標準ライブラリ
 
 > [!NOTE]
@@ -198,7 +201,7 @@ Excelファイルを扱う時に利用するライブラリの一つ。
 - 実装例や解説などは[検証ファイル](lib-test-venv/handle-exfile.py)を参照してください 
 
 - `Requests`（リクエスツ）<br>
-webスクレイピング（webアクセス）用のライブラリ。正規表現を必要とする標準ライブラリ`urllib`よりも簡潔なプログラミングで手軽にWebを扱える。
+webスクレイピング（webアクセス）用のライブラリ。標準ライブラリ`urllib`よりも簡潔なプログラミングで手軽にWebを扱える。
 
 > [!NOTE]
 > - webスクレイピングについて<br>
