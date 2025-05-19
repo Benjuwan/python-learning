@@ -207,6 +207,96 @@ webスクレイピング（webアクセス）用のライブラリ。標準ラ�
 > - webスクレイピングについて<br>
 > webスクレイピングは、受けるサイトの負荷が大きく（程度によっては）犯罪にもなり得る危険な行為なので、第三者のサイトや自身と関係のサイトへ行うのは控えるべき。
 
+- [`BeautifulSoup`](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)（ビューティフルスープ）<br>
+HTMLファイル構造を解析して必要なデータを抽出するためのライブラリ。要素の階層構造に基づいた処理が可能なので文字列のパターンマッチ（正規表現）よりも確実かつ容易にデータを取り出せる（可能性がある）
+```py
+スープ = BeautifulSoup(HTMLの文字列, 'html.parser')
+```
+
+<details>
+<summary>Requests ライブラリを使った事例</summary>
+
+- Requests ライブラリを使った事例
+```py
+res = requests.get("取得したいサイトURL文字列")
+res.encoding = res.apparent_encoding # エンコーディング処理
+
+# BeautifulSoup で、取得したwebページの各コンテンツ（res.text）をHTML解析
+soup = BeautifulSoup(res.text, "html.parser")
+```
+
+- 実装例
+```py
+# find メソッド： 該当する最初の要素を返す（存在しなければ None）
+スープ.find(要素名)
+# スープ.find("a")
+
+スープ.find(要素名, 属性名=値, ...) # 属性名はオプショナル
+# class 属性を指定する場合は Python の class と競合するため class_ と記述（指定）する
+# スープ.find("span", class_="release-number")
+
+# find_all メソッド： 該当する全ての要素を返す（存在しなければ None）
+# 返り値はイテラブルなのでループ処理可能
+スープ.find_all(要素名)
+# スープ.find_all("li")
+
+スープ.find_all(要素名, 属性名=値, ...) # 属性名はオプショナル
+```
+
+上記`html.parser`とは、Python標準のHTML用パーサー（構文解析器）のことで、サードパーティ制のHTMLパーサーを利用（指定）することも可能。使用するパーサーによって、HTMLの記述に対する柔軟性や処理の速度が異なる。
+
+</details>
+
+- `schedule`<br>
+あらかじめ設定したスケジュールに基づいて、指定した処理（関数）を定期的に実行する非標準ライブラリ
+
+<details>
+<summary>実装例一覧表</summary>
+
+- 基本的な間隔設定
+| メソッド | コード例 | 説明 |
+|---------|---------|------|
+| `.seconds` | `schedule.every(10).seconds.do(job)` | 10秒ごとに実行 |
+| `.minutes` | `schedule.every(30).minutes.do(job)` | 30分ごとに実行 |
+| `.hours` | `schedule.every(2).hours.do(job)` | 2時間ごとに実行 |
+| `.days` | `schedule.every(3).days.do(job)` | 3日ごとに実行 |
+| `.weeks` | `schedule.every(2).weeks.do(job)` | 2週間ごとに実行 |
+
+- 特定時刻の設定
+| メソッド | コード例 | 説明 |
+|---------|---------|------|
+| `.at()` | `schedule.every().day.at("10:30").do(job)` | 毎日10:30に実行 |
+| `.hour.at()` | `schedule.every().hour.at(":00").do(job)` | 毎時00分に実行 |
+
+- 曜日指定
+| メソッド | コード例 | 説明 |
+|---------|---------|------|
+| `.monday` | `schedule.every().monday.do(job)` | 毎週月曜に実行 |
+| `.tuesday` | `schedule.every().tuesday.do(job)` | 毎週火曜に実行 |
+| `.wednesday` | `schedule.every().wednesday.at("13:15").do(job)` | 毎週水曜13:15に実行 |
+| `.thursday` | `schedule.every().thursday.do(job)` | 毎週木曜に実行 |
+| `.friday` | `schedule.every().friday.do(job)` | 毎週金曜に実行 |
+| `.saturday` | `schedule.every().saturday.do(job)` | 毎週土曜に実行 |
+| `.sunday` | `schedule.every().sunday.do(job)` | 毎週日曜に実行 |
+
+- タグ付け管理
+| メソッド | コード例 | 説明 |
+|---------|---------|------|
+| `.tag()` | `schedule.every().day.do(job).tag('daily')` | タグ付けしてジョブを管理 |
+| `.clear()` | `schedule.clear('daily')` | 特定タグのジョブをキャンセル |
+
+- 引数付き関数
+| メソッド | コード例 | 説明 |
+|---------|---------|------|
+| `.do()` | `schedule.every().day.do(greet, name="Alice")` | 関数に引数を渡して実行 |
+
+- 条件付き実行
+| メソッド | コード例 | 説明 |
+|---------|---------|------|
+| `CancelJob` | `return schedule.CancelJob` | 条件に応じて実行を停止 |
+
+</details>
+
 #### 仮想環境の構築
 仮想環境を用いることで、いろいろなバージョンの`Python`（プロジェクト）を同じPCの中で混在させて、プロジェクトによって使い分けられる。<br>つまり、各プロジェクトごとの設定やバージョンを個別に固定管理できるようになる。
 
