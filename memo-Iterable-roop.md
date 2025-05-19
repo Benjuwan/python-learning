@@ -573,6 +573,46 @@ class Food(Item):
 >   - **プライベート（`private`）** <br>当該クラス専用。当該クラス内でしか呼び出せない（使用できない）。<br>*例：自室の鍵付きの引き出しのように、自分しか開けられない*
 >   - **プロテクティッド（`protected`）** <br>当該クラス及び子孫クラス専用。当該クラスと、その子クラスからしか呼び出せない（使用できない）<br>*例：家族共用のリビングのように、家族（子クラス含む）なら使えるが、外部の人は入れない*
 
+```py
+# アクティブラーニングで試用したテキトーな class
+class hello_president:
+    def __init__(self, name, familyname):
+        self.name = name
+        self.familyname = familyname
+
+    def console_log(self):
+        print(f"hello {self.name} {self.familyname} .")
+
+
+hello_president("Donald", "Trump").console_log()
+hello_president("Jhoe", "Biden").console_log()
+
+
+# 継承
+class hello_president_age(hello_president):
+    def __init__(self, name, familyname, birth):
+        super().__init__(name, familyname)
+        self.birth = birth
+
+    def console_log(self):
+        year = int(self.birth[0:4])
+        month = int(self.birth[4:6].replace("0", ""))
+        day = int(self.birth[5:7].replace("0", ""))
+
+        is_yet_future = (month > int(time.localtime().tm_mon)) or (
+            day > int(time.localtime().tm_mday)
+        )
+        # print(is_yet_future)
+
+        print(
+            f"hello {self.name} {self.familyname} . your {(time.localtime().tm_year - year) - 1 if is_yet_future else time.localtime().tm_year - year} age now."
+        )
+
+
+hello_president_age("Donald", "Trump", "19460614").console_log()
+hello_president_age("Jhoe", "Biden", "19421120").console_log()
+```
+
 ## 繰り返し処理
 ### `for 変数 in イテラブル`
 ```py
