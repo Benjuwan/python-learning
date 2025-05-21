@@ -169,8 +169,3 @@ with urlopen("http://www.kokusaig.co.jp/") as k2site:
 
 print(k2hd_boards)
 # print(sorted(k2hd_boards))
-
-"""
-schedule ライブラリ
-設定したスケジュールに基づいて、指定した処理を定期的に実行する非標準ライブラリ
-"""

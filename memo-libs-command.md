@@ -214,9 +214,8 @@ HTMLファイル構造を解析して必要なデータを抽出するための�
 ```
 
 <details>
-<summary>Requests ライブラリを使った事例</summary>
+<summary>Requests と BeautifulSoup を使った事例</summary>
 
-- Requests ライブラリを使った事例
 ```py
 res = requests.get("取得したいサイトURL文字列")
 res.encoding = res.apparent_encoding # エンコーディング処理
@@ -251,51 +250,62 @@ soup = BeautifulSoup(res.text, "html.parser")
 あらかじめ設定したスケジュールに基づいて、指定した処理（関数）を定期的に実行する非標準ライブラリ
 
 <details>
-<summary>実装例一覧表</summary>
+<summary>schedule 実装例一覧表</summary>
+
+`hours`や`minutes`といった複数形の部分は`hour`,`minute`など単数形でもok
 
 - 基本的な間隔設定
 | メソッド | コード例 | 説明 |
 |---------|---------|------|
-| `.seconds` | `schedule.every(10).seconds.do(job)` | 10秒ごとに実行 |
-| `.minutes` | `schedule.every(30).minutes.do(job)` | 30分ごとに実行 |
-| `.hours` | `schedule.every(2).hours.do(job)` | 2時間ごとに実行 |
-| `.days` | `schedule.every(3).days.do(job)` | 3日ごとに実行 |
-| `.weeks` | `schedule.every(2).weeks.do(job)` | 2週間ごとに実行 |
+| `.seconds` | ```py schedule.every(10).seconds.do(関数)``` | 10秒ごとに実行 |
+| `.minutes` | ```py schedule.every(30).minutes.do(関数)``` | 30分ごとに実行 |
+| `.hours` | ```py schedule.every(2).hours.do(関数)``` | 2時間ごとに実行 |
+| `.days` | ```py schedule.every(3).days.do(関数)``` | 3日ごとに実行 |
+| `.weeks` | ```py schedule.every(2).weeks.do(関数)``` | 2週間ごとに実行 |
 
 - 特定時刻の設定
 | メソッド | コード例 | 説明 |
 |---------|---------|------|
-| `.at()` | `schedule.every().day.at("10:30").do(job)` | 毎日10:30に実行 |
-| `.hour.at()` | `schedule.every().hour.at(":00").do(job)` | 毎時00分に実行 |
+| `.at()` | ```py schedule.every().day.at("10:30").do(関数)``` | 毎日10:30に実行 |
+| `.hour.at()` | ```py schedule.every().hour.at(":00").do(関数)``` | 毎時00分に実行 |
 
 - 曜日指定
 | メソッド | コード例 | 説明 |
 |---------|---------|------|
-| `.monday` | `schedule.every().monday.do(job)` | 毎週月曜に実行 |
-| `.tuesday` | `schedule.every().tuesday.do(job)` | 毎週火曜に実行 |
-| `.wednesday` | `schedule.every().wednesday.at("13:15").do(job)` | 毎週水曜13:15に実行 |
-| `.thursday` | `schedule.every().thursday.do(job)` | 毎週木曜に実行 |
-| `.friday` | `schedule.every().friday.do(job)` | 毎週金曜に実行 |
-| `.saturday` | `schedule.every().saturday.do(job)` | 毎週土曜に実行 |
-| `.sunday` | `schedule.every().sunday.do(job)` | 毎週日曜に実行 |
+| `.monday` | ```py schedule.every().monday.do(関数)``` | 毎週月曜に実行 |
+| `.tuesday` | ```py schedule.every().tuesday.do(関数)``` | 毎週火曜に実行 |
+| `.wednesday` | ```py schedule.every().wednesday.at("13:15").do(関数)``` | 毎週水曜13:15に実行 |
+| `.thursday` | ```py schedule.every().thursday.do(関数)``` | 毎週木曜に実行 |
+| `.friday` | ```py schedule.every().friday.do(関数)``` | 毎週金曜に実行 |
+| `.saturday` | ```py schedule.every().saturday.do(関数)``` | 毎週土曜に実行 |
+| `.sunday` | ```py schedule.every().sunday.do(関数)``` | 毎週日曜に実行 |
 
 - タグ付け管理
 | メソッド | コード例 | 説明 |
 |---------|---------|------|
-| `.tag()` | `schedule.every().day.do(job).tag('daily')` | タグ付けしてジョブを管理 |
-| `.clear()` | `schedule.clear('daily')` | 特定タグのジョブをキャンセル |
+| `.tag()` | ```py schedule.every().day.do(関数).tag('daily')``` | タグ付けしてジョブを管理 |
+| `.clear()` | ```py schedule.clear('daily')``` | 特定タグのジョブをキャンセル |
 
 - 引数付き関数
 | メソッド | コード例 | 説明 |
 |---------|---------|------|
-| `.do()` | `schedule.every().day.do(greet, name="Alice")` | 関数に引数を渡して実行 |
+| `.do()` | ```py schedule.every().day.do(greet, name="Alice")``` | 関数に引数を渡して実行 |
 
 - 条件付き実行
 | メソッド | コード例 | 説明 |
 |---------|---------|------|
-| `CancelJob` | `return schedule.CancelJob` | 条件に応じて実行を停止 |
+| `CancelJob` | ```py return schedule.CancelJob``` | 条件に応じて実行を停止 |
 
 </details>
+
+- `run_pending`関数<br>
+所定のタイミングになったスケジュール（に登録した）関数を実行する
+```py
+# 1行ごとにスケジュールを（延々と）実行
+while True:               # 無限ループ
+  schedule.run_pending()  # スケジュール（指定した定期的な処理）を実行
+  time.sleep(1)           # 1秒後に処理実行
+```
 
 #### 仮想環境の構築
 仮想環境を用いることで、いろいろなバージョンの`Python`（プロジェクト）を同じPCの中で混在させて、プロジェクトによって使い分けられる。<br>つまり、各プロジェクトごとの設定やバージョンを個別に固定管理できるようになる。
