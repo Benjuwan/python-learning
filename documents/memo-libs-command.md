@@ -5,6 +5,35 @@ Pythonのライブラリは`モジュール`と`パッケージ`の構成にな�
 - パッケージ：複数のモジュールをひとまとめにしたもの（モジュールの詰め合わせ）
   - [`Atomicデザイン`](https://zenn.dev/bizlink/articles/b5c8985af8407a)でいう **`Organisms`（`Atoms`と`Molecules`で構成）** など下層パーツの組み合わせ例にあたるか
 
+### モジュール化
+モジュール化は必須ではないものの、行うことで関数（特定処理）の再利用化が捗るし、保守・管理もしやすくなる。
+
+#### 単独実行または他プログラムからも利用可能なモジュールの作り方
+1. はじめに、モジュールの主要な処理を関数にまとめる
+2. モジュールを単独で（Pythonコマンドで）実行したときに関数を呼び出す処理を追加
+
+```py
+# 1. はじめに、モジュールの主要な処理を関数にまとめる
+def 関数名(引数, ...):
+  # 処理の記述...
+
+# 2. モジュールを単独で（Pythonコマンドで）実行したときに関数を呼び出す処理を追加
+if __name__ == "__main__":
+  関数名(引数, ...)
+```
+
+- `__name__`<br>
+モジュール名を返す特別な変数。
+  - モジュールを単独実行したとき
+  モジュール名は、`"__main__"`
+  - 他プログラムから利用（呼び出）したとき
+  モジュール名は、`（当該モジュール）ファイル名`（※`.py`拡張子除く）
+
+```py
+if __name__ == "__main__":
+```
+モジュール作成において、上記記述が必要な理由は**`__name__`が`"__main__"`に等しいかどうかチェックし、等しい場合はモジュールの主要な処理を行う関数を呼び出せるようにするため**であり、これにより単独でも他プログラムからでも使用できるようになる。
+
 ---
 
 パッケージは、`パッケージ/サブパッケージ/サブサブパッケージ/モジュール`というような階層構造になっており、`.`記法で選択していく
@@ -255,46 +284,34 @@ soup = BeautifulSoup(res.text, "html.parser")
 `hours`や`minutes`といった複数形の部分は`hour`,`minute`など単数形でもok
 
 - 基本的な間隔設定
-| メソッド | コード例 | 説明 |
-|---------|---------|------|
-| `.seconds` | ```py schedule.every(10).seconds.do(関数)``` | 10秒ごとに実行 |
-| `.minutes` | ```py schedule.every(30).minutes.do(関数)``` | 30分ごとに実行 |
-| `.hours` | ```py schedule.every(2).hours.do(関数)``` | 2時間ごとに実行 |
-| `.days` | ```py schedule.every(3).days.do(関数)``` | 3日ごとに実行 |
-| `.weeks` | ```py schedule.every(2).weeks.do(関数)``` | 2週間ごとに実行 |
+  - `.seconds`: `schedule.every(10).seconds.do(関数)` ……… 10秒ごとに実行
+  - `.minutes`: `schedule.every(30).minutes.do(関数)` ……… 30分ごとに実行
+  - `.hours`: `schedule.every(2).hours.do(関数)` ……… 2時間ごとに実行
+  - `.days`: `schedule.every(3).days.do(関数)` ……… 3日ごとに実行
+  - `.weeks`: `schedule.every(2).weeks.do(関数)` ……… 2週間ごとに実行
 
 - 特定時刻の設定
-| メソッド | コード例 | 説明 |
-|---------|---------|------|
-| `.at()` | ```py schedule.every().day.at("10:30").do(関数)``` | 毎日10:30に実行 |
-| `.hour.at()` | ```py schedule.every().hour.at(":00").do(関数)``` | 毎時00分に実行 |
+  - `.at()`: `schedule.every().day.at("10:30").do(関数)` ……… 毎日10:30に実行
+  - `.hour.at()`: `schedule.every().hour.at(":00").do(関数)` ……… 毎時00分に実行
 
 - 曜日指定
-| メソッド | コード例 | 説明 |
-|---------|---------|------|
-| `.monday` | ```py schedule.every().monday.do(関数)``` | 毎週月曜に実行 |
-| `.tuesday` | ```py schedule.every().tuesday.do(関数)``` | 毎週火曜に実行 |
-| `.wednesday` | ```py schedule.every().wednesday.at("13:15").do(関数)``` | 毎週水曜13:15に実行 |
-| `.thursday` | ```py schedule.every().thursday.do(関数)``` | 毎週木曜に実行 |
-| `.friday` | ```py schedule.every().friday.do(関数)``` | 毎週金曜に実行 |
-| `.saturday` | ```py schedule.every().saturday.do(関数)``` | 毎週土曜に実行 |
-| `.sunday` | ```py schedule.every().sunday.do(関数)``` | 毎週日曜に実行 |
+  - `.monday`: `schedule.every().monday.do(関数)` ……… 毎週月曜に実行
+  - `.tuesday`: `schedule.every().tuesday.do(関数)` ……… 毎週火曜に実行
+  - `.wednesday`: `schedule.every().wednesday.at("13:15").do(関数)` ……… 毎週水曜13:15に実行
+  - `.thursday`: `schedule.every().thursday.do(関数)` ……… 毎週木曜に実行
+  - `.friday`: `schedule.every().friday.do(関数)` ……… 毎週金曜に実行
+  - `.saturday`: `schedule.every().saturday.do(関数)` ……… 毎週土曜に実行
+  - `.sunday`: `schedule.every().sunday.do(関数)` ……… 毎週日曜に実行
 
 - タグ付け管理
-| メソッド | コード例 | 説明 |
-|---------|---------|------|
-| `.tag()` | ```py schedule.every().day.do(関数).tag('daily')``` | タグ付けしてジョブを管理 |
-| `.clear()` | ```py schedule.clear('daily')``` | 特定タグのジョブをキャンセル |
+  - `.tag()`: `schedule.every().day.do(関数).tag('daily')` ……… タグ付けしてジョブを管理
+  - `.clear()`: `schedule.clear('daily')` ……… 特定タグのジョブをキャンセル
 
 - 引数付き関数
-| メソッド | コード例 | 説明 |
-|---------|---------|------|
-| `.do()` | ```py schedule.every().day.do(greet, name="Alice")``` | 関数に引数を渡して実行 |
+  - `.do()`: `schedule.every().day.do(greet, name="Alice")` ……… 関数に引数を渡して実行
 
 - 条件付き実行
-| メソッド | コード例 | 説明 |
-|---------|---------|------|
-| `CancelJob` | ```py return schedule.CancelJob``` | 条件に応じて実行を停止 |
+  - `CancelJob`: `return schedule.CancelJob` ……… 条件に応じて実行を停止
 
 </details>
 
@@ -305,157 +322,4 @@ soup = BeautifulSoup(res.text, "html.parser")
 while True:               # 無限ループ
   schedule.run_pending()  # スケジュール（指定した定期的な処理）を実行
   time.sleep(1)           # 1秒後に処理実行
-```
-
-#### 仮想環境の構築
-仮想環境を用いることで、いろいろなバージョンの`Python`（プロジェクト）を同じPCの中で混在させて、プロジェクトによって使い分けられる。<br>つまり、各プロジェクトごとの設定やバージョンを個別に固定管理できるようになる。
-
-##### コマンド操作
-`python -m pip`または`pip`（macOS/Linuxの場合は`python3 -m pip`または`pip3`）で実行
-
-- 仮想環境（`venv`）の構築例<br>
-※`GitHub`でプロジェクト管理していて不要なファイルなどは省かれている状態を前提とする
-```bash
-mkdir my-venv-env # my-venv-env ディレクトリ（仮想環境フォルダ）を作成
-cd my-venv-env    # 作成した仮想環境フォルダへ移動
-
-# 新しい仮想環境を作成してアクティベート
-python -m venv env        # env{は仮想環境名}
-source env/bin/activate   # WindowsOS の場合: 仮想環境名\Scripts\activate
-
-# ※「既存の仮想環境をアクティベートする場合」は、当該仮想環境ディレクトリの「一つ前の階層」でアクティベートコマンドを実行しないと起動できない
-source env/bin/activate   # WindowsOS の場合: 仮想環境名\Scripts\activate
-
-# アクティベートした状態で希望するライブラリをインストール
-python -m pip install ライブラリ
-
-# 依存関係を`requirements.txt`に保存
-# ※ 既存の仮想環境ディレクトリ（及び requirements.txt ）がある場合は、アクティベート状態でコマンド移動（cd dir）してから下記コマンドで requirements.txt に上書き保存する 
-python -m pip freeze > requirements.txt
-
-# 仮想環境から抜ける
-deactivate
-
-# 別の環境に反映する時
-# 1. 当該仮想環境フォルダに移動（`cd my-venv-env`）
-# 2. 新しい仮想環境を作成
-python -m venv env
-# 3. 仮想環境をアクティベート
-source env/bin/activate   # WindowsOS の場合: env\Scripts\activate
-
-# 4. アクティベートした状態で requirements.txt に定義されたパッケージをインストール
-# ※ 既存の仮想環境ディレクトリ（及び requirements.txt ）がある場合は、アクティベート状態でコマンド移動（cd dir）してから下記コマンドにて各種ライブラリをインストールする
-python -m pip install -r requirements.txt
-```
-
-##### `venv`
-仮想環境を作成する`Python`のデファクトスタンダードな標準ライブラリ。
-- 参考記事：[Python仮想環境ツール多すぎ！ 一番ベーシックな「venv」から再入門しよう](https://qiita.com/minorun365/items/94bdb12eb42581850315)
-
-> [!NOTE]
-> 記事内における「仮想環境の`activate`」の部分について補足
-> - 仮想環境を`activate`するには以下のコマンドを入力する
->   - Windowsの場合：   `.\仮想環境名\Scripts\activate`
->   - Mac/Linuxの場合： `source ./仮想環境名/bin/activate`<br>
-> パスの先頭に(仮想環境名)が表示されていれば成功
-
-※注意事項として`venv`は、プロジェクトが以下のような複雑さを持つ場合に課題が生じるので、このような場合は`Pipenv`や`Poetry`などの高度なツールがより適切となる。
-- 大規模プロジェクト
-- 複雑な依存関係を持つ場合
-- 開発環境と本番環境で異なる設定が必要な場合
-- 厳密なバージョン管理が必要な場合
-
-###### `venv`で構築した仮想環境が`deactivate`しても、ターミナルを立ち上げる度に起動されている場合の対処法
-1. VSCodeの左下設定（歯車アイコンを押下）の`設定`項目を開く
-2. 設定の検索で`Python > Terminal: Activate Environment`を入力
-3. `ユーザー`欄の当該項目のチェックを外す
-
-##### `uv`
-`venv`の仮想環境構築に加えて、パッケージ管理までも実現できる（2025年時点では比較的新しい）サードパーティライブラリ。パッケージ管理 + 仮想環境という機能を持ち合わせていながらも、`Rust`製による非常に高速なパフォーマンスを備えている。`venv`と`pip`の機能を統合し、より効率的なワークフローを提供しているのも特徴。
-- 参考記事：[Pythonの開発用適当ツールの作成・実行はuvを使うのがオススメ](https://qiita.com/ssc-ksaitou/items/9da75058489ebe8c2009)
-
-> uvはPythonパッケージだけでなくPythonのバージョン自体も管理することが可能なため、プロジェクトごとに異なるPythonバージョンや依存関係を管理するのに適したツールだと言える。...中略
-> Anacondaは一定以上の規模の企業で利用する場合に、ライセンス料がかかってしまう点には注意したい。...中略
-> uvはまだ歴史が浅く発展途上であるため、破壊的な変更が加えられる可能性も高い。開発期間が長いpyenvやpoetryなどのツールの方が安定した利用が見込め、そういった観点ではこちらの選択肢もまだあり得るだろう。
-
-- 参照記事：[uv （pythonパッケージマネージャー）の使い方 簡易版](https://zenn.dev/tabayashi/articles/197205349d6935)
-- 参照記事：[uv （pythonパッケージマネージャー）の使い方 詳細版](https://zenn.dev/tabayashi/articles/52389e0d6c353a)
-- 参考記事：[Python Coding Best Practices for Researchers](https://cyberagentailab.github.io/BestPracticesForPythonCoding/#management-tools)
-- 参考記事：[AIエージェントにも正しく使ってほしいPython環境管理ツール「uv」最新情報ガイド](https://qiita.com/ootakazuhiko/items/4fa2406534777d86f333)
-
-#### ライブラリの扱いに関するコマンドたち
-- インストール<br>
-```bash
-pip install ライブラリ名
-# または python -m pip install ライブラリ名
-```
-
-- アンインストール<br>
-```bash
-pip uninstall -y ライブラリ名
-# または python -m pip uninstall -y ライブラリ名
-```
-
-- アップグレード<br>
-```bash
-pip install --upgrade（または-U） ライブラリ名
-# または python -m pip install --upgrade（または-U） ライブラリ名
-```
-
-- `pip`のアップグレード<br>
-```bash
-python -m pip install --upgrade pip
-```
-
-- ライブラリの情報を確認<br>
-```bash
-pip show ライブラリ名
-# または python -m pip show ライブラリ名
-```
-
-- ライブラリの一覧を確認<br>
-```bash
-pip list
-# または python -m pip list
-```
-
-## コマンドライン引数
-コマンドプロンプトやターミナルでコマンド入力する際に**コマンドに対して与える引数**のこと。<br>
-これにより、**コマンドラインから特定処理の実行（計算やファイル編集、操作など）が可能**となる。
-
-```bash
-コマンド 引数
-```
-
-### `Python`ファイルに対するコマンドライン引数の実行
-```bash
-python hoge.py 引数
-```
-
-コマンドライン引数を受け取るには、標準ライブラリ`sys`（シス）モジュールを使用する。`sys`モジュールの`argv`（アーグブイ）属性がプログラム名とコマンドライン引数のリストとなる。
-```py
-import sys
-
-# プログラム名と引数のリストを取得
-# 取得したリスト[0]にはプログラム名が入り、以降のインデックスには引数が続く
-sys.argv # 属性なので()は無し
-
-# 指定した位置（インデックス）の値を取得
-sys.argv[0] # プログラム名
-sys.argv[1] # 第一引数
-sys.argv[2] # 第二引数
-
-# プログラム名と引数の個数を取得
-len(sys.argv)
-```
-
-#### 具体例
-```py
-# python chapter11.py 1 2 3
-print(sys.argv)
-# 結果：['chapter11.py', '1', '2', '3']
-
-print(len(sys.argv))    # 4
-print(sys.argv[0])      # chapter11.py
-print(sys.argv[-1])     # 3
 ```

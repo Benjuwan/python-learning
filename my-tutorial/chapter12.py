@@ -1,4 +1,5 @@
 # チャプター 12（応用編：メールの送信）
+# ※ チャプター13～14 までの内容はライブラリ関連のフォルダ（`lib-test-venv`）に
 
 import email.mime.text as theMailer  # メール作成のライブラリ
 import smtplib  # メールを送信するためのライブラリ
