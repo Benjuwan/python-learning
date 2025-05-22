@@ -1,4 +1,3 @@
-## 備忘録 / 雑多メモ
 ### オフサイドルール
 `Python`では、インデントやスペースがコード整形ではなく**コードの意図や構造を表現する**オフサイドルールが適用されている。
 
@@ -129,6 +128,7 @@ print(f"My name is {name} and I am {age} years old.")
 - `TypeScript（JavaScript）`
 ```js
 const score: number = 85;
+// 条件 ? trueの値 : falseの値
 const result: string = score >= 60 ? "passed" : "failed";
 console.log(`"You ${result} the test.`);
 ```
