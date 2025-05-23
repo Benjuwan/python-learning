@@ -391,6 +391,327 @@ print(sys.argv[-1])     # 3
   ```
   コード内のコメント通り、`**引数`（辞書アンパッキング）のあとにはいかなる引数も指定できないので、`デフォルト値を持ったキーワード引数`（`optional_start`）は、`*引数`（位置引数）と`**引数`（キーワード引数）の間に指定している。
 
+## ビルトイン関数（組み込み関数）
+### `pass`文
+処理をパスする（何もしない）ための構文。
+- 構文ルール上、何らかの処理を記述しなければならないが、特に記述することが無いような場合に`pass`文を使う
+```py
+for i in range(10000):
+  # ここに何らかを記述しなければならないが、特に記述することが無い場合は pass を用いる
+  pass
+```
+関数やクラス作成時に「何もしない処理や挙動が発生」したものの、構文ルール的に何かしらを記述しなければならない場合に`pass`文を使用する。<br>または、後で処理を書くことを意図して、とりあえず`pass`を置いておくようなプレースホルダー的な使い方もあるそう。
+
+### type
+`JavaScript`でいう[`typeof`](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/typeof)にあたる。引数に指定したオブジェクトの型を表示する。
+```py
+type(オブジェクト)
+```
+
+### `isinstance`
+`JavaScript`でいう[`instanceof`](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/instanceof)（左辺が右辺`クラス`のインスタンスであるかどうか）にあたる。<br>引数に指定したオブジェクトが**特定のクラスかどうかをチェック**する。
+```py
+# isinstance(オブジェクト, クラス)
+print(isinstance(123, int))     # True
+print(isinstance("123", int))   # False
+print(isinstance("123", str))   # True
+print(isinstance(3.14, float))  # True
+```
+
+> [!NOTE]
+> - あるクラスの派生クラス（サブクラス）かどうかをチェックする`issubclass`関数というのもある
+> ```py
+> issubclass(クラスA, クラスB)
+> # クラスA が クラスB のサブクラスであるかどうかをチェックし、
+> # True の場合は True、False の場合は False となる。
+> ```
+
+### 文字列をPython式に評価する`eval`（イーヴァル）関数
+`JavaScript`の[`eval`](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/eval)と同じ。<br>指定された文字列をPython式として評価し、その式の値を返す。<br>例えば、ユーザーが入力したPython式を評価して結果の値を求める、などできる。
+```py
+# eval(文字列)
+while True:
+    result = eval(input("=")) # list('python') と入力すると...
+    if result == "q":
+        break
+    print(result)
+```
+
+### プログラムを実行する`exec`（エグゼック）関数
+指定された文字列をPythonプログラムとして実行する。戻り値はなし（`None`）。
+```py
+exec(文字列)
+```
+
+`compile`関数を使って**Pythonプログラムをコンパイルして生成される「コードオブジェクト」**も扱える。
+```py
+exec(コードオブジェクト)
+```
+
+#### プログラムをコンパイルする`compile`関数
+指定された文字列やファイルの内容をPythonプログラムとしてコンパイルしてコードオブジェクトを返す。返ってきたコードオブジェクトは`exec`関数で実行できる。
+```py
+compile(文字列, '<string>', 'exec')
+```
+
+### `assert`文
+...であることを断言（assert）する、という文脈で使用される。<br>
+主に、デバッグやテストに用いる`Python`処理系のビルトイン機能で、例えば「この式の値は`True`である」と断言する、といった使い方になる。<br>
+一度に複数の式を指定することも可能。<br>
+式の値が`True`の場合は何もないが、`False`の場合は`AssertionError`という例外が発生する。つまり、**例外が発生しなかった場合に自分の想定が正しかった（意図通りの挙動）ということを確認**できる。
+
+```py
+# である ことを断定
+assert 式
+
+# ではない ことを断定
+assert not 式
+```
+
+- 実装例
+```py
+# 年が400で割り切れる場合は「うるう年」
+# 年が100で割り切れず、4で割り切れる場合も「うるう年」
+def leap_year(year: int):
+    return year % 400 == 0 or year % 100 > 0 and year % 4 == 0
+
+# 処理実行して何も表示されなければok
+assert not leap_year(1900)
+assert leap_year(2000)
+assert not leap_year(2019)
+assert leap_year(2020)
+assert not leap_year(2024) # AssertionError 発生 
+```
+
+> [!NOTE]
+> - `Python`でのテスト
+> プログラムのテストを実施するには（例：`pytest`のような）本格的なテストツールやテストフレームワークを使う必要があるものの、シンプルな実装内容の場合は`assert`文で済むことも多い。
+
+### `breakpoint`関数
+デバッグのために意図的にプログラムを一時停止させる`breakpoint`を設ける関数。実行すると当該箇所（行）で[`pdb`（Pythonデバッガ）](https://docs.python.org/ja/3.13/library/pdb.html)に制御が移行する。
+
+- `l（エル）+ enter` でプログラム表示（※ブレークポイントの位置確認）
+- `p 変数（式）+ enter` で式を表示
+- `n + enter` で一行進む
+- `c + enter` で次のブレークポイントまで移動
+- `s + enter` で対象関数の中に入る
+- `r + enter` で対象関数を`return`まで実行
+
+```py
+first = 123
+breakpoint() # ブレークポイント設置
+second = 456
+duplicate_count(duplicate_counter)
+third = 789
+breakpoint() # ブレークポイント設置
+print(first, second, third)
+```
+
+### `format`関数
+指定された書式指定に従って値を整形し、結果の文字列を返す関数。
+
+- 詳細：[書式指定ミニ言語仕様](https://docs.python.org/ja/3.13/library/string.html#formatspec)
+
+- 具体例
+```py
+float_elm = 1 / 3
+print(format(float_elm))
+# 0.3333333333333333
+
+# .小数点以下桁数f
+print(format(float_elm, ".2f"))  # 小数点以下2桁を表示
+# 0.33
+
+# {式:書式指定}
+print(f"{1 / 3:.2f}")
+# 0.33
+
+# 千の位ごとに ,を挿入
+print(format(100000000000000000, ","))
+# 100,000,000,000,000,000
+
+# 千の位ごとに _を挿入
+print(format(100000000000000000, "_"))
+# 100_000_000_000_000_000
+```
+
+---
+### `round`関数
+数値の小数部分を指定した桁数に丸めて返す。（第二引数の）桁数を省略した場合は数値に最も近い整数を返す。引数には整数と浮動小数点を指定できる。
+```py
+print(round(1 / 3))     # 0（※数値に最も近い整数）
+print(round(1 / 3, 2))  # 0.33（※少数部を2桁に丸めている）
+```
+
+数値に最も近い整数が奇数と偶数の2種類発生した場合は**偶数が優先**される。
+```py
+print(round(3 / 2))     # 2
+print(round(3 / 2, 2))  # 1.5
+```
+
+第二引数に**負の値**を指定した場合は、**その桁数に準じて整数を丸める**ことができる
+```py
+print(round(123, -1))  # 120 （下1桁を丸める）
+print(round(123, -2))  # 100 （下2桁を丸める）
+print(round(123, -3))  # 0   （下3桁を丸める）
+```
+
+---
+
+> [!NOTE]
+> - `.小数点以下桁数f`の記法は`JavaScript`で言えば[`toFixed()`メソッド](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)にあたる
+> ```js
+> function financial(x) {
+>  return Number.parseFloat(x).toFixed(2);
+> }
+>
+> console.log(financial(123.456)); // "123.46"
+> ```
+
+### バイナリデータ（テキストではないデータ）の取り扱い
+- `bytes`関数<br>イミュータブルなバイト列を返す
+```py
+bytes(文字列, encoding=文字エンコーディング)
+bytes(整数)         # 整数が示すバイト数のバイト列やバイト配列を生成する
+bytes(イテラブル)   # イテラブルの要素（※0以上255未満の整数である必要がある）を格納したバイト列やバイト配列を生成する
+
+# 具体例
+bytes('python', encoding='utf-8')
+```
+
+- `bytearray`関数<br>ミュータブルなバイト配列を返す
+```py
+bytearray(文字列, encoding=文字エンコーディング)
+bytearray(整数)         # 整数が示すバイト数のバイト列やバイト配列を生成する
+bytearray(イテラブル)   # イテラブルの要素（※0以上255未満の整数である必要がある）を格納したバイト列やバイト配列を生成する
+
+# 具体例
+bytearray('python', encoding='utf-8')
+```
+
+バイト列またはバイト配列はどちらも 0以上255未満の整数（1バイト：8ビットの符号なし整数を並べたもの）
+
+- `memoryview(オブジェクト)`<br>指定したオブジェクト内部にあるメモリを操作するための関数。コピーは作らず、元メモリを操作する。
+
+#### `bin`
+整数を2進数の文字列に変換する。<br>`binary（バイナリ、2進数）`
+```py
+print(bin(123))     # 0b1111011
+print(f"{123:b}")   # 1111011
+print(f"{123:#b}")  # 0b1111011 ← 0b が付く
+```
+
+#### `oct`
+整数を8進数の文字列に変換する。<br>`octal（オクタル、8進数）`
+```py
+print(oct(123))     # 0o173
+print(f"{123:o}")   # 173
+print(f"{123:#o}")  # 0o173 ← 0o が付く
+```
+
+#### `hex`
+整数を16進数の文字列に変換する。<br>`hexadecimal（ヘクサデシマル、16進数）`
+```py
+print(hex(123))     # 0x7b
+print(f"{123:x}")   # 7b
+print(f"{123:#x}")  # 0x7b ← 0x が付く
+```
+
+## 計算式について
+`Python`の計算式は、原則「左結合（左側にある式を優先的に計算）」するが`**`（べき乗）のみ「右結合」で処理（計算）される。明示的に`()`を使って計算式を書くのが無難。
+
+### 除算（割り算）について
+`/`を用いて除算（割り算）を行うと浮動小数点（型）として、`//`を用いて除算を行うと整数（型）として扱われる。
+```py
+print(4 / 2)  # 2.0
+print(4 // 2) # 2
+```
+
+#### `divmod()`
+除算（割り算）の商と剰余（余り）を求め、タプルにまとめて返す関数。引数の数値には整数と浮動小数点が指定できる。
+```py
+divmod(数値A, 数値B) # 数値Aを数値Bで除算した時の「商と剰余のタプル」を返す
+
+# 具体例
+print(divmod(30, 5)) # (6, 0)
+print(divmod(53, 3)) # (17, 2)
+```
+
+### `abs`（エービーエス）
+数値の絶対数を返す関数（`abs`は`absolute number`の略称）
+```py
+abs(数値) # 引数の数値には「整数、浮動小数点、複素数」が指定できる
+
+# 具体例
+print((123))        # 123
+print((-456))       # 456
+print((12.3))       # 12.3
+print(abs(-12.3))   # 12.3
+```
+
+### `pow`（パウ）
+べき乗計算（`**`）を行う関数。引数の数値には「整数、浮動小数点、複素数」が指定できる。
+```py
+pow(数値A, 数値B)           # 数値Aを数値B乗した数
+pow(数値A, 数値B, 数値C)    # 数値Aを数値B乗した数を数値Cで割った余り
+
+# 具体例
+print(pow(2, 3))  # 2の3乗 -> 8
+print(pow(2, 3, 5))  # 2の3乗を5で割った余り -> 3
+```
+
+### `min`, `max`
+複数の引数（文字列型含む）またはイテラブルから最小（`min`）、最大（`max`）の要素・値を取得する。
+
+- 複数の引数
+```py
+# 文字列型の場合は文字コード順
+print(min("blue", "red", "green"))  # blue
+print(max("blue", "red", "green"))  # red
+```
+
+- イテラブル
+```py
+some_numbers = [100, 10, 25, 8, 64]
+print(min(some_numbers))  # 8
+print(max(some_numbers))  # 100
+```
+
+### `sum`
+イテラブルに含まれる数値の合計値を算出する。
+```py
+want_sum_numbers = [90, 75, 80, 100, 85]
+print(sum(want_sum_numbers))       # 430
+print(sum(want_sum_numbers) / 5)   # 平均値：86.0
+print(sum(want_sum_numbers) // 5)  # 平均値：86（//を使うことで整数として表現）
+```
+
+> [!NOTE]
+> - `sum`は、`JavaScript`でいう`reduce`関数
+> ```js
+> const want_sum_numbers = [90, 75, 80, 100, 85];
+> const sum_result = want_sum_numbers.reduce((accu, curr) => accu + curr, 0);
+> console.log(sum_result); // 430
+> ```
+
+### `repr`（レプル）
+オブジェクトの内容を表す文字列を返す関数。`repr`関数の結果に[`eval`関数](#文字列をpython式に評価するevalイーヴァル関数)を適用すると`Python`のプログラムとして実行できるようになる。
+```py
+representation = repr("Python") # 'Python'
+print(representation)
+representation = repr("パイソン") # 'パイソン'
+print(representation)
+```
+
+### `ascii`
+`repr`同様、オブジェクトの内容を表す文字列を返す関数だが、**ASCII文字（アスキー文字）以外をエスケープ処理**する。
+```py
+ascii_no_esc = ascii("Python") # 'Python'
+print(ascii_no_esc)
+ascii_esc = ascii("パイソン")   # '\u30d1\u30a4\u30bd\u30f3'
+print(ascii_esc)
+```
+
 ## 例外処理（`try - except`）
 `JavaScript`では`try - catch`だが、`Python`では`try - except`と記述する
 ```py
@@ -486,155 +807,3 @@ def payment_divisiton():
 
 payment_divisiton()
 ```
-
-## 条件文
-### `if`
-- Python
-```py
-isBool: bool = True
-if not (isBool):
-  # False 判定の処理
-
-if isBool:
-  # True 判定の処理
-
-# 複数条件
-if(A and B and C) # A かつ B かつ C
-if(A or B or C) # A または B または C
-
-elif 別の条件:
-  # 別の条件が True 判定の処理
-
-else:
-  # どの条件にも合致しなかった場合の処理
-```
-
-- JavaScript
-```js
-const isBool: boolean = true;
-if(!isBool) {
-  // False 判定の処理
-}
-
-if(isBool) {
-  // True 判定の処理
-}
-
-// 複数条件
-if(A && B && C) // A かつ B かつ C
-if(A || B || C) // A または B または C
-
-else if(別の条件) {
-  // 別の条件が True 判定の処理
-}
-
-else {
-  // どの条件にも合致しなかった場合の処理
-}
-```
-
-> [!NOTE]
-> #### 数値型の真偽値判定
-> 0は`False`、（負の値含む）0以外は`True`という判定になる
-
-### 三項演算子（条件式）
-```py
-# <trueの値> if <条件> else <falseの値>
-result = "passed" if score >= 60 else "failed"
-```
-
-### `AND演算子`と`OR演算子`
-`Python`における`AND演算子`は`&&`ではなく`and`、`OR演算子`は`||`ではなく`or`と記述する。
-
-> [!NOTE]
-> **`OR演算子`よりも`AND演算子`の方が演算子の優先順位が高い**ので、両方を一度の処理に含む場合は注意すること。
-
-```py
-# AND演算子（左辺が True の場合に右辺を返す ※False の場合は左辺の結果（False）を返す）
-result_entries_1 = (
-  entries_1.count("tion") > 0 and f"entries_1: {entries_1.count('tion')}"
-)
-
-# OR演算子（左辺が False の場合に右辺を返す ※True の場合は左辺の結果（True）を返す）
-result_entries_1 = len(entries_1) <= 0 or f"entries_1: {len(entries_1)}"
-print(entries_1, result_entries_1)
-```
-
-### 厳密等価演算子
-`Python`には、厳密等価演算子（`===`,`!==`）がない。
-
-> [!NOTE]
-> 数値を`==`（または`is`）や`!=`（または`is not`）で比較する際には、**`Python`処理系が自動的に両者の型を合わせて（暗黙的型変換）から値を比較**してくれる。<br>
-> より厳密に判定したい場合は`type(変数-a) == type(変数-b)`, `type(変数-a) != type(変数-b)`のように記述する。
-
-```py
-# example-1
-print(1 == 1.0)  # True: int と float でも値が等しいため
-print(1 is 1.0)  # False: 'is' はオブジェクトの同一性を比較するため
-
-# example-2
-a = 100         # int
-b = 100.0       # float
-if type(a) == type(b) and a == b:
-    print("型も値も一致しています")
-else:
-    print("型または値が一致しません")
-```
-
-### `in`： 所属検査演算（メンバーシップテスト演算）
-指定した値が含まれているか瞬時に判定する演算
-```py
-trafic_signal = {"green", "red", "blue"}
-print(f"{'green' in trafic_signal} # True")
-print(f"{'pink' in trafic_signal} # False")
-print(f"{'purple' not in trafic_signal} # True")
-print(f"{'red' not in trafic_signal} # False")
-```
-
-#### `in`演算子, `not in`演算子は**各種データ構造（リスト、タプル、集合、辞書）のほか、文字列にも使用**できる
-```py
-# 値が含まれていることを判定（in演算子）
-値 in イテラブルまたは文字列
-
-# 値が含まれていないことを判定（not in演算子）
-値 not in イテラブルまたは文字列
-```
-ハッシュ法のおかげで集合と辞書は特に`in`と`not in`を高速に実行できる。
-
----
-
-## `Python`での配列操作について（シャローコピーの必要性有無）
-`Python`では破壊的メソッド（`append`, `extend`, `sort`など）と非破壊的メソッド（`sorted`など）が明確に区別されているそうで、一般的にリストのコピーを作成してから操作を行うという習慣はない。
-```py
-# 破壊的メソッドの例
-numbers = [3, 1, 2]
-# resultはNone（破壊的メソッドは基本的にNoneを返す）
-result = numbers.sort()
-print(numbers)  # [1, 2, 3]
-
-# 非破壊的メソッドの例
-numbers = [3, 1, 2]
-sorted_numbers = sorted(numbers)  # 新しいリストを返す
-print(numbers)  # [3, 1, 2]
-print(sorted_numbers)  # [1, 2, 3]
-
-# 破壊的メソッドと非破壊的メソッドの組み合わせ例
-numbers = [1, 2, 3]
-numbers.append(4)  # 破壊的操作・メソッドだと明確に分かる
-sorted_numbers = sorted(numbers)  # 非破壊的「関数」だと明確に分かる
-numbers.sort()  # 破壊的メソッドだと明確に分かる
-```
-
-  - `Python`でのシャローコピー作成方法
-  ```py
-  numbers = [1, 2, 3]
-
-  # シャローコピーを作成する方法
-  numbers_copy = numbers.copy()
-  # または numbers_copy = numbers[:] （先頭から末尾までスライスでリスト要素を抽出）
-  # または numbers_copy = list(numbers) （listクラスを使用して listオブジェクトを生成）
-
-  # ディープコピーを作成する方法
-  from copy import deepcopy
-  numbers_deep_copy = deepcopy(numbers)
-  ```

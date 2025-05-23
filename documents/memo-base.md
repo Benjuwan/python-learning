@@ -19,6 +19,9 @@
   - Windows/Mac/Linux 共通<br>
   `quit()`または`com/ctrl + c`（`KeyboardInterrupt`：キーボードによる中断）
 
+- インタプリンタ<br>
+コンパイラ方式（プログラムのソースコードを一度にすべて機械語に変換して実行する）ではなく、1行ずつ順番にソースコードを読み取り、その都度実行していく仕組みを持つプログラム実行方式
+
 ### 変数について
 `Python`では、`JavaScript`でいう変数宣言（`let`や`const`）を用いずに変数を作成するため`var`のように再宣言も再代入（再定義）も可能な仕様になっている。<br>
 例えば、定数を作成する方法は無く普通の変数を使用するため、変更（再代入）しようと思えばできてしまう。<br>
@@ -77,6 +80,57 @@ good_morning_afternoon()
 # good_morning_afternoon: good afternoon
 ```
 
+### `f`文字列
+`JavaScript`でいうテンプレートリテラル（バックティック）の記法と似ていて、`{}`の中に変数や式、処理をそのまま記述して（その結果を反映した）文字列を表現できる。
+
+> [!NOTE]
+> - 文字列のデフォルトは「左揃え」
+> - 数値のデフォルトは「右揃え」
+
+- 桁数の調整
+```py
+# 基本的な使い方
+number = 5
+print(f"{number:2d}")  # " 5" （幅2文字で右寄せ）
+# x * y - フォーマットする値
+# : - フォーマット指定の開始
+# 2 - 表示する幅（文字数）
+# d - 整数（decimal）として表示
+
+# 実際の動作を確認
+numbers = [1, 5, 10, 42]
+for n in numbers:
+    print(f"{n:2d}")  # それぞれの数字が2文字分の幅で右寄せされる
+
+# その他
+# 左寄せ（<）
+print(f"{5:<2d}")  # "5 "
+
+# 中央寄せ（^）
+print(f"{5:^2d}")  # "5 "
+
+# ゼロ埋め
+print(f"{5:02d}")  # "05"
+
+# より大きな幅を指定
+print(f"{5:4d}")   # "   5"
+
+# {式:書式指定} という記述も可能
+print(f"{1 / 3:.2f}") # 0.33
+
+# 複数行
+add_text = "/// python learning ///\n"
+exercitation = "--- exercitation ---"
+print(f"""
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      
+Ut enim ad minim veniam, quis nostrud {exercitation} ullamco laboris nisi ut aliquip ex ea commodo consequat.
+{add_text}
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+""")
+```
+
 ## 型定義について
 ```py
 # TypeScript `const theStr: string`
@@ -103,7 +157,43 @@ theAry_StrOrInt: list[str | int] = [10, "hoge", 100, "foo", True] # True は 1 �
 ```
 
 ## Anaconda（アナコンダ）
-`Python`のディストリビューション（派生版）の一つで、よく使うライブラリなどが同梱されている。`conda`（コンダ）というツールを使って各種ライブラリをインストールしたり、設定が異なる複数の作業環境を管理できたりする。
+`Python`のディストリビューション（派生版）の一つで、よく使うライブラリなどが同梱されている。`conda`（コンダ）というツールを使って各種ライブラリをインストールしたり、設定が異なる複数の作業環境を管理できたりする。一定以上の規模の企業で利用する場合に、ライセンス料がかかってしまう。
+
+## `Python`での配列操作について（シャローコピーの必要性有無）
+`Python`では破壊的メソッド（`append`, `extend`, `sort`など）と非破壊的メソッド（`sorted`など）が明確に区別されているそうで、一般的にリストのコピーを作成してから操作を行うという習慣はない。
+```py
+# 破壊的メソッドの例
+numbers = [3, 1, 2]
+# resultはNone（破壊的メソッドは基本的にNoneを返す）
+result = numbers.sort()
+print(numbers)  # [1, 2, 3]
+
+# 非破壊的メソッドの例
+numbers = [3, 1, 2]
+sorted_numbers = sorted(numbers)  # 新しいリストを返す
+print(numbers)  # [3, 1, 2]
+print(sorted_numbers)  # [1, 2, 3]
+
+# 破壊的メソッドと非破壊的メソッドの組み合わせ例
+numbers = [1, 2, 3]
+numbers.append(4)  # 破壊的操作・メソッドだと明確に分かる
+sorted_numbers = sorted(numbers)  # 非破壊的「関数」だと明確に分かる
+numbers.sort()  # 破壊的メソッドだと明確に分かる
+```
+
+  - `Python`でのシャローコピー作成方法
+  ```py
+  numbers = [1, 2, 3]
+
+  # シャローコピーを作成する方法
+  numbers_copy = numbers.copy()
+  # または numbers_copy = numbers[:] （先頭から末尾までスライスでリスト要素を抽出）
+  # または numbers_copy = list(numbers) （listクラスを使用して listオブジェクトを生成）
+
+  # ディープコピーを作成する方法
+  from copy import deepcopy
+  numbers_deep_copy = deepcopy(numbers)
+  ```
 
 ---
 

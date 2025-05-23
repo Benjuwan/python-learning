@@ -69,7 +69,7 @@ for user, pw in cursor_obj:
 #     # password=? には except_filename_args のパスワードが入る
 #     "SELECT * FROM account_table WHERE user=? AND password=?",
 #     except_filename_args,
-# )
+# ) # account_table テーブルから、user列と password列が指定した値（コマンドライン引数の内容）に等しい行を取得する
 
 # print("Welcome!" if len(list(cursor_obj)) > 0 else "Failed.")
 
