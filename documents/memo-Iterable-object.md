@@ -613,176 +613,97 @@ hello_president_age("Donald", "Trump", "19460614").console_log()
 hello_president_age("Jhoe", "Biden", "19421120").console_log()
 ```
 
-## 繰り返し処理
-### `for 変数 in イテラブル`
-```py
-# リストの要素を直接繰り返し
-for element in array:
-    print(element)
-
-# 数値範囲での繰り返し
-for i in range(len(array)):
-    print(array[i])
-```
-
-### インデックスと要素の両方を使う場合
-#### `enumerate`
-イニュームレイト：列挙型（`enum`）のことで、イテラブルから要素を取り出す時に何番目に取り出した要素なのかを把握できる。戻り値は **`カウント`と`要素の値`のタプル`tuple()`** となる。
-```py
-for i, elm in enumerate('イテラブル', '開始値'):
-  # 処理
-```
-第二引数の`開始値`はカウントの開始値を指す。
-
-- 具体例
-```py
-# enumerate：イテラブル（反復可能なオブジェクト・繰り返し可能要素）に対して
-# 各要素とそのインデックスをペアとして返す
-for i, element in enumerate(array):
-    print(f"{i}: {element}")
-```
-
-### `while`
-他の言語と同様の（繰り返し処理）機能。指定した条件を達するまで繰り返し処理を行う。
-```py
-index_key_while = 0
-# index_key_while が 10になるまで 1ずつインクリメント
-while index_key_while < 10:
-    index_key_while += 1
-    print(index_key_while)
-```
-
-### `continue`と`break`
-- `continue`<br>
-他の言語と同様、`for`や`while`の繰り返し処理におけるスキップ機能。ループ内部に残っている処理を実行せずに次の処理に移行する。
-
-- `break`<br>
-他の言語と同様、`for`や`while`の繰り返し処理における強制終了機能。ループ内部に残っている処理を実行せずに当該繰り返し処理を終了する。
-
-## イテラブルに関する関数
-### `zip`関数
-複数のイテラブルに対して同時に繰り返し処理を行いたい場合に便利な関数。<br>
-引数に指定された複数のイテラブルから要素を集めて**タプルにまとめて返す**。
+### [デコレーター](./memo-Python-features.md#デコレーター)：`@property`
+取得専用(外部からの編集不可)のプロパティを作成できる
 
 ```py
-food_name = ["burger", "potato", "snack"]
-food_price = [110, 150, 120]
+class Circle:
+    def __init__(self, radius):
+        self._radius = radius
+    
+    @property
+    def area(self):
+        return 3.14 * self._radius ** 2
+    # setterを定義しないので読み取り専用
 
-# zip(イテラブル, ...)
-for food in zip(food_name, food_price):
-    print(f"{food[0]} is {food[1]} yen.")
-    # burger is 110 yen.
-    # potato is 150 yen.
-    # snack is 120 yen.
+    # @プロパティ名.setter
+    # def プロパティ名(self, value):
+    #     self._radius = (value / 3.14) ** 0.5
 
-for n, p in zip(food_name, food_price):
-    print(f"{n} is {p} yen.")
-    # burger is 110 yen.
-    # potato is 150 yen.
-    # snack is 120 yen.
+circle = Circle(5)
+print(circle.area)  # OK: 28.26
+circle.area = 100   # エラー: AttributeError: can't set attribute
 ```
 
-#### `zip`関数を用いた柔軟なイテラブル（リスト）生成
+上記のように`setter`を定義しない場合は、`JavaScript`のクラスにある`private`のように「子クラスからでも編集・操作不可な機能を付与する」という働きに近い。
+
+### [デコレーター](./memo-Python-features.md#デコレーター)：`@staticmethod`（静的メソッド）/ `@classmethod`（クラスメソッド）
+オブジェクトを使わないで呼び出せる（`クラス名.メソッド名(引数, ...)`）方法として、静的メソッド/クラスメソッドというものがある。
+
 ```py
-food_name = ["burger", "potato", "snack"]
-food_price = [110, 150, 120]
+class Color:
+    def __init__(self, r, g, b):
+        self.r, self.g, self.b = r, g, b
 
-print(list(zip(food_name, food_price)))
-# [('burger', 110), ('potato', 150), ('snack', 120)]
+    # 特殊メソッド：前後に2個ずつ _（アンダースコア） が付いた特殊な名前を持つメソッド
+    # クラスに特殊メソッドを定義すると、そのクラスのオブジェクトに対して色々な演算を実装できる
+    # __str__： print関数でオブジェクトを出力できる特殊メソッド
+    def __str__(self):
+        return f'({self.r}, {self.g}, {self.b})'
+
+    @staticmethod
+    def cyan():
+        return Color(0, 255, 255) # Color クラスの特殊メソッド（ __str__ ）を実行
+
+    @classmethod
+    def aqua(cls): # 第一引数 cls を使って、呼び出しに使われたクラスを受け取る（※ PEP8 では cls という引数名が推奨されている）
+        return cls.cyan() # cls には Color クラスが設定されて、当該クラスの静的メソッド cyan を実行
+
+    # @staticmethod
+    # def aqua(): # 静的メソッドの場合は cls は不要
+    #     return Color.cyan() # クラス名（Color）を使って呼び出し
+
+print(Color.aqua())
 ```
 
-### `map`関数
-指定した処理（条件）で加工した（イテラブル内の）各要素を返す。
+- 他にも[多くの特殊メソッド](https://docs.python.org/ja/3.13/reference/datamodel.html#special-method-names)が存在する
+
+## オブジェクトの属性に関する操作
+- 属性に値を設定<br>
 ```py
-map(関数, イテラブル)
+setattr(オブジェクト, 属性名, 値)
+
+# 以下でも可能
+オブジェクト.属性名 = 値
 ```
 
-- 具体例
+- 属性の値を取得<br>
 ```py
-food_name = ["burger", "potato", "snack"]
-food_price = [90, 150, 120]
+getattr(オブジェクト, 属性名)
 
-print(list(map(len, food_name)))        # [6, 6, 5]
-
-# 数値型リストを文字列型リストへ変換し、上記と同じく各要素の文字列数を取得する
-convert_str_list = list(map(str, food_price))
-print(list(map(len, convert_str_list))) # [2, 3, 3]
+# 以下でも可能
+オブジェクト.属性名
 ```
 
-### `filter`関数
-指定した条件に合致する（イテラブル内の）要素を返す。
+- 属性の有無を調べる<br>
+存在する場合は`True`、しない場合は`False`が返ってくる。
 ```py
-filter(関数, イテラブル)
+hasattr(オブジェクト, 属性名)
 ```
 
-- 具体例
+- 属性を削除<br>
 ```py
-fruits = ["apple", "", "grape", "melon", "", "", "water-melon"]
-print(len(fruits)) # 7
+delattr(オブジェクト, 属性名)
 
-print(list(filter(len, fruits)))
-# ['apple', 'grape', 'melon', 'water-melon']
-# len が 0以外（以上）のものが True 判定される
-
-print(len(list(filter(len, fruits)))) # 4
+# 以下でも可能
+del オブジェクト.属性名
 ```
 
-### all
-`JavaScript`でいう`every`にあたる。<br>
-イテラブルの全ての要素が（指定した条件に）`True`の場合は`True`を返す。内包表記（`式 for 変数 in イテラブル`）と併用すると便利。
+- 属性一覧を取得<br>
 ```py
-person_a_socre = [90, 75, 88, 100, 82]
-person_b_socre = [90, 85, 98, 100, 96]
+# ディーアイアール関数： オブジェクトとクラス（基底クラス含む）が持つ「属性名」の一覧を取得
+dir(オブジェクト)
 
-# 全てが80以上
-print(all([score > 80 for score in person_a_socre])) # False
-print(all([score > 80 for score in person_b_socre])) # True
-```
-
-- `JavaScript`でいう`every`
-```js
-const person_a_socre = [90, 75, 88, 100, 82];
-const person_b_socre = [90, 85, 98, 100, 96];
-
-const all_method = (targetAry)=>{
-    const result = targetAry.every(elm=>elm > 80);
-    console.log(`${result}：全てが80以上`);
-}
-all_method(person_a_socre);
-all_method(person_b_socre);
-```
-
-### any
-`JavaScript`でいう`some`にあたる。<br>
-どれか一つでも（指定した条件に）`True`の場合は`True`を返す。内包表記（`式 for 変数 in イテラブル`）と併用すると便利。
-```py
-person_a_socre = [90, 75, 88, 100, 82]
-person_b_socre = [90, 85, 98, 100, 96]
-
-# どれか一つでも80未満
-print(any([score < 80 for score in person_a_socre]))  # True
-print(any([score < 80 for score in person_b_socre]))  # False
-```
-
-- `JavaScript`でいう`some`
-```js
-const person_a_socre = [90, 75, 88, 100, 82];
-const person_b_socre = [90, 85, 98, 100, 96];
-
-const any_method = (targetAry)=>{
-    const result = targetAry.some(elm=>elm < 80);
-    console.log(`${result}：どれか一つでも80未満`);
-}
-any_method(person_a_socre);
-any_method(person_b_socre);
-```
-
-### 簡潔にイテレータ（イテラブル内の各要素）を操作できる`iter`関数と`next`関数
-```py
-some_numbers = [1, 2, 3]
-iterator = iter(some_numbers) # iter： 指定されたイテラブルに対するイテレータを返す
-print(next(iterator))         # next： 指定されたイテレータから要素を一つ取り出す
-print(next(iterator))
-print(next(iterator))
-print(next(iterator))         # next が無いので StopIteration（例外）発生
+# バーズ関数： オブジェクトが持つ「属性名と値」の一覧を取得
+vars(オブジェクト)
 ```
