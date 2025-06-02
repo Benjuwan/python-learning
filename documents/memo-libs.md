@@ -278,34 +278,66 @@ import cgi
 
 #### `NumPy`（ナムパイ）
 **数値計算**でよく使われるライブラリ。主要な機能は、数値を格納するための配列と、配列に対する各種の演算。この配列はベクトルや行列として使用したり、CSVファイルから読み込んだ数値を格納したり、各種の統計量を求めたりもできる。他のライブラリ（`Pandas`や`Matplotlib`など）でも使用されている。
-- 実装例や解説などは[検証ファイル](lib-test-venv/lib-numpy.py)を参照してください 
+- 実装例や解説などは[検証ファイル](../lib-test-venv/lib-numpy.py)を参照してください 
+
+```bash
+pip install numpy
+```
 
 #### `Pandas`（パンダス）
 **データ処理**でよく使われるライブラリ。データの読込、指定したデータの取得、統計量の計算などを簡単なプログラムで実現できる。<br>`Pandas`にはデータフレームという独自のオブジェクトがあるので、分かりやすくデータを表示したり、扱ったりしたい場合は`NumPy`より`Pandas`のほうが良い。
-- 実装例や解説などは[検証ファイル](lib-test-venv/lib-pandas.py)を参照してください 
+- 実装例や解説などは[検証ファイル](../lib-test-venv/lib-pandas.py)を参照してください 
+
+```bash
+pip install pandas
+```
 
 #### `Matplotlib`（マットプロットリブ）
 **インフォグラフィック（可視化）** ライブラリ。`NumPy`の配列や`Pandas`のデータフレームなどから色々な種類の図を作成できる。データの分析やクラスタリング（入力データをいくつかのクラスターに分類すること）などのAIの手法を適用する際に相乗効果を発揮する可視化処理を行ってくれる。人間はインフォグラフィックを用いることで、より適切な仮説出しができたり、施策の効果検証を行ったりできる。  
+
+```bash
+pip install matplotlib
+```
 
 
 #### `scikit-learn`（サイキットラーン）
 機械学習ライブラリ。データに対して、分類、回帰、クラスタリング（入力データをいくつかのクラスターに分類すること）、次元削減といった機械学習に関する色々な手法を適用することができる。
 
+```bash
+pip install scikit-learn
+```
+
 #### `Pillow`（ピロー）
 画像ファイルの入出力や編集でよく使われるライブラリ。例えば、矩形（くけい）や円といった図形をはじめ、画像の色数やサイズの変更も行える。<br>
 ※ライブラリ名は`Pillow`だがインストール後のパッケージ名は`PIL`となる。
-- 実装例や解説などは[検証ファイル](lib-test-venv/lib-test.py)を参照してください 
+- 実装例や解説などは[検証ファイル](../lib-test-venv/lib-test.py)を参照してください 
+
+```bash
+pip install Pillow
+```
 
 #### `pypdf`
 PDFファイルを扱う時に利用するライブラリ。
   - 参考記事：[【Python×PDF】PyPDF2はもう古い！PythonでPDFを扱うときにはpypdfを使おう](https://qiita.com/ryutarom128/items/6e5d36efb136f9595f07)
 
+```bash
+pip install pypdf
+```
+
 #### `openpyxl`（オープンパイエックスエル）
 Excelファイルを扱う時に利用するライブラリの一つ。
-- 実装例や解説などは[検証ファイル](lib-test-venv/handle-exfile.py)を参照してください 
+- 実装例や解説などは[検証ファイル](../lib-test-venv/handle-exfile.py)を参照してください 
+
+```bash
+pip install openpyxl
+```
 
 #### `Requests`（リクエスツ）
 webスクレイピング（webアクセス）用のライブラリ。標準ライブラリ`urllib`よりも簡潔なプログラミングで手軽にWebを扱える。
+
+```bash
+pip install requests
+```
 
 > [!NOTE]
 > - webスクレイピングについて<br>
@@ -313,6 +345,11 @@ webスクレイピング（webアクセス）用のライブラリ。標準ラ�
 
 #### [`BeautifulSoup`](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)（ビューティフルスープ）
 HTMLファイル構造を解析して必要なデータを抽出するためのライブラリ。要素の階層構造に基づいた処理が可能なので文字列のパターンマッチ（正規表現）よりも確実かつ容易にデータを取り出せる（可能性がある）
+
+```bash
+pip install beautifulsoup4
+```
+
 ```py
 スープ = BeautifulSoup(HTMLの文字列, 'html.parser')
 ```
@@ -352,6 +389,10 @@ soup = BeautifulSoup(res.text, "html.parser")
 
 #### `schedule`
 あらかじめ設定したスケジュールに基づいて、指定した処理（関数）を定期的に実行する非標準ライブラリ
+
+```bash
+pip install schedule
+```
 
 <details>
 <summary>schedule 実装例一覧表</summary>
