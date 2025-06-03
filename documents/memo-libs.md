@@ -276,6 +276,24 @@ import cgi
 > `npm`と同じ要領でライブラリをインストールして使用するが、`Python`では`pip`/`pip3`（WindowsOs / MacOS | Linux）がその役割を果たす。<br>
 > 後述する[仮想環境](#仮想環境の構築)を用いた管理を行うのがベター。
 
+#### ライブラリをグローバルインストールしてしまった場合
+以下コマンドを実行すれば`pip`以外全てのライブラリがリセット（削除）される
+- Mac/Linux の場合
+```bash
+pip freeze | xargs pip uninstall -y
+```
+
+- windows の場合
+```bash
+for /f %i in ('pip freeze') do pip uninstall %i -y
+```
+
+- 一つずつ行う場合は以下コマンドを実行
+```bash
+pip uninstall -y ライブラリ名
+# または python -m pip uninstall -y ライブラリ名
+```
+
 #### `NumPy`（ナムパイ）
 **数値計算**でよく使われるライブラリ。主要な機能は、数値を格納するための配列と、配列に対する各種の演算。この配列はベクトルや行列として使用したり、CSVファイルから読み込んだ数値を格納したり、各種の統計量を求めたりもできる。他のライブラリ（`Pandas`や`Matplotlib`など）でも使用されている。
 - 実装例や解説などは[検証ファイル](../lib-test-venv/lib-numpy.py)を参照してください 

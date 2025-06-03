@@ -59,6 +59,13 @@ print(anaconda.replace("a", "A", 2))
 文字列.endswith(接尾辞の文字列)
 ```
 
+`startswith`, `endswith`ともに引数には**タプル形式で複数値を指定できる**
+```py
+url = "https://example.co.jp"
+if url.startswith(("https://", "http://", "/")):
+    # True の場合の処理
+```
+
 ### `isnumeric()`
 文字列が数字だけで構成されているかどうかを調べる（返り値：Boolean）
 ```py
