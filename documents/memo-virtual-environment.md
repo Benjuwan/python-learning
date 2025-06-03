@@ -1,6 +1,9 @@
 ## 仮想環境の構築
 仮想環境を用いることで、いろいろなバージョンの`Python`（プロジェクト）を同じPCの中で混在させて、プロジェクトによって使い分けられる。<br>つまり、各プロジェクトごとの設定やバージョンを個別に固定管理できるようになる。
 
+> [!NOTE]
+> 仮想環境の構築や修正、移行などで複雑な状況になってしまった場合は、**大人しく最初から作り直した方がスムーズ**なケースもある
+
 ### コマンド操作
 #### 仮想環境関連
 `python -m pip`または`pip`（macOS/Linuxの場合は`python3 -m pip`または`pip3`）で実行
@@ -45,6 +48,27 @@ source env/bin/activate   # WindowsOS の場合: 仮想環境名\Scripts\activat
 python -m pip install -r requirements.txt
 ```
 
+- 【初期設定】`requirements.txt`からライブラリをインストール<br>
+**仮想環境をアクティベートした状態**で以下コマンドを実行
+```bash
+# 1. 仮想環境を格納しているディレクトリへ移動（存在しない場合は上記を参照に新規作成）
+# cd 仮想環境格納dir名
+
+# 2. 仮想環境をアクティベート（Mac | Linux の場合は`source 仮想環境名/bin/activate`）
+# ../プロジェクト名\仮想環境格納dir名> $ 仮想環境名\Scripts\activate
+
+# 3. 仮想環境をアクティベートした状態で
+#    パスを指定（※以下は`requirements.txt`をルートに置いている場合）して各種ライブラリをインストール
+python -m pip install -r ../requirements.txt
+```
+
+- フルパス指定で仮想環境を閉じる<br>
+仮想環境を格納しているディレクトリ（例：`venv`dir）で以下コマンドを実行
+```bash
+# フルパス指定で deactivate または venv\Scripts\deactivate.bat
+venv\Scripts\deactivate
+```
+
 #### ライブラリの取り扱い関連
 - インストール<br>
 ```bash
@@ -79,6 +103,18 @@ pip show ライブラリ名
 ```bash
 pip list
 # または python -m pip list
+```
+
+#### ライブラリをグローバルインストールしてしまった場合
+以下コマンドを実行すれば`pip`以外全てのライブラリがリセット（削除）される
+- Mac/Linux の場合
+```bash
+pip freeze | xargs pip uninstall -y
+```
+
+- windows の場合
+```bash
+for /f %i in ('pip freeze') do pip uninstall %i -y
 ```
 
 ---

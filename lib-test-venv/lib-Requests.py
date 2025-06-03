@@ -88,7 +88,7 @@ try:
     res.raise_for_status()  # HTTPエラーを検出
 except requests.RequestException as e:
     print(f"エラーが発生しました: {e}")
-    exit("RequestException done.")
+    exit("RequestException done.") # （引数に指定した内容を出力して）プログラム全体を終了
 
 # （処理最後に）出力確認するためのリストを用意
 release = []
