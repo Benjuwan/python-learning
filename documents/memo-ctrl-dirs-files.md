@@ -6,7 +6,8 @@ with open("ファイル名", "w", encoding="文字エンコーディング") as 
 
 - 具体例
 ```py
-# anothers フォルダに message.txt が無い場合は新規作成され、既にある場合は上書き保存される
+# message.txt を新規作成、もしくは既存ファイルの内容を全て削除して上書き保存する
+# 注意: anothers フォルダが存在しない場合はエラー
 with open("../anothers/message.txt", "w", encoding="utf-8") as message_txt_file:
     message_txt_file.write("Hello\n")
     message_txt_file.write("Python\n")
@@ -56,7 +57,8 @@ with open("ファイル名", "w", encoding="文字エンコーディング", new
 ```py
 import csv
 
-# anothers フォルダに items.csv が無い場合は新規作成され、既にある場合は上書き保存される
+# items.csv を新規作成、もしくは既存ファイルの内容を全て削除して上書き保存する
+# 注意: anothers フォルダが存在しない場合はエラー
 for_csv_txt_lists = [("hat", 2000), ("shirt", 1000), ("socks", 500)]
 with open("../anothers/items.csv", "w", encoding="utf-8", newline="") as csv_file:
     csv_file_obj = csv.writer(csv_file)
@@ -111,7 +113,8 @@ with open("ファイル名", "w", encoding="文字エンコーディング") as 
 
 - 具体例<br>
 ```py
-# anothers フォルダに items.json が無い場合は新規作成され、既にある場合は上書き保存される
+# items.json を新規作成、もしくは既存ファイルの内容を全て削除して上書き保存する
+# 注意: anothers フォルダが存在しない場合はエラー
 for_json_dict = [
     {"name": "hat", "price": 2000},
     {"name": "shirt", "price": 100},
@@ -161,7 +164,7 @@ import glob
 glob.glob(パス)
 
 # サブディレクトリも含める場合は以下の記述となる
-# キーワード引数`recursive`を`True`にすることでサブディレクトリも処理対象となる
+# キーワード引数`recursive`を`True`にすることでサブディレクトリも処理対象（＝指定したディレクトリ全体が処理対象）となる
 glob.glob(パス, recursive=True)
 
 # * でワイルカード指定となる
@@ -174,8 +177,14 @@ glob.glob(*.txt)
 ```py
 import shutil
 
-# ファイルのコピー
+# ファイルのコピー（コピー先のディレクトリが存在しない場合はエラーが発生）
+# ファイルの内容とパーミッションのみをコピー
 shutil.copy(コピー元, コピー先)
+
+# copy2：より完全なファイルコピー（コピー先のディレクトリが存在しない場合はエラーが発生）
+# ファイルの内容とパーミッションに加えて、最終アクセス時刻や最終更新時刻といったメタデータも保持
+# 通常はcopy2()の使用が推奨される。より完全なバックアップが可能なため
+shutil.copy2(コピー元, コピー先)
 
 # ファイルの移動
 shutil.move(移動元, 移動先)
@@ -192,6 +201,7 @@ os.rename(古い名前, 新しい名前)
 os.remove(パス)
 
 # モードの設定
+# ファイルやディレクトリのアクセス権限（パーミッション）を変更するための関数
 os.chmod(パス, モード)
 
 # ディレクトリの作成
@@ -211,3 +221,20 @@ os.removedirs(パス)
 > - 再帰的にディレクトリを作成する`makedirs`関数<br>
 > ディレクトリ作成時に途中の必要なディレクトリも一緒に作成する。例えば、`project/programming/python`というパスを引数に指定すると`project`,`programming`,`python`といった各パスごとのディレクトリを作成する。<br>
 > 再帰的にディレクトリを削除する`removedirs`も同様の振る舞いで各ディレクトリを削除する。
+
+- `os.chmod`実装例
+```py
+import os
+
+# 644の場合（一般的なファイル権限）
+# 所有者: 読み書き可 (6 = 4 + 2)
+# グループ: 読み取りのみ (4)
+# その他: 読み取りのみ (4)
+os.chmod('example.txt', 0o644)
+
+# 755の場合（実行可能ファイルやディレクトリ）
+# 所有者: 読み書き実行可 (7 = 4 + 2 + 1)
+# グループ: 読み取り実行可 (5 = 4 + 1)
+# その他: 読み取り実行可 (5 = 4 + 1)
+os.chmod('example.sh', 0o755)
+```
