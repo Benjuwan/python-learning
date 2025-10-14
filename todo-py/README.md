@@ -1,6 +1,12 @@
 # todo-py
 Pythonでの簡易なTodoリスト。学習用途で作成
 
+- 以下コマンドで実行<br>
+※このリポジトリ内で実行したい場合はディレクトリ移動（`cd todo-py`）した上で実行する
+```py
+python main.py
+```
+
 ## 概要
 ### `utils\todo_lists_data.py`
 プロジェクト全体で利用するTodoリスト。`list[dict[str, int | str | bool]]`という辞書データの配列データ形式になっている

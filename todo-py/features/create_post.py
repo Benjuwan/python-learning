@@ -3,7 +3,11 @@ from utils.common_feat import echo_result
 
 
 def post_todo() -> None:
-    new_id_index = len(todo_lists) + 1
+    new_id_index = (
+        len(todo_lists) + 1
+        if len(todo_lists) == 0
+        else int(todo_lists[len(todo_lists) - 1]["id"]) + 1
+    )
 
     todo = input("タスクを入力：")
 
